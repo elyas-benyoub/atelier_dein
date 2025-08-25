@@ -12,9 +12,7 @@ class User {
         $this->login = $login;
         $this->password = $password;
 
-        return [
-            $login
-        ];
+        return 'Connecte';
     }
 
     public function register($login, $password, $email, $firstname, $lastname) {
