@@ -1,3 +1,0 @@
-
-
-<h1>Salut tout le monde</h1>
