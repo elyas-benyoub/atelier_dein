@@ -1,13 +1,13 @@
 <?php
 // Configuration de la base de données
-define('DB_HOST', 'localhost:3306');
+define('DB_HOST', 'localhost:3307');
 define('DB_NAME', 'php_mvc_app');
 define('DB_USER', 'root');
-define('DB_PASS', 'root');
+define('DB_PASS', '');
 define('DB_CHARSET', 'utf8');
 
 // Configuration générale de l'application
-define('BASE_URL', 'atelier/atelier_dein/public');
+define('BASE_URL', 'http://localhost/atelier/atelier_dein/public');
 define('APP_NAME', 'PHP MVC Starter');
 define('APP_VERSION', '1.0.0');
 
