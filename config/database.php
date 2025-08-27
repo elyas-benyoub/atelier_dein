@@ -7,7 +7,7 @@ define('DB_PASS', '');
 define('DB_CHARSET', 'utf8');
 
 // Configuration générale de l'application
-define('BASE_URL', 'http://localhost/atelier/atelier_dein/public');
+define('BASE_URL', '/atelier/atelier_dein/public');
 define('APP_NAME', 'PHP MVC Starter');
 define('APP_VERSION', '1.0.0');
 
