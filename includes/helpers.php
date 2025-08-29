@@ -68,12 +68,12 @@ function set_flash($type, $message) {
     $dir  = dirname($file);
 
     if (!is_dir($dir)) {
-        @mkdir($dir, 0775, true);  // crée storage/logs si besoin
+        mkdir($dir, 0775, true);  // crée storage/logs si besoin
     }
 
     // Format français : 28/08/2025 21:10:54
     $date = date('d/m/Y H:i:s');
-    @error_log("[$date] FLASH [$type] $message\n", 3, $file);
+    error_log("[$date] FLASH [$type] $message\n", 3, $file);
 }
 
 /**
