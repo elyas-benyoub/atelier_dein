@@ -51,7 +51,7 @@ function db_select($query, $params = []) {
         $pdo = db_connect();
         $stmt = $pdo->prepare($query);
         $stmt->execute($params);
-        // db_log("SELECT OK: $query | params=" . json_encode($params)); // décommente si tu veux tracer
+        db_log("SELECT OK: $query | params=" . json_encode($params)); // décommente si tu veux tracer
         return $stmt->fetchAll();
     } catch (Throwable $e) {
         db_log("SELECT FAIL: $query | params=" . json_encode($params) . " | " . $e->getMessage());
