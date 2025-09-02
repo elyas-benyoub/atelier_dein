@@ -1,4 +1,4 @@
-<?php
+ <?php
 // Fonctions de base de données + journalisation simple
 
 /**

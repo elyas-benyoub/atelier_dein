@@ -16,6 +16,14 @@
     </div>
 </div>
 
+
+
+
+
+
+
+
+
 <section class="features">
     <div class="container">
         <h2>Fonctionnalités incluses</h2>
@@ -52,3 +60,5 @@
         </div>
     </div>
 </section> 
+
+
