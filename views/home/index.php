@@ -7,10 +7,11 @@
                 <a href="<?php echo url('auth/register'); ?>" class="btn btn-primary">Commencer</a>
                 <a href="<?php echo url('auth/login'); ?>" class="btn btn-secondary">Se connecter</a>
             </div>
-        <?php else: ?>
-            <p class="welcome-message">
-                <i class="fas fa-user"></i> 
-                Bienvenue, <?php e($_SESSION['user_name']); ?> !
+            <?php else: ?>
+                <p class="welcome-message">
+                    <i class="fas fa-user"></i> 
+                    Bienvenue, <?php e($_SESSION['user_name']); ?> !
+                    <a href="<?php echo url('media/books'); ?>" class="btn btn-secondary">Livres</a>
             </p>
         <?php endif; ?>
     </div>
