@@ -8,7 +8,7 @@ function auth_login() {
 
     // Rediriger si déjà connecté
     if (is_logged_in()) {
-        redirect('home');
+        redirect('home'); 
     }
     
     $data = [
