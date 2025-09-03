@@ -28,8 +28,9 @@ function media_store_book()
         $pages = post('pages');
         $resume = clean_input(post('resume'));
         $pb_year = post('pb_year');
+        $cover = clean_input(post('cover'));
 
-        create_book($title, $author, $isbn, $pages, $resume, $pb_year, $genres);
+        create_book($title, $author, $isbn, $pages, $resume, $pb_year, $genres, $cover);
         redirect('media/add_book');
     }
 }
@@ -45,7 +46,7 @@ function media_store_game()
         $genres = post('genres');
 
 
-        create_game($title, $publisher, $platform, $min_age, $description, NULL, $genres);
+        create_game($title, $publisher, $platform, $min_age, $description, NULL, $genres, null);
         redirect('media/add_game');
     }
 }
@@ -53,7 +54,7 @@ function media_store_game()
 // Fonction qui récupère et enregistre les infos du formulaire après envoi
 function media_store_movie()
 {
-    
+
     if (is_post()) {    // On vérifie si la requête est bien un POST (c'est-à-dire que le formulaire a été soumis)
         $title = clean_input(post('title'));
         $director = clean_input(post('director'));
@@ -62,8 +63,26 @@ function media_store_movie()
         $year = (post('year'));
         $classification = clean_input(post('classification'));
         $genres = post('genres');
-        
-        create_movie($title, $director, $duration, $synopsis, $classification, $year, $genres);
+
+        create_movie($title, $director, $duration, $synopsis, $classification, $year, $genres, null);
         redirect('media/add_movie');
     }
+}
+
+if (isset($_POST['cover'])) {
+    $image = $_FILES['image']['name'];
+    $imageArr = explode('.', $image); //first index is file name and second index file type
+    $rand = rand(10000, 99999);
+    $newImageName = $imageArr[0] . $rand . '.' . $imageArr[1];
+    $ext = pathinfo($_FILES['cover']['name'], PATHINFO_EXTENSION);
+    $newImageName = uniqid() . "." . strtolower($ext);
+    $uploadPath = "../public/uploads/covers/book_" . $newImageName;
+
+    resize_image($_FILES['cover']['tmp_name'], $uploadPath, 300, 400);
+
+    $isUploaded = move_uploaded_file($_FILES["image"]["tmp_name"], $uploadPath);
+    if ($isUploaded)
+        echo 'Image ajouter!';
+    else
+        echo 'Error';
 }

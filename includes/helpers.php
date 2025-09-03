@@ -226,3 +226,21 @@ function generate_slug($string) {
     $string = preg_replace('/[\s-]+/', '-', $string);
     return trim($string, '-');
 } 
+
+function resize_image($sourceFile, $targetFile, $maxWidth, $maxHeight) {
+    [$width, $height, $type] = getimagesize($sourceFile);
+
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            $src = imagecreatefromjpeg($sourceFile);
+            break;
+        case IMAGETYPE_PNG:
+            $src = imagecreatefrompng($sourceFile);
+            break;
+        case IMAGETYPE_GIF:
+            $src = imagecreatefromgif($sourceFile);
+            break;
+        default:
+            die("❌ Type non supporté.");
+    }
+}

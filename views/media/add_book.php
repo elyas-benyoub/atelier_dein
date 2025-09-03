@@ -5,7 +5,7 @@
             <p>Ajoute un livre</p>
         </div>
 
-        <form method="post" class="auth-form" action="<?php echo url('media/store_book'); ?>">
+        <form method="post" class="auth-form" action="<?php echo url('media/store_book'); ?>" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
             <div class="form-group">
@@ -41,12 +41,17 @@
             <div class="form-group">
                 <label for="genre">Genre:</label>
                 <select name="genre[]" id="genre" multiple>
-                    <?php foreach($genres as $id => $name): ?>
+                    <?php foreach ($genres as $id => $name): ?>
                         <option value="<?= htmlspecialchars($id) ?>">
                             <?= htmlspecialchars($name) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cover">Cover Image:</label>
+                <input type="file" name="cover" accept=".jpg,.jpeg,.png,.gif">
             </div>
 
             <button type="submit" class="btn btn-primary btn-full">
