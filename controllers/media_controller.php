@@ -5,36 +5,36 @@ function media_add_game(){
     exit;
 }
 
-// function media_store_game() {
+function media_store_game() {
 
-//  if (is_post()) {
-//     $titre = clean_input(post('titre')); 
-//     $editeur = clean_input(post('editeur'));  
-//     $plateforme = clean_input(post('plateforme')); 
-//     $age_minimum = post('age_minimum');
-//     $description = clean_input(post('description')); 
+ if (is_post()) {
+    $titre = clean_input(post('titre')); 
+    $editeur = clean_input(post('editeur'));  
+    $plateforme = clean_input(post('plateforme')); 
+    $age_minimum = post('age_minimum');
+    $description = clean_input(post('description')); 
         
-//                 $jeu = create_game($titre, $editeur, $plateforme, $age_minimum, $description);
+                $jeu = create_game($titre, $editeur, $plateforme, $age_minimum, $description);
           
             
-//             if ($jeu) {
-//                 set_flash('success', 'réussie !');
-//                 redirect('storage/app');
-//             } else {
-//                 set_flash('error', 'Erreur pas de jeu.');
-//             }
+            if ($jeu) {
+                set_flash('success', 'réussie !');
+                redirect('storage/app');
+            } else {
+                set_flash('error', 'Erreur pas de jeu.');
+            }
 
-//     // $data = [
-//     //     'titre'       => $titre,
-//     //     'editeur'     => $editeur,
-//     //     'plateforme'  => $plateforme,
-//     //     'age_minimum' => $age_minimum,
-//     //     'description' => $description
-//     // ];
+    // $data = [
+    //     'titre'       => $titre,
+    //     'editeur'     => $editeur,
+    //     'plateforme'  => $plateforme,
+    //     'age_minimum' => $age_minimum,
+    //     'description' => $description
+    // ];
 
-//     load_view_with_layout('media/add_game', $data);
-// }
-// }
+    load_view_with_layout('media/add_game', $data);
+}
+}
 
 
 function create_media($titre) {
