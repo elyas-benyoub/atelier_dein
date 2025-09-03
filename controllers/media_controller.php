@@ -3,13 +3,16 @@
 // Fonction qui affiche le formulaire pour ajouter un film
 function media_add_movie() {
     // On prépare un petit tableau de données à envoyer à la vue
+    $genres = get_all_genres();
     $data = [
-        'title' => 'Formulaire Films' // Ici, "title" est le titre affiché dans la page
+        'title' => 'Formulaire Films', // Ici, "title" est le titre affiché dans la page
+        'genres' => $genres
     ];
 
     // On charge la vue "media/add_movie" en utilisant le layout général du site
     load_view_with_layout('media/add_movie', $data);
 }
+
 
 // Fonction qui récupère et enregistre les infos du formulaire après envoi
 function media_store_movie() {

@@ -38,6 +38,17 @@
                 <input type="number" id="year" name="year" required
                        placeholder="Année">
             </div>
+
+            <div class="form-group">
+                <label for="genre">Genre:</label>
+                <select name="genre[]" id="genre" multiple>
+                    <?php foreach($genres as $id => $name): ?>
+                        <option value="<?= htmlspecialchars($id) ?>">
+                            <?= htmlspecialchars($name) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             
             <button type="submit" class="btn btn-primary btn-full">
                 <i class="fas fa-sign-in-alt"></i>

@@ -24,3 +24,17 @@ function add_movie($title, $director, $year, $genre, $duration, $synopsis, $clas
     // Sinon → retourne false
     return false;
 }
+
+function get_all_genres()
+{
+    $query = "SELECT id, name FROM genres";
+
+    $data = db_select($query);
+    $genres = [];
+
+    foreach ($data as $genre) {
+        $genres[$genre['id']] = $genre['name'];
+    }
+
+    return $genres;
+}
