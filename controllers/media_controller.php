@@ -1,108 +1,50 @@
 <?php
-function media_add_game(){
-    load_view_with_layout('media/add_game');
-    var_dump($_POST);
-    exit;
+function media_add_game()
+{
+    $genres = get_all_genres();
+
+    load_view_with_layout('/media/add_game', ['genres' => $genres]);
 }
 
-function media_store_game() {
 
+function media_store_game() {
  if (is_post()) {
-    $titre = clean_input(post('titre')); 
-    $editeur = clean_input(post('editeur'));  
-    $plateforme = clean_input(post('plateforme')); 
-    $age_minimum = post('age_minimum');
+    $title = clean_input(post('titre')); 
+    $publisher= clean_input(post('editeur'));
+    $genres = post('genres');   
+    $platform = clean_input(post('plateforme')); 
+    $min_age = post('age_minimum');
     $description = clean_input(post('description')); 
+    $year = (int)post('year');
         
-                $jeu = create_game($titre, $editeur, $plateforme, $age_minimum, $description);
-          
-            
-            if ($jeu) {
-                set_flash('success', 'réussie !');
-                redirect('storage/app');
-            } else {
-                set_flash('error', 'Erreur pas de jeu.');
-            }
-
-    // $data = [
-    //     'titre'       => $titre,
-    //     'editeur'     => $editeur,
-    //     'plateforme'  => $plateforme,
-    //     'age_minimum' => $age_minimum,
-    //     'description' => $description
-    // ];
-
-    load_view_with_layout('media/add_game', $data);
-}
-}
+    create_game($title, $publisher, $genres, $platform, $min_age, $description,$year);
+ }
 
 
-function create_media($titre) {
-    $user_id = $_SESSION['user_id'] ?? null;
-
-    if (!$user_id) {
-        return false; 
+    $data = [
+        'titre'       => $title,
+        'editeur'     => $publisher,
+        'genres'     => $genres,
+        'plateforme'  => $platform,
+        'age_minimum' => $min_age,
+        'description' => $description,
+        'année'    => $year,
+    ];
+         load_view_with_layout('media/add_game', $data);
     }
 
-    $query = "INSERT INTO media (title, user_id, created_at, updated_at) 
-              VALUES (?, ?, ?, ?)";
-
-    if (db_execute($query, [$titre, $user_id])) {
-        return db_last_insert_id();
-    }
-    return false;
-}
-
-
-// function media_store_game() {
-//     if (is_post()) {
-//         $titre       = clean_input(post('titre'));
-//         $publisher   = clean_input(post('editeur'));
-//         $platform    = clean_input(post('plateforme'));
-//         $min_age     = (int) post('age_minimum');
-//         $description = clean_input(post('description'));
-
-
-//         $media_id = create_media($titre);
-
-//         if ($media_id) {
-
-//             $jeu = create_game($publisher, $platform, $min_age, $description);
-
-//             if ($jeu) {
-//                 set_flash('success', 'Jeu ajouté avec succès !');
-//                 redirect('media/add_game');
-//             } else {
-//                 set_flash('error', 'Erreur : le jeu n’a pas été ajouté.');
-//             }
-//         } else {
-//             set_flash('error', 'Erreur : le media n’a pas pu être créé.');
-//         }
-//     }
-// }
-
-
-
-
-require_once MODEL_PATH . '/media_model.php'; 
-function media_store_game() {
+function media_store_book()
+{
     if (is_post()) {
-        $titre       = clean_input(post('titre')); 
-        $editeur     = clean_input(post('editeur'));  
-        $plateforme  = clean_input(post('plateforme')); 
-        $age_minimum = post('age_minimum');
-        $description = clean_input(post('description')); 
+        $title = clean_input(post('title'));
+        $author = clean_input(post('author'));
+        $isbn = post('isbn');
+        $genres = post('genre');
+        $pages = post('pages');
+        $resume = clean_input(post('resume'));
+        $pb_year = post('pb_year');
 
-        
-        $jeu = create_game($titre, $editeur, $plateforme, $age_minimum, $description);
-
-        if ($jeu) {
-            set_flash('success', 'Jeu ajouté avec succès !');
-            redirect('media/add_game'); 
-        } else {
-            set_flash('error', 'Erreur : le jeu n’a pas été ajouté.');
-            load_view_with_layout('media/add_game'); 
-        }
+        create_book($title, $author, $isbn, $genres, $pages, $resume, $pb_year);
     }
 }
 

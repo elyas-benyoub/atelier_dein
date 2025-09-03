@@ -1,4 +1,4 @@
-
+<!-- FORMULAIRE JEU ET RAJOUTER JEU DS LA DB -->
 
 <div class="auth-container">
     <div class="auth-card">
@@ -15,14 +15,27 @@
                 <label for="titre">Titre du jeu</label>
                 <input type="text" id="titre" name="titre" required 
                        placeholder="Entrez le titre du jeu"
-                       value="<?php echo escape(post('titre', '')); ?>">
+                       value="<?php echo escape(post('title', '')); ?>">
             </div>
 
+
             <div class="form-group">
-                <label for="editeur">Éditeur</label>
-                <input type="text" id="editeur" name="editeur" required
-                       placeholder="Nom de l'éditeur"
-                       value="<?php echo escape(post('editeur', '')); ?>">
+                <label for="titre">Editeur</label>
+                <input type="text" id="editeur" name="editeur" required 
+                       placeholder="Entrez le titre du jeu"
+                       value="<?php echo escape(post('publisher', '')); ?>">
+            </div>
+            
+
+            <<div class="form-group">
+                <label for="genre">Genre:</label>
+                <select name="genre_id" id="genre" multiple>
+                    <?php foreach ($genres as $id => $name): ?>
+                        <option value="<?= htmlspecialchars($id) ?>">
+                            <?= htmlspecialchars($name) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div class="form-group">
@@ -55,6 +68,14 @@
                        value="<?php echo escape(post('description', '')); ?>">
             </div>
 
+
+            <div class="form-group">
+                <label for="titre">Année  : </label>
+                <input type="text" id="year" name="year" required 
+                       placeholder="Entrez l'année du jeu"
+                       value="<?php echo escape(post('Year', '')); ?>">
+            </div>
+
             <button type="submit" class="btn btn-primary btn-full">
                 <i class="fas fa-plus"></i>
                 Ajouter le jeu
@@ -73,29 +94,6 @@
 
 
 
-
-
-
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1>Jeu ajouté avec succès</h1>
-            <p>les infos que vous avez enregistrées :</p>
-        </div>
-
-        <div class="game-details">
-            <p><strong>Titre :</strong> <?php e($titre); ?></p>
-            <p><strong>Éditeur :</strong> <?php e($editeur); ?></p>
-            <p><strong>Plateforme :</strong> <?php e($plateforme); ?></p>
-            <p><strong>Âge minimum :</strong> <?php e($age_minimum); ?> ans</p>
-            <p><strong>Description :</strong> <?php e($description); ?></p>
-        </div>
-
-        <div class="auth-footer">
-            <a href="<?php echo url('media/add_game'); ?>"> Ajouter un autre jeu</a>
-        </div>
-    </div>
-</div>
 
 
 
