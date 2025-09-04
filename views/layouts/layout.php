@@ -15,6 +15,9 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="<?php echo url(); ?>">Accueil</a></li>
+                <li><a href="<?php echo url('media/add_book'); ?>">Livres</a></li>
+                <li><a href="<?php echo url('media/add_movie'); ?>">Films</a></li>
+                <li><a href="<?php echo url('media/add_game'); ?>">Jeux</a></li>
                 <li><a href="<?php echo url('home/about'); ?>">À propos</a></li>
                 <li><a href="<?php echo url('home/contact'); ?>">Contact</a></li>
                 <?php if (is_logged_in()): ?>
