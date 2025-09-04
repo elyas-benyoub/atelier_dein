@@ -1,7 +1,7 @@
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
-            <h1>Livres</h1>
+            <h1><?= e($title) ?></h1>
             <p>Ajoute un livre</p>
         </div>
 
@@ -38,15 +38,17 @@
                 <input type="number" name="pb_year" min="1900" max="9999">
             </div>
 
-            <div class="form-group">
-                <label for="genre">Genre:</label>
-                <select name="genre[]" id="genre" multiple>
-                    <?php foreach($genres as $id => $name): ?>
-                        <option value="<?= htmlspecialchars($id) ?>">
-                            <?= htmlspecialchars($name) ?>
-                        </option>
+
+            <div role="group" aria-labelledby="legend-genres">
+                <h3 id="legend-genres">Genre(s) :</h3>
+                <div class="checkbox-list">
+                    <?php foreach ($genres as $id => $name): ?>
+                        <label class="chk">
+                            <p><?= e($name) ?></p>
+                            <input type="checkbox" name="genres[]" value="<?= $id ?>">
+                        </label>
                     <?php endforeach; ?>
-                </select>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary btn-full">

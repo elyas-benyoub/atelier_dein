@@ -2,20 +2,32 @@
 
 function media_add_book()
 {
-    $genres = get_all_genres();
-    load_view_with_layout('/media/add_book', ['genres' => $genres]);
+    $data = [
+        'title' => "Livres",
+        'genres' => get_all_genres()
+    ];
+
+    load_view_with_layout('/media/add_book', $data);
 }
 
 function media_add_game()
 {
-    $genres = get_all_genres();
-    load_view_with_layout('/media/add_game', ['genres' => $genres]);
+    $data = [
+        'title' => "Jeux",
+        'genres' => get_all_genres()
+    ];
+
+    load_view_with_layout('/media/add_game', $data);
 }
 
 function media_add_movie()
 {
-    $genres = get_all_genres();
-    load_view_with_layout('/media/add_movie', ['genres' => $genres]);
+    $data = [
+        'title' => "Films",
+        'genres' => get_all_genres()
+    ];
+
+    load_view_with_layout('/media/add_movie', $data);
 }
 
 function media_store_book()
@@ -53,7 +65,7 @@ function media_store_game()
 // Fonction qui récupère et enregistre les infos du formulaire après envoi
 function media_store_movie()
 {
-    
+
     if (is_post()) {    // On vérifie si la requête est bien un POST (c'est-à-dire que le formulaire a été soumis)
         $title = clean_input(post('title'));
         $director = clean_input(post('director'));
@@ -62,7 +74,7 @@ function media_store_movie()
         $year = (post('year'));
         $classification = clean_input(post('classification'));
         $genres = post('genres');
-        
+
         create_movie($title, $director, $duration, $synopsis, $classification, $year, $genres);
         redirect('media/add_movie');
     }
