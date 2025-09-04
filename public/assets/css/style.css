@@ -306,12 +306,13 @@ body {
   overflow-y: auto;    /* active le scroll vertical */
   border: 1px solid #ccc;
   padding: 0.5rem;
+  margin-bottom: 1rem;
 }
 .chk {
   display: flex;
-  justify-content: center;
   align-items: center;
   margin-bottom: 0.25rem;
+  gap: 1rem;
 }
 
 .form-group label {
