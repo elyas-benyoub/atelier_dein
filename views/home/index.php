@@ -1,3 +1,4 @@
+<!-- <?php var_dump($medias); ?> -->
 <div class="hero">
     <div class="hero-content">
         <h1><?php e($message); ?></h1>
@@ -18,17 +19,21 @@
 
 <section class="features">
     <div class="container">
-        <h2>Fonctionnalités incluses</h2>
-        <div class="features-grid">
-            <?php foreach ($features as $feature): ?>
+        <h2>🎥 Découvrez nos films les plus populaires !</h2>
+        <div class="feature-grid">
+            <?php foreach ($medias as $media): ?>
                 <div class="feature-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3><?php e($feature); ?></h3>
-                </div>
+                    <img src="<?= PUBLIC_URL . $media['image_path'] ?>" alt="<?= e($media['title']); ?>">
+                    <h3><?php e($media['title']); ?></h3>
+                </div> 
             <?php endforeach; ?>
         </div>
     </div>
 </section>
+
+
+
+
 
 <section class="getting-started">
     <div class="container">

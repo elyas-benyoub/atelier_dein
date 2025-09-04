@@ -87,3 +87,13 @@ function get_all_genres()
 
     return $genres;
 }
+
+function get_all_medias()
+{
+    $query = "SELECT * FROM media";
+
+    $data = db_select($query);
+    
+    return $data;
+}
+

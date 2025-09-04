@@ -20,3 +20,4 @@ define('VIEW_PATH', ROOT_PATH . '/views');
 define('INCLUDE_PATH', ROOT_PATH . '/includes');
 define('CORE_PATH', ROOT_PATH . '/core');
 define('PUBLIC_PATH', ROOT_PATH . '/public');
+define('PUBLIC_URL', '/atelier_dein/public');
