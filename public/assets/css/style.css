@@ -291,8 +291,27 @@ body {
 }
 
 /* Formulaires */
+
 .form-group {
     margin-bottom: 1.5rem;
+}
+
+.form-group h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.checkbox-list {
+  max-height: 200px;   /* hauteur limitée */
+  overflow-y: auto;    /* active le scroll vertical */
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+}
+.chk {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.25rem;
 }
 
 .form-group label {
