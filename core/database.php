@@ -68,7 +68,7 @@ function db_select_one($query, $params = []) {
         $pdo = db_connect();
         $stmt = $pdo->prepare($query);
         $stmt->execute($params);
-        // db_log("SELECT ONE OK: $query | params=" . json_encode($params));
+        db_log("SELECT ONE OK: $query | params=" . json_encode($params));
         return $stmt->fetch();
     } catch (Throwable $e) {
         db_log("SELECT ONE FAIL: $query | params=" . json_encode($params) . " | " . $e->getMessage());
@@ -85,7 +85,7 @@ function db_execute($query, $params = []) {
         $pdo = db_connect();
         $stmt = $pdo->prepare($query);
         $ok = $stmt->execute($params);
-        // db_log("EXECUTE OK: $query | params=" . json_encode($params));
+        db_log("EXECUTE OK: $query | params=" . json_encode($params));
         return $ok;
     } catch (Throwable $e) {
         db_log("EXECUTE FAIL: $query | params=" . json_encode($params) . " | " . $e->getMessage());
