@@ -306,12 +306,25 @@ body {
   overflow-y: auto;    /* active le scroll vertical */
   border: 1px solid #ccc;
   padding: 0.5rem;
+  margin-bottom: 1rem;
 }
 .chk {
   display: flex;
-  justify-content: center;
   align-items: center;
   margin-bottom: 0.25rem;
+  gap: 1rem;
+}
+
+#min_age {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+}
+
+p#legend-genres {
+    margin-bottom: 0.5rem;
 }
 
 .form-group label {

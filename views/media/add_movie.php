@@ -4,56 +4,51 @@
             <h1><?php e($title); ?></h1>
             <p>Ajoutez un film</p>
         </div>
-        
+
         <form method="POST" class="auth-form" action="<?php echo url('media/store_movie'); ?>">
             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
-            
+
             <div class="form-group">
-                <label for="text">Titre</label>
-                <input type="text" id="title" name="title" required 
-                       value="<?php echo escape(post('title', '')); ?>"
-                       placeholder="titre">
+                <label for="title">Titre</label>
+                <input type="text" id="title" name="title" required >
             </div>
-            
+
             <div class="form-group">
                 <label for="director">Réalisateur</label>
-                <input type="text" id="director" name="director" required
-                       placeholder="réalisateur">
+                <input type="text" id="director" name="director" required>
             </div>
 
             <div class="form-group">
                 <label for="duration">Durée</label>
-                <input type="text" id="duration" name="duration" required
-                       placeholder="durée">
+                <input type="number" id="duration" name="duration" required placeholder="durée">
             </div>
 
             <div class="form-group">
                 <label for="synopsis">Sysnopsis</label>
-                <textarea type="text" id="synopsis" name="synopsis" required
-                       placeholder="durée"></textarea>
+                <textarea type="text" id="synopsis" name="synopsis" required></textarea>
             </div>
 
             <div class="form-group">
                 <label for="year">Année</label>
-                <input type="number" id="year" name="year" required
-                       placeholder="Année">
+                <input type="number" id="year" name="year" required placeholder="Année">
             </div>
 
-            <div class="form-group">
-                <label for="genre">Genre:</label>
-                <select name="genre[]" id="genre" multiple>
-                    <?php foreach($genres as $id => $name): ?>
-                        <option value="<?= htmlspecialchars($id) ?>">
-                            <?= htmlspecialchars($name) ?>
-                        </option>
+            <div role="group" aria-labelledby="legend-genres">
+                <p id="legend-genres">Genre(s) :</p>
+                <div class="checkbox-list">
+                    <?php foreach ($genres as $id => $name): ?>
+                        <label class="chk">
+                            <input type="checkbox" name="genres[]" value="<?= $id ?>">
+                            <p><?= e($name) ?></p>
+                        </label>
                     <?php endforeach; ?>
-                </select>
+                </div>
             </div>
-            
+
             <button type="submit" class="btn btn-primary btn-full">
                 <i class="fas fa-sign-in-alt"></i>
                 Ajouter
             </button>
         </form>
     </div>
-</div> 
+</div>
