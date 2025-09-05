@@ -315,6 +315,18 @@ body {
   gap: 1rem;
 }
 
+#min_age {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+}
+
+p#legend-genres {
+    margin-bottom: 0.5rem;
+}
+
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
