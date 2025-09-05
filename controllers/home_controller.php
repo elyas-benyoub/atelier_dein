@@ -6,7 +6,7 @@
  */
 function home_index() {
     $medias = get_all_medias();
-    
+
     
     $data = [
         'title' => 'Accueil',

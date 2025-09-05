@@ -95,5 +95,31 @@ function get_all_medias()
     $data = db_select($query);
     
     return $data;
+     // 🔹 Récupérer les autres médias (ex: jeux vidéo)
+    $medias = db_select("SELECT * FROM medias WHERE type = 'medias' ORDER BY title ASC");
 }
 
+
+function get_all_movies()
+{
+    $query = "SELECT * FROM movies";
+
+    $data = db_select($query);
+    
+    return $data;
+}
+ // 🔹 Récupérer les films
+    $movies = db_select("SELECT * FROM medias WHERE type = 'movies' ORDER BY title ASC");
+function get_all_books()
+{
+    $query = "SELECT * FROM books";
+
+    $data = db_select($query);
+    
+    return $data;
+}
+    // 🔹 Récupérer les livres
+    $books = db_select("SELECT * FROM medias WHERE type = 'books' ORDER BY title ASC");
+
+    // 🔹 Récupérer les autres médias (ex: jeux vidéo)
+    $medias = db_select("SELECT * FROM medias WHERE type = 'medias' ORDER BY title ASC");

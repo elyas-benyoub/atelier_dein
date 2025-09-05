@@ -19,21 +19,49 @@
 
 <section class="features">
     <div class="container">
-        <h2>🎥 Découvrez nos films les plus populaires !</h2>
-        <div class="feature-grid">
-            <?php foreach ($medias as $media): ?>
-                <div class="feature-card">
-                    <img src="<?= PUBLIC_URL . $media['image_path'] ?>" alt="<?= e($media['title']); ?>">
-                    <h3><?php e($media['title']); ?></h3>
-                </div> 
-            <?php endforeach; ?>
+        <!-- Titre général -->
+        <h2 class="main-title">📚 Découvrez notre médiathèque</h2>
+
+        <!-- Grille des films -->
+        <div class="media-section">
+            <h3 class="section-title">🎥 Films</h3>
+            <div class="feature-grid">
+                <?php foreach ($movies as $movie): ?>
+                    <div class="feature-card">
+                        <img src="<?= PUBLIC_URL . $film['image_path'] ?>" alt="<?= e($film['title']); ?>">
+                        <h3><?php e($film['title']); ?></h3>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Grille des livres -->
+        <div class="media-section">
+            <h3 class="section-title">📖 Livres</h3>
+            <div class="feature-grid">
+                <?php foreach ($books as $book): ?>
+                    <div class="feature-card">
+                        <img src="<?= PUBLIC_URL . $book['image_path'] ?>" alt="<?= e($book['title']); ?>">
+                        <h3><?php e($book['title']); ?></h3>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Grille des médias (jeux vidéo, etc.) -->
+        <div class="media-section">
+            <h3 class="section-title">🎮 Médias</h3>
+            <div class="feature-grid">
+                <?php foreach ($medias as $media): ?>
+                    <div class="feature-card">
+                        <img src="<?= PUBLIC_URL . $media['image_path'] ?>" alt="<?= e($media['title']); ?>">
+                        <h3><?php e($media['title']); ?></h3>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </section>
-
-
-
-
 
 <section class="getting-started">
     <div class="container">

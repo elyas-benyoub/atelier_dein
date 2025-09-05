@@ -1,6 +1,19 @@
 <?php
+function home_index() {
+   
 
-function media_add_book()
+    // 🔹 Préparer les données pour la vue
+    $data = [
+        'title' => 'Accueil Médiathèque',
+        'movie' => $movie,
+        'books' => $book,
+        'medias' => $medias
+    ];
+
+    // 🔹 Charger la vue avec ces 3 tableaux
+    load_view_with_layout('home/index', $data);
+}
+function media_add_books()
 {
     $data = [
         'title' => "Livres",
@@ -20,7 +33,7 @@ function media_add_game()
     load_view_with_layout('/media/add_game', $data);
 }
 
-function media_add_movie()
+function media_add_movies()
 {
     $data = [
         'title' => "Films",
