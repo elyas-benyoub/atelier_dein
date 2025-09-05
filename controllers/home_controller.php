@@ -14,7 +14,8 @@ function home_index() {
             'Templating HTML/CSS',
             'Gestion de base de données',
             'Sécurité intégrée'
-        ]
+        ],
+        
     ];
     
     load_view_with_layout('home/index', $data);
@@ -85,3 +86,4 @@ function home_test() {
     
     load_view_with_layout('home/test', $data);
 } 
+

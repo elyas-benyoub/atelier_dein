@@ -1,4 +1,12 @@
 <div class="hero">
+    <div class="search-bar">
+        <form class="search-btn" method="get">
+            <input type="text" name="search" placeholder="Recherche">
+        </form>
+        <button class="search-button">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
     <div class="hero-content">
         <h1><?php e($message); ?></h1>
         <p class="hero-subtitle">Un starter kit PHP avec architecture MVC procédurale</p>
@@ -9,7 +17,7 @@
             </div>
         <?php else: ?>
             <p class="welcome-message">
-                <i class="fas fa-user"></i> 
+                <i class="fas fa-user"></i>
                 Bienvenue, <?php e($_SESSION['user_name']); ?> !
             </p>
         <?php endif; ?>
@@ -51,4 +59,4 @@
             </div>
         </div>
     </div>
-</section> 
+</section>

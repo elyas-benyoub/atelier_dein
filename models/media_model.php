@@ -157,3 +157,12 @@ function get_all_platforms()
 
     return $platforms;
 }
+
+function get_all_medias()
+{
+    $query = "SELECT * FROM media";
+
+    $data = db_select($query);
+
+    return $data;
+}
