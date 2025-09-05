@@ -44,6 +44,10 @@ function add_genres($media_id, $genres) {
     }
 }
 
+
+
+
+
 // Fonctions principales pour ajouter un media
 
 function create_book($title, $author, $isbn, $pages, $summary, $pb_year, $genres)
@@ -87,3 +91,17 @@ function get_all_genres()
 
     return $genres;
 }
+
+
+function get_all_images() {
+    $query = "SELECT image_path FROM media";
+    return db_select($query); 
+}
+
+
+
+
+
+// UPLOAD IMAGES CODES → la logique d’accès à la base de données (insertion du média, mise à jour cover_image).
+
+

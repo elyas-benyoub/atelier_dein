@@ -13,12 +13,15 @@ function media_add_book()
 function media_add_game()
 {
     $data = [
-        'title' => "Jeux",
+        'title' => "titre",
         'genres' => get_all_genres()
     ];
 
+
     load_view_with_layout('/media/add_game', $data);
 }
+
+
 
 function media_add_movie()
 {
@@ -62,6 +65,16 @@ function media_store_game()
     }
 }
 
+
+
+
+
+
+
+
+
+
+
 // Fonction qui récupère et enregistre les infos du formulaire après envoi
 function media_store_movie()
 {
@@ -79,3 +92,9 @@ function media_store_movie()
         redirect('media/add_movie');
     }
 }
+
+
+
+// UPLOAD IMAGES CODES → le contrôleur qui reçoit le formulaire et appelle le modèle.
+
+

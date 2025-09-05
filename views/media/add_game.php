@@ -3,11 +3,11 @@
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
-            <h1><?= e($title) ?></h1>
+            <h1><?= e($title) ?></h1> 
             <p>Ajouter un nouveau jeu</p>
         </div>
 
-        <form method="POST" class="auth-form" action="<?php echo url('media/store_game'); ?>">
+        <form method="POST" class="auth-form" action="<?php echo url('media/add_game'); ?>">
             <!-- Protection CSRF -->
             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
@@ -15,14 +15,14 @@
                 <label for="titre">Titre du jeu</label>
                 <input type="text" id="titre" name="titre" required 
                        placeholder="Entrez le titre du jeu"
-                       value="<?php echo escape(post('titre', '')); ?>">
+                       value="<?php echo escape(post('title', '')); ?>">
             </div>
 
             <div class="form-group">
                 <label for="editeur">Éditeur</label>
                 <input type="text" id="editeur" name="editeur" required
                        placeholder="Nom de l'éditeur"
-                       value="<?php echo escape(post('editeur', '')); ?>">
+                       value="<?php echo escape(post('publisher', '')); ?>">
             </div>
 
             <div class="form-group">
@@ -53,6 +53,12 @@
                        placeholder="Description"
                        value="<?php echo escape(post('description', '')); ?>">
             </div>
+      
+
+<!-- UPLOAD IMAGES CODES → le formulaire pour ajouter un jeu (avec input type="file"). -->
+
+
+
 
             <button type="submit" class="btn btn-primary btn-full">
                 <i class="fas fa-plus"></i>
@@ -73,28 +79,31 @@
 
 
 
-
-
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
             <h1>Jeu ajouté avec succès</h1>
-            <p>les infos que vous avez enregistrées :</p>
+            <p>Voici les informations enregistrées :</p>
         </div>
 
-        <div class="game-details">
-            <p><strong>Titre :</strong> <?php e($titre); ?></p>
-            <p><strong>Éditeur :</strong> <?php e($editeur); ?></p>
-            <p><strong>Plateforme :</strong> <?php e($plateforme); ?></p>
-            <p><strong>Âge minimum :</strong> <?php e($age_minimum); ?> ans</p>
-            <p><strong>Description :</strong> <?php e($description); ?></p>
-        </div>
+        <div class="form-group">
+            <p><strong>Titre :</strong> <?= e($title) ?></p>
+            <p><strong>Éditeur :</strong> <?= e($publisher) ?></p>
+            <p><strong>Plateforme :</strong> <?= e($platform) ?></p>
+            <p><strong>Âge minimum :</strong> <?= e($min_age) ?> ans</p>
+            <p><strong>Genres :</strong> <?= e(implode(', ', $genres ?? [])) ?></p>
+            <p><strong>Description :</strong> <?= e($description) ?></p>
+            
+
 
         <div class="auth-footer">
-            <a href="<?php echo url('media/add_game'); ?>"> Ajouter un autre jeu</a>
+            <a href="<?= url('media/add_game') ?>">Ajouter un autre jeu</a>
         </div>
     </div>
 </div>
+ 
+
+
 
 
 
