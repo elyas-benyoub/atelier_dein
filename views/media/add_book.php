@@ -40,12 +40,12 @@
 
 
             <div role="group" aria-labelledby="legend-genres">
-                <h3 id="legend-genres">Genre(s) :</h3>
+                <p id="legend-genres">Genre(s) :</p>
                 <div class="checkbox-list">
                     <?php foreach ($genres as $id => $name): ?>
                         <label class="chk">
-                            <p><?= e($name) ?></p>
                             <input type="checkbox" name="genres[]" value="<?= $id ?>">
+                            <p><?= e($name) ?></p>
                         </label>
                     <?php endforeach; ?>
                 </div>
