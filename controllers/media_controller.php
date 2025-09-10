@@ -18,28 +18,19 @@ function media_add_book()
 // Affiche le formulaire d'ajout d'un jeu
 function media_add_game()
 {
-
+    only_admin();
     $data = [
-<<<<<<< HEAD
-        'title' => "titre",
-        'genres' => get_all_genres()
-=======
-        'title' => "Jeux",
+        'title' => "JEUX VIDEOS",
         'genres' => get_all_genres(),
-        'platforms' => get_all_platforms()
->>>>>>> d45165fb4348441cbe3ac6ce4bbb59349b62aa72
+        'images' => get_all_images()
     ];
 
 
     load_view_with_layout('/media/add_game', $data);
 }
 
-<<<<<<< HEAD
 
 
-=======
-// Affiche le formulaire d'ajout d'un film
->>>>>>> d45165fb4348441cbe3ac6ce4bbb59349b62aa72
 function media_add_movie()
 {
     $data = [
@@ -68,7 +59,7 @@ function media_store_book()
         $pb_year = post('pb_year');
 
         $ok = create_book($title, $author, $isbn, $pages, $resume, $pb_year, $genres);
-        
+
         if ($ok === true) {
             set_flash('success', "Livre ajouté avec succès.");
         } else {
@@ -81,40 +72,38 @@ function media_store_book()
 // Sauvegarde le jeu dans la base de donnee
 function media_store_game()
 {
+
     if (!is_post()) {
-        redirect('media/add_game');
-        return;
+        redirect('media/add_game'); 
+    return;
     }
 
+    
     // on recupere et nettoie les info du jeu depuis la variable $_POST
-    $title = clean_input(post('title'));
-    $publisher = clean_input(post('publisher'));
-    $platform = clean_input(post('platform'));
+    $title = post('title');
+    $publisher = post('publisher');
+    $platform = post('platform');
     $min_age = post('min_age');
-    $description = clean_input(post('description'));
+    $description = post('description');
+    $year = (post('year'));
     $genres = post('genres');
+    $image_name = "/upoads/media/" . set_images();
 
 
-    create_game($title, $publisher, $platform, $min_age, $description, NULL, $genres);
+        $ok = create_game($title, $publisher, $platform, $min_age, $description, $year, $genres, $image_name);
+
+    if ($ok) {
+        set_flash('success', "Jeu ajouté avec succès.");
+    } else {
+        set_flash('error', "Échec lors de l’ajout du jeu.");
+    }
     redirect('media/add_game');
-
+ 
 }
-
-<<<<<<< HEAD
-
-
-
-
-
-
-
 
 
 
 // Fonction qui récupère et enregistre les infos du formulaire après envoi
-=======
-// Sauvegarde le film dans la base de donnee
->>>>>>> d45165fb4348441cbe3ac6ce4bbb59349b62aa72
 function media_store_movie()
 {
 
@@ -135,6 +124,52 @@ function media_store_movie()
 
 
 
-// UPLOAD IMAGES CODES → le contrôleur qui reçoit le formulaire et appelle le modèle.
+function set_images()
+{
+    if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
+        $tmp_name = $_FILES['cover_image']['tmp_name'];
+        $name = basename($_FILES['cover_image']['name']);
+        $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+        // 1. Vérifier la taille (max 2 Mo par ex.)
+        if ($_FILES['cover_image']['size'] > 2 * 1024 * 1024) {
+            set_flash("error", "Erreur : fichier trop volumineux (max 2 Mo).");
+        }
+
+        // 2. Vérifier l’extension
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
+        if (!in_array($ext, $allowed_ext)) {
+            set_flash("error", "Erreur : extension non autorisée.");
+        }
+
+        // 3. Vérifier le type MIME réel avec finfo
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($tmp_name);
+        $allowed_mime = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!in_array($mime, $allowed_mime)) {
+            set_flash("error", "Erreur : le fichier n'est pas une image valide.");
+        }
+
+        // 4. Générer un nouveau nom unique
+        $new_name = bin2hex(random_bytes(16)) . '.' . $ext;
+
+        // 5. Déplacer le fichier
+        $destination = __DIR__ . "/../public/uploads/media/" . $new_name;
+        if (move_uploaded_file($tmp_name, $destination)) {
+            set_flash("success", "Upload réussi : " . $new_name);
+        } else {
+            set_flash("error", "Erreur lors du déplacement.");
+        }
+    }
+
+  return $new_name;
+
+
+
+}
+
+
+
+
 
 

@@ -227,28 +227,29 @@ function generate_slug($string) {
     return trim($string, '-');
 } 
 
-// UPLOAD IMAGES CODES → fonctions utilitaires (ex: clean_input, etc.). On va y ajouter des fonctions pour gérer les images.
+
 
 /**
- * Gère l'upload d'une image de couverture
- * @param string $input_name le nom du champ <input type="file">
- * @return string|null nom du fichier sauvegardé ou null si échec
+ * Veririfier le role admin ou user lors de la connexion
+ */
+function is_admin() {
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+}
+
+function is_user() {
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'user';
+}
+
+
+/**
+ * accès reserver a l'admin
  */
 
-
-// Verifier si  l'image est envoyer ou sinon erreur
-// function image_upload_cover($input_name = 'cover_image'){
-//     if(isset($_FILES[$input_name]) || $_FILES[$input_name]['erreur'] !== UPPLOAD_ERR_OK){
-//         return null; // aucun upload => verifie si fichier envoyer
-//     }
-// }
-
-// $file = $input_name;
-
-// // Creer un dossier le dossier covers lorsque je demmare la fonction
-
-// $file = __DIR__ . '/../public/logs/app.log'; 
+function only_admin() {
+    if (!is_logged_in() || !is_admin()){
+        set_flash('error', 'Accès reservé à l admnistrateur');
+        redirect('home');
+    }
+}
 
 
-
-// Verification de la taille et dimension demander

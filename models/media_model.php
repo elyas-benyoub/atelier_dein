@@ -1,7 +1,7 @@
 <?php
 
 // Ajouter dans la table media, retourne le media_id
-function add_media($title, $type, $pb_year)
+function add_media($title, $type, $pb_year, $images_name)
 {
     if (!is_logged_in()) {
         set_flash('error', "Vous devez être connecté pour ajouter un média.");
@@ -10,9 +10,9 @@ function add_media($title, $type, $pb_year)
 
     $user_id = current_user_id();
 
-    $query = "INSERT INTO media (user_id, type, title, year) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO media (user_id, type, title, year, image_path) VALUES (?, ?, ?, ?, ?)";
 
-    if (!db_execute($query, [$user_id, $type, $title, $pb_year])) {
+    if (!db_execute($query, [$user_id, $type, $title, $pb_year, $images_name])) {
         set_flash('error', "Impossible d'ajouter le média.");
         return false;
     }
@@ -40,11 +40,23 @@ function add_movie($media_id, $director, $duration, $synopsis, $classification)
     return db_execute($query, [$media_id, $director, $duration, $synopsis, $classification]);
 }
 
-function add_game($media_id, $publisher, $min_age, $description)
+
+
+
+function add_game($media_id, $publisher, $platform, $min_age, $description)
 {
-    $query = "INSERT INTO games (media_id, publisher, min_age, description) VALUES (?, ?, ?, ?)";
-    return db_execute($query, [$media_id, $publisher, $min_age, $description]);
+
+    if (is_array($platform)) {
+        $platform = implode(' / ', $platform);
+    }
+
+    $query = "INSERT INTO games (media_id, publisher, platform, min_age, description) VALUES (?, ?, ?, ?, ?)";
+    return db_execute($query, [$media_id, $publisher, $platform, $min_age, $description]);
 }
+
+
+
+
 
 // Ajouter les tous les genre selectionnés dans media_genres
 function add_genres($media_id, $genres)
@@ -72,7 +84,6 @@ function add_platform($media_id, $platforms)
 
     return true;
 }
-
 
 
 
@@ -111,27 +122,25 @@ function create_movie($title, $director, $duration, $synopsis, $classification, 
     return false;
 }
 
-function create_game($title, $publisher, $platform, $min_age, $description, $year, $genres)
+
+
+
+function create_game($title, $publisher, $platform, $min_age, $description, $year, $genres, $image_name)
 {
-    $media_id = add_media($title, 'game', $year);
-    if (!add_game($media_id, $publisher, $min_age, $description)) {
-        set_flash('error', "Echec de l'ajout du jeu dans la table 'games'.");
+    $media_id = add_media($title, 'game', $year, $image_name);
+
+    if (!add_game($media_id, $publisher, $platform, $min_age, $description)) {
+        set_flash('error', "Échec de l'ajout du jeu dans la table 'games'.");
     }
 
-    $res_genres = add_genres($media_id, $genres);
-
-    if (is_array($res_genres)) {
-        set_flash('error', "Certaines genres n'ont pas pu être ajoutés : " . implode(', ', $res_genres));
+    if (!add_genres($media_id, $genres)) {
+        set_flash('error', "Échec lors de l’ajout des genres.");
     }
 
-    $res_platform = add_platform($media_id, $platform);
-
-    if (is_array($res_platform)) {
-        set_flash('error', "Certaines plateformes n'ont pas pu être ajoutées : " . implode(', ', $res_platform));
-    }
-
-    return false;
+    return true;
 }
+
+
 
 
 function get_all_genres()
@@ -148,32 +157,35 @@ function get_all_genres()
     return $genres;
 }
 
-<<<<<<< HEAD
+
+
 
 function get_all_images() {
-    $query = "SELECT image_path FROM media";
-    return db_select($query); 
+    $query = "SELECT id, title, image_path FROM media WHERE image_path IS NOT NULL";
+    $data = db_select($query);
+    $images = [];
+
+    foreach ($data as $image) {
+        $images[$image['id']] = $image['image_path'];
+    }
+
+    return $images;
 }
 
 
 
 
-
-// UPLOAD IMAGES CODES → la logique d’accès à la base de données (insertion du média, mise à jour cover_image).
-
-
-=======
 function get_all_platforms()
 {
-    $query = "SELECT id, name FROM platform";
-
+    $query = "SELECT media_id, platform FROM games";
     $data = db_select($query);
-    $platforms = [];
 
-    foreach ($data as $platform) {
-        $platforms[$platform['id']] = $platform['name'];
+    $platforms = [];
+    foreach ($data as $row) {
+        $platforms[$row['media_id']] = $row['platform'];
     }
 
     return $platforms;
 }
->>>>>>> d45165fb4348441cbe3ac6ce4bbb59349b62aa72
+
+

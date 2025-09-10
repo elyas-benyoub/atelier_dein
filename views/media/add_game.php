@@ -1,29 +1,18 @@
+
+
+
+
+
+
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
-            <h1><?= e($title) ?></h1> 
-            <p>Ajouter un nouveau jeu</p>
+            <h1><?= e($title) ?></h1>
         </div>
 
-<<<<<<< HEAD
-        <form method="POST" class="auth-form" action="<?php echo url('media/add_game'); ?>">
-            <!-- Protection CSRF -->
-            <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+        <form enctype='multipart/form-data' method="POST" class="auth-form" action="<?php echo url('media/store_game'); ?>"
+            enctype="multipart/form-data">
 
-            <div class="form-group">
-                <label for="titre">Titre du jeu</label>
-                <input type="text" id="titre" name="titre" required 
-                       placeholder="Entrez le titre du jeu"
-                       value="<?php echo escape(post('title', '')); ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="editeur">Éditeur</label>
-                <input type="text" id="editeur" name="editeur" required
-                       placeholder="Nom de l'éditeur"
-                       value="<?php echo escape(post('publisher', '')); ?>">
-=======
-        <form method="POST" class="auth-form" action="<?php echo url('media/store_game'); ?>">
             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
             <div class="form-group">
@@ -34,7 +23,6 @@
             <div class="form-group">
                 <label for="publisher">Éditeur</label>
                 <input type="text" id="publisher" name="publisher" required>
->>>>>>> d45165fb4348441cbe3ac6ce4bbb59349b62aa72
             </div>
 
             <div role="group" aria-labelledby="legend-plateformes">
@@ -44,7 +32,8 @@
                     $plateformes = ["PC", "PlayStation", "Xbox", "Nintendo 64", "Mobile"];
                     foreach ($plateformes as $plateforme): ?>
                         <label class="chk">
-                            <input type="checkbox" name="plateformes[]" value="PC">
+                            <!-- <input type="checkbox" name="plateformes[]" value="PC"> -->
+                             <input type="checkbox" name="platform[]" value="<?= e($plateforme) ?>">
                             <p><?= e($plateforme) ?></p>
                         </label>
                     <?php endforeach; ?>
@@ -80,12 +69,19 @@
                     <?php endforeach; ?>
                 </div>
             </div>
-      
-
-<!-- UPLOAD IMAGES CODES → le formulaire pour ajouter un jeu (avec input type="file"). -->
 
 
+             <div class="form-group">
+                <label for="year">Année</label>
+                <input type="number" id="year" name="year" required placeholder="Année">
+            </div>
 
+            <!-- UPLOAD IMAGES CODES → le formulaire pour ajouter un jeu (avec input type="file"). -->
+
+            <div class="form-group">
+                <label for="cover_image">Image de couverture :</label>
+                <input type="file" name="cover_image" id="cover_image" accept=".jpg,.jpeg,.png,.gif" required>
+            </div>
 
             <button type="submit" class="btn btn-primary btn-full">
                 <i class="fas fa-plus"></i>
@@ -97,47 +93,6 @@
             <p>Revenir à la page d'accueil ?
                 <a href="<?php echo url(); ?>">Accueil</a>
             </p>
-<<<<<<< HEAD
-        </div> 
-    </div>
-</div>
-
-
-
-
-
-
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1>Jeu ajouté avec succès</h1>
-            <p>Voici les informations enregistrées :</p>
-        </div>
-
-        <div class="form-group">
-            <p><strong>Titre :</strong> <?= e($title) ?></p>
-            <p><strong>Éditeur :</strong> <?= e($publisher) ?></p>
-            <p><strong>Plateforme :</strong> <?= e($platform) ?></p>
-            <p><strong>Âge minimum :</strong> <?= e($min_age) ?> ans</p>
-            <p><strong>Genres :</strong> <?= e(implode(', ', $genres ?? [])) ?></p>
-            <p><strong>Description :</strong> <?= e($description) ?></p>
-            
-
-
-        <div class="auth-footer">
-            <a href="<?= url('media/add_game') ?>">Ajouter un autre jeu</a>
         </div>
     </div>
 </div>
- 
-
-
-
-
-
-
-=======
-        </div>
-    </div>
-</div>
->>>>>>> d45165fb4348441cbe3ac6ce4bbb59349b62aa72
