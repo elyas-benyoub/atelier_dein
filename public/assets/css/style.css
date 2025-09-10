@@ -555,10 +555,37 @@ code {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    padding: 5px 10px;
     color: #fff;
     text-decoration: none;
 }
 
+/* dropdown : ouverture hover + focus-within (clavier) */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* reset visuel du bouton pour ressembler à un lien */
+.dropdown-toggle {
+    background: none;
+    border: none;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--text-color); /* visible sur fond clair */
+    font: inherit;
+    text-decoration: none;
+}
+
+.dropdown-toggle:focus {
+    outline: 2px solid rgba(59,130,246,0.25);
+    border-radius: 6px;
+}
+
+/* photo profil */
 .profile-pic {
     width: 32px;
     height: 32px;
@@ -567,19 +594,33 @@ code {
     border: 2px solid #fff;
 }
 
+/* nom d'utilisateur (optionnel) */
+.nav-username {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
 
+/* caret */
+.caret-icon {
+    font-size: 0.8rem;
+    opacity: 0.85;
+}
+
+/* menu fermé par défaut */
 .dropdown-menu {
     display: none;
     position: absolute;
     right: 0;
+    top: calc(100% + 8px);
     background: #fff;
-    min-width: 200px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    border-radius: 6px;
-    overflow: hidden;
-    z-index: 999;
+    min-width: 220px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    border-radius: 8px;
+    z-index: 1000;
+    padding: 6px 0;
 }
 
+/* éléments du menu */
 .dropdown-menu li {
     list-style: none;
 }
@@ -589,13 +630,26 @@ code {
     padding: 10px 15px;
     color: #333;
     text-decoration: none;
+    font-size: 0.95rem;
 }
+
+.dropdown-menu li a i { margin-right: 8px; }
 
 .dropdown-menu li a:hover {
-    background: #f0f0f0;
+    background: #f6f7fb;
 }
 
-/* Show menu on hover */
-.dropdown:hover .dropdown-menu {
+/* ouverture : au survol (souris) OU si un enfant a le focus (clavier) */
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
     display: block;
 }
+
+/* (optionnel) séparation visuelle */
+.dropdown-menu .divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 6px 0;
+}
+
+
