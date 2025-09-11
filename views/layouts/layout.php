@@ -20,6 +20,7 @@
                 <li><a href="<?php echo url('media/add_game'); ?>">Jeux</a></li>
                 <li><a href="<?php echo url('home/about'); ?>">À propos</a></li>
                 <li><a href="<?php echo url('home/contact'); ?>">Contact</a></li>
+                <li><a href="<?php echo url('admin/show_users'); ?>">Users</a></li>
 
 
 
