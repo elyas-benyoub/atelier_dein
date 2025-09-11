@@ -42,7 +42,7 @@
                                 <li><a href="<?php echo url('media/add_book'); ?>">Ajouter un livre</a></li>
                                 <li><a href="<?php echo url('media/add_movie'); ?>">Ajouter un film</a></li>
                                 <li><a href="<?php echo url('media/add_game'); ?>">Ajouter un jeu</a></li>
-                                <li><a href="<?php echo url('media/users_manage'); ?>">Gérer les utilisateurs</a></li>
+                                <li><a href="<?php echo url('admin/users'); ?>">Gérer les utilisateurs</a></li>
                             <?php endif; ?>
                             <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
                         </ul>
