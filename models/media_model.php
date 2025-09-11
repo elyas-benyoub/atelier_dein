@@ -73,6 +73,11 @@ function create_game($title, $publisher, $platform, $min_age, $description, $yea
     return false;
 }
 
+/**
+*
+* MODEL DE NESRINE
+*
+*/
 
 function get_all_genres()
 {
@@ -87,15 +92,6 @@ function get_all_genres()
 
     return $genres;
 }
-function get_genres()
-{
-$query = "SELECT g.id, g.name from genres g"
-
-}
-SELECT g.id, g.name from genres g
-join media_genres mg on g.id = mg.genre_id
-join media m on m.id = mg.media_id
-where media_id = 50;
 
 function get_all_medias()
 {
