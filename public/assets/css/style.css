@@ -545,111 +545,75 @@ code {
 
 /* profile picture admin only */
 
-.dropdown {
+.nav-menu .deroulant {
     position: relative;
-    display: inline-block;
 }
 
-.dropdown-toggle {
+/* Ligne bouton profil : photo + nom */
+.nav-menu .bouton-deroulant {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px; /* espace entre photo et nom */
     cursor: pointer;
     padding: 5px 10px;
-    color: #fff;
-    text-decoration: none;
+    font-weight: 500;
 }
 
-/* dropdown : ouverture hover + focus-within (clavier) */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* reset visuel du bouton pour ressembler à un lien */
-.dropdown-toggle {
-    background: none;
-    border: none;
-    padding: 6px 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    color: var(--text-color); /* visible sur fond clair */
-    font: inherit;
-    text-decoration: none;
-}
-
-.dropdown-toggle:focus {
-    outline: 2px solid rgba(59,130,246,0.25);
-    border-radius: 6px;
-}
-
-/* photo profil */
-.profile-pic {
+/* Rond de la photo */
+.nav-menu .photo-profil {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #fff;
 }
 
-/* nom d'utilisateur (optionnel) */
-.nav-username {
-    font-weight: 600;
-    font-size: 0.95rem;
+/* Nom de l'utilisateur */
+.nav-menu .profil-nom {
+    font-weight: 500;
+    color: var(--text-color);
 }
 
-/* caret */
-.caret-icon {
-    font-size: 0.8rem;
-    opacity: 0.85;
-}
-
-/* menu fermé par défaut */
-.dropdown-menu {
+/* Liste déroulante sous le bouton profil */
+.nav-menu .menu-deroulant {
     display: none;
     position: absolute;
+    top: 100%; /* juste en dessous du bouton */
     right: 0;
-    top: calc(100% + 8px);
-    background: #fff;
-    min-width: 220px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    border-radius: 8px;
+    background: var(--white);
+    min-width: 200px;
+    box-shadow: var(--shadow-lg);
+    border-radius: 6px;
     z-index: 1000;
-    padding: 6px 0;
+    padding: 0.5rem 0;
 }
 
-/* éléments du menu */
-.dropdown-menu li {
-    list-style: none;
+/* Affiche la liste au survol */
+.nav-menu .deroulant:hover .menu-deroulant {
+    display: block;
 }
 
-.dropdown-menu li a {
+/* Liens de la liste déroulante */
+.nav-menu .menu-deroulant li a {
     display: block;
     padding: 10px 15px;
-    color: #333;
+    color: var(--text-color);
     text-decoration: none;
-    font-size: 0.95rem;
+    transition: background 0.2s ease;
 }
 
-.dropdown-menu li a i { margin-right: 8px; }
-
-.dropdown-menu li a:hover {
-    background: #f6f7fb;
+.nav-menu .menu-deroulant li {
+    list-style-type: none;
 }
 
-/* ouverture : au survol (souris) OU si un enfant a le focus (clavier) */
-.dropdown:hover .dropdown-menu,
-.dropdown:focus-within .dropdown-menu {
-    display: block;
+.nav-menu .menu-deroulant li a:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 0 25px 25px 0;
 }
 
-/* (optionnel) séparation visuelle */
-.dropdown-menu .divider {
-    height: 1px;
-    background: var(--border-color);
-    margin: 6px 0;
-}
+
+
+
+
 
 
