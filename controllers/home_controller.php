@@ -37,8 +37,8 @@ function home_info()
 {
     $media_id = get('id');
     $media = get_media_by_id($media_id);
-    var_dump($media);
-    exit;
+    // tester si les informations du film marche avec var_dump
+   
     $data = [
         'media' => $media[0]
     ];
