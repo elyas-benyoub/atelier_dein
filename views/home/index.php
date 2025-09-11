@@ -1,4 +1,7 @@
 <div class="hero">
+    <div class="search-bar">
+        
+    </div>
     <div class="hero-content">
         <h1><?php e($message); ?></h1>
         <p class="hero-subtitle">Un starter kit PHP avec architecture MVC procédurale</p>
