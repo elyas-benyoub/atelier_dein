@@ -37,10 +37,11 @@ function home_info()
 {
     $media_id = get('id');
     $media = get_media_by_id($media_id);
+    $movie = get_movie_by_id($media_id);
     // tester si les informations du film marche avec var_dump
-   
     $data = [
-        'media' => $media[0]
+        'media' => $media[0],
+        'movie' => $movie[0],
     ];
 
     load_view_with_layout('home/media', $data);

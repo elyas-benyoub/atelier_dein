@@ -87,6 +87,15 @@ function get_all_genres()
 
     return $genres;
 }
+function get_genres()
+{
+$query = "SELECT g.id, g.name from genres g"
+
+}
+SELECT g.id, g.name from genres g
+join media_genres mg on g.id = mg.genre_id
+join media m on m.id = mg.media_id
+where media_id = 50;
 
 function get_all_medias()
 {
@@ -99,6 +108,11 @@ function get_all_medias()
 
 function get_media_by_id($media_id) {
     $query = "SELECT * FROM media WHERE id = ?";
+    return db_select($query, [$media_id]);
+}
+
+function get_movie_by_id($media_id) {
+    $query = "SELECT director, duration_minutes, synopsis, classification FROM movies WHERE media_id = ?";
     return db_select($query, [$media_id]);
 }
 

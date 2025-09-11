@@ -218,6 +218,37 @@ body {
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
+.media-detail-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.media-card-detail {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.media-poster img {
+  width: 300px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.media-info {
+  flex: 1;
+}
+
+.media-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
 
 /* Getting Started */
 .getting-started {

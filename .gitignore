@@ -3,4 +3,3 @@
 /config/database.php
 # .gitignore
 /public/uploads/
-/public/uploads/**
