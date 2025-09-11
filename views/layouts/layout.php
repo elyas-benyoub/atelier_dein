@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($title) ? esc($title) . ' - ' . APP_NAME : APP_NAME; ?></title>
     <link rel="stylesheet" href="<?php echo url('assets/css/style.css'); ?>">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
     <header class="header">
         <nav class="navbar">
@@ -22,45 +23,46 @@
                 <li><a href="<?php echo url('home/contact'); ?>">Contact</a></li>
                 <li><a href="<?php echo url('admin/show_users'); ?>">Users</a></li>
 
+                <!-- acces media et users / admin only  -->
+                <?php if (is_logged_in()): ?>
+                    <li class="deroulant">
+                        <div class="bouton-deroulant">
+                            <?php if (!empty($_SESSION['user_profile'])): ?>
+                                <img src="<?php echo url('uploads/profiles/' . $_SESSION['user_profile']); ?>" alt="Profil"
+                                    class="photo-profil">
+                            <?php else: ?>
+                                <i class="fas fa-user-circle fa-2x"></i>
+                            <?php endif; ?>
+                            <span class="profil-nom"><?php echo e($_SESSION['user_name']); ?></span>
+                        </div>
 
-
-
-                    <?php if (is_logged_in()): ?>
-                        <li class="dropdown"> 
-                            <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                                <?php if (!empty($_SESSION['user_profile'])): ?>
-                                    <img src="<?php echo url('uploads/profiles/' . $_SESSION['user_profile']); ?>" 
-                                        alt="Profile" class="profile-pic">
-                                <?php else: ?>
-                                    <i class="fas fa-user-circle fa-2x"></i>
-                                <?php endif; ?>
-                                <span class="nav-username"><?= e($_SESSION['user_name']); ?></span>
-                                <i class="fas fa-caret-down caret-icon" aria-hidden="true"></i>
-                            </button>
-
-                            <ul class="dropdown-menu" role="menu" aria-label="Menu utilisateur">
-                                <?php if (is_admin()): ?>
-                                    <li><a href="<?php echo url('media/add_book'); ?>"><i class="fas fa-book"></i> Ajouter un livre</a></li>
-                                    <li><a href="<?php echo url('media/add_movie'); ?>"><i class="fas fa-film"></i> Ajouter un film</a></li>
-                                    <li><a href="<?php echo url('media/add_game'); ?>"><i class="fas fa-gamepad"></i> Ajouter un jeu</a></li>
-                                    <li class="divider" aria-hidden="true"></li>
-                                <?php endif; ?>
-                                <li><a href="<?php echo url('auth/logout'); ?>"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                            </ul>
-                        </li>
-                    <?php else: ?>
-                        <li><a href="<?php echo url('auth/login'); ?>">Connexion</a></li>
-                        <li><a href="<?php echo url('auth/register'); ?>">Inscription</a></li>
-                    <?php endif; ?>
-
-
-
-
-
-
+                        <!-- Liste déroulante -->
+                        <ul class="menu-deroulant">
+                            <?php if (is_admin()): ?>
+                                <li><a href="<?php echo url('media/add_book'); ?>">Ajouter un livre</a></li>
+                                <li><a href="<?php echo url('media/add_movie'); ?>">Ajouter un film</a></li>
+                                <li><a href="<?php echo url('media/add_game'); ?>">Ajouter un jeu</a></li>
+                                <li><a href="<?php echo url('media/users_manage'); ?>">Gérer les utilisateurs</a></li>
+                            <?php endif; ?>
+                            <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li><a href="<?php echo url('auth/login'); ?>">Connexion</a></li>
+                    <li><a href="<?php echo url('auth/register'); ?>">Inscription</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </header>
+
+
+
+
+
+
+
+
+
 
     <main class="main-content">
         <?php flash_messages(); ?>
@@ -76,4 +78,5 @@
 
     <script src="<?php echo url('assets/js/app.js'); ?>"></script>
 </body>
+
 </html>
