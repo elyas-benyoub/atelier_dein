@@ -95,31 +95,45 @@ function get_all_medias()
     $data = db_select($query);
     
     return $data;
-     // 🔹 Récupérer les autres médias (ex: jeux vidéo)
-    $medias = db_select("SELECT * FROM medias WHERE type = 'medias' ORDER BY title ASC");
+}
+
+function get_media_by_id($media_id) {
+    $query = "SELECT * FROM media WHERE id = ?";
+    return db_select($query, [$media_id]);
 }
 
 
 function get_all_movies()
 {
-    $query = "SELECT * FROM movies";
+    $query = "SELECT * FROM media where type = 'movie'";
 
     $data = db_select($query);
     
     return $data;
 }
- // 🔹 Récupérer les films
-    $movies = db_select("SELECT * FROM medias WHERE type = 'movies' ORDER BY title ASC");
+
 function get_all_books()
 {
-    $query = "SELECT * FROM books";
-
+    $query = "SELECT * FROM media where type = 'book'";
+    
     $data = db_select($query);
     
     return $data;
 }
-    // 🔹 Récupérer les livres
-    $books = db_select("SELECT * FROM medias WHERE type = 'books' ORDER BY title ASC");
 
-    // 🔹 Récupérer les autres médias (ex: jeux vidéo)
-    $medias = db_select("SELECT * FROM medias WHERE type = 'medias' ORDER BY title ASC");
+function get_all_games()
+{
+    $query = "SELECT * FROM media where type = 'game'";
+ 
+    $data = db_select($query);
+    
+    return $data;
+}
+
+function search_media_by_title($q) {
+    $q = strtolower(trim($q));       // make lowercase + clean spaces
+    $like = '%' . $q . '%';          // wrap with % signs
+    $query = "SELECT * FROM media WHERE LOWER(title) LIKE ?";
+
+    return db_select($query, [$like]);
+}
