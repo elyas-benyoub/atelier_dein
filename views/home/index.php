@@ -33,7 +33,7 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'movie'): ?>
               <div class="feature-card">
-                <img src="<?= PUBLIC_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                <img src="<?= PUBLIC_PATH . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
                 <h3><?php e($result['title']); ?></h3>
               </div>
             <?php endif; ?>
@@ -48,7 +48,7 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'book'): ?>
               <div class="feature-card">
-                <img src="<?= PUBLIC_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                <img src="<?= PUBLIC_PATH . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
                 <h3><?php e($result['title']); ?></h3>
               </div>
             <?php endif; ?>
@@ -63,7 +63,7 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'game'): ?>
               <div class="feature-card">
-                <img src="<?= PUBLIC_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                <img src="<?= PUBLIC_PATH . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
                 <h3><?php e($result['title']); ?></h3>
               </div>
             <?php endif; ?>
@@ -89,7 +89,7 @@
           <?php foreach ($movies as $movie): ?>
             <a href="<?= url("home/info?id=" . $movie['id']); ?>">
               <div class="feature-card">
-                <img src="<?= PUBLIC_URL . $movie['image_path'] ?>" alt="<?= e($movie['title']); ?>">
+                <img src="<?= PUBLIC_PATH . $movie['image_path'] ?>" alt="<?= e($movie['title']); ?>">
                 <h3><?php e($movie['title']); ?></h3>
               </div>
             </a>
@@ -103,7 +103,7 @@
         <div class="feature-grid">
           <?php foreach ($books as $book): ?>
             <div class="feature-card">
-              <img src="<?= PUBLIC_URL . $book['image_path'] ?>" alt="<?= e($book['title']); ?>">
+              <img src="<?= PUBLIC_PATH . $book['image_path'] ?>" alt="<?= e($book['title']); ?>">
               <h3><?php e($book['title']); ?></h3>
             </div>
           <?php endforeach; ?>
@@ -116,7 +116,7 @@
         <div class="feature-grid">
           <?php foreach ($games as $game): ?>
             <div class="feature-card">
-              <img src="<?= PUBLIC_URL . $game['image_path'] ?>" alt="<?= e($game['title']); ?>">
+              <img src="<?= PUBLIC_PATH . $game['image_path'] ?>" alt="<?= e($game['title']); ?>">
               <h3><?php e($game['title']); ?></h3>
             </div>
           <?php endforeach; ?>
