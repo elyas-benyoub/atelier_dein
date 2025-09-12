@@ -1,41 +1,21 @@
 <div class="hero">
-  <div class="search-bar">
-    <form class="search-btn" method="get" action="<?php echo url('home/index'); ?>">
-      <input type="text" name="search" placeholder="Recherche">
-      <button class="search-button">
-        <i class="fa fa-search"></i>
-      </button>
-    </form>
-  </div>
-    <div class="search-bar">
-        
-    </div>
-    <div class="hero-content">
-        <h1><?php e($message); ?></h1>
-        <p class="hero-subtitle">Un starter kit PHP avec architecture MVC procédurale</p>
-        <?php if (!is_logged_in()): ?>
-            <div class="hero-buttons">
-                <a href="<?php echo url('auth/register'); ?>" class="btn btn-primary">Commencer</a>
-                <a href="<?php echo url('auth/login'); ?>" class="btn btn-secondary">Se connecter</a>
-            </div>
-        <?php endif; ?>
-    </div>
-</div>
-<div class="hero">
-  <div class="hero-content">
-    <h1><?php e($title); ?></h1>
 
+  <div class="hero-content">
+    <h1><?php e($message); ?></h1>
     <p class="hero-subtitle">Un starter kit PHP avec architecture MVC procédurale</p>
+    <div class="search-bar">
+      <form class="search-btn" method="get" action="<?php echo url('home/index'); ?>">
+        <input type="text" name="search" placeholder="Recherche">
+        <button class="search-button">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+    </div>
     <?php if (!is_logged_in()): ?>
       <div class="hero-buttons">
         <a href="<?php echo url('auth/register'); ?>" class="btn btn-primary">Commencer</a>
         <a href="<?php echo url('auth/login'); ?>" class="btn btn-secondary">Se connecter</a>
       </div>
-    <?php else: ?>
-      <p class="welcome-message">
-        <i class="fas fa-user"></i>
-        Bienvenue, <?php e($_SESSION['user_name']); ?> !
-      </p>
     <?php endif; ?>
   </div>
 </div>

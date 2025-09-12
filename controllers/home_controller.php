@@ -23,6 +23,7 @@ function home_index()
     // 🔹 Préparer les données pour la vue
     $data = [
         'title' => 'Accueil Médiathèque',
+        'message' => 'Daria is Awesome',
         'movies' => $movies,
         'books' => $books,
         'games' => $games,
@@ -38,8 +39,8 @@ function home_info()
     $media_id = get('id');
     $media = get_media_by_id($media_id);
     $movie = get_movie_by_id($media_id);
+    
     // tester si les informations du film marche avec var_dump
-   var_dump($movie);exit;
     $data = [
         'media' => $media[0],
         'movie' => $movie[0],
