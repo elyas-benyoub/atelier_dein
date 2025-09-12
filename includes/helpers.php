@@ -2,30 +2,50 @@
 // Fonctions utilitaires
 
 /**
+ * Log les erreurs de l'app
+ */
+
+function app_log(string $msg): void {
+    $file = __DIR__ . '/../storage/logs/app.log';
+    $dir  = dirname($file);
+
+    if (!is_dir($dir)) {
+        mkdir($dir, 0775, true); 
+    }
+
+    $date = date('d/m/Y H:i:s'); 
+    error_log("[$date] $msg\n", 3, $file);
+}
+
+/**
  * Sécurise l'affichage d'une chaîne de caractères (protection XSS)
  */
-function escape($string) {
+function escape($string)
+{
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
 
 /**
  * Affiche une chaîne sécurisée (échappée)
  */
-function e($string) {
+function e($string)
+{
     echo escape($string);
 }
 
 /**
  * Retourne une chaîne sécurisée sans l'afficher
  */
-function esc($string) {
+function esc($string)
+{
     return escape($string);
 }
 
 /**
  * Génère une URL absolue
  */
-function url($path = '') {
+function url($path = '')
+{
     $base_url = rtrim(BASE_URL, '/');
     $path = ltrim($path, '/');
     return $base_url . '/' . $path;
@@ -34,7 +54,8 @@ function url($path = '') {
 /**
  * Redirection HTTP
  */
-function redirect($path = '') {
+function redirect($path = '')
+{
     $url = url($path);
     header("Location: $url");
     exit;
@@ -43,7 +64,8 @@ function redirect($path = '') {
 /**
  * Génère un token CSRF
  */
-function csrf_token() {
+function csrf_token()
+{
     if (!isset($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
@@ -53,7 +75,8 @@ function csrf_token() {
 /**
  * Vérifie un token CSRF
  */
-function verify_csrf_token($token) {
+function verify_csrf_token($token)
+{
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
@@ -61,11 +84,12 @@ function verify_csrf_token($token) {
  * Définit un message flash
  * soit error, success
  */
-function set_flash($type, $message) {
+function set_flash($type, $message)
+{
     $_SESSION['flash_messages'][$type][] = $message;
 
-    $file = __DIR__ . '/../storage/logs/app.log'; 
-    $dir  = dirname($file);
+    $file = __DIR__ . '/../storage/logs/app.log';
+    $dir = dirname($file);
 
     if (!is_dir($dir)) {
         mkdir($dir, 0775, true);  // crée storage/logs si besoin
@@ -79,7 +103,8 @@ function set_flash($type, $message) {
 /**
  * Récupère et supprime les messages flash
  */
-function get_flash_messages($type = null) {
+function get_flash_messages($type = null)
+{
     if (!isset($_SESSION['flash_messages'])) {
         return [];
     }
@@ -98,7 +123,8 @@ function get_flash_messages($type = null) {
 /**
  * Vérifie s'il y a des messages flash
  */
-function has_flash_messages($type = null) {
+function has_flash_messages($type = null)
+{
     if (!isset($_SESSION['flash_messages'])) {
         return false;
     }
@@ -113,24 +139,27 @@ function has_flash_messages($type = null) {
 /**
  * Nettoie une chaîne de caractères
  */
-function clean_input($data) {
+function clean_input($data)
+{
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    // $data = htmlspecialchars($data);
     return $data;
 }
 
 /**
  * Valide une adresse email
  */
-function validate_email($email) {
+function validate_email($email)
+{
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
 
 /**
  * Génère un mot de passe sécurisé
  */
-function generate_password($length = 12) {
+function generate_password($length = 12)
+{
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()';
     $password = '';
     for ($i = 0; $i < $length; $i++) {
@@ -142,70 +171,80 @@ function generate_password($length = 12) {
 /**
  * Hache un mot de passe
  */
-function hash_password($password) {
+function hash_password($password)
+{
     return password_hash($password, PASSWORD_DEFAULT);
 }
 
 /**
  * Vérifie un mot de passe
  */
-function verify_password($password, $hash) {
+function verify_password($password, $hash)
+{
     return password_verify($password, $hash);
 }
 
 /**
  * Formate une date
  */
-function format_date($date, $format = 'd/m/Y H:i') {
+function format_date($date, $format = 'd/m/Y H:i')
+{
     return date($format, strtotime($date));
 }
 
 /**
  * Vérifie si une requête est en POST
  */
-function is_post() {
+function is_post()
+{
     return $_SERVER['REQUEST_METHOD'] === 'POST';
 }
 
 /**
  * Vérifie si une requête est en GET
  */
-function is_get() {
+function is_get()
+{
     return $_SERVER['REQUEST_METHOD'] === 'GET';
 }
 
 /**
  * Retourne la valeur d'un paramètre POST
  */
-function post($key, $default = null) {
+function post($key, $default = null)
+{
     return $_POST[$key] ?? $default;
 }
 
 /**
  * Retourne la valeur d'un paramètre GET
  */
-function get($key, $default = null) {
+function get($key, $default = null)
+{
     return $_GET[$key] ?? $default;
 }
 
 /**
  * Vérifie si un utilisateur est connecté
  */
-function is_logged_in() {
+function is_logged_in()
+{
     return isset($_SESSION['user_id']);
 }
 
 /**
  * Retourne l'ID de l'utilisateur connecté
  */
-function current_user_id() {
+function current_user_id()
+{
     return $_SESSION['user_id'] ?? null;
 }
 
 /**
  * Déconnecte l'utilisateur
  */
-function logout() {
+function logout()
+{
     session_destroy();
     redirect('auth/login');
 }
@@ -213,16 +252,74 @@ function logout() {
 /**
  * Formate un nombre
  */
-function format_number($number, $decimals = 2) {
+function format_number($number, $decimals = 2)
+{
     return number_format($number, $decimals, ',', ' ');
 }
 
 /**
  * Génère un slug à partir d'une chaîne
  */
-function generate_slug($string) {
+function generate_slug($string)
+{
     $string = strtolower($string);
     $string = preg_replace('/[^a-z0-9\s-]/', '', $string);
     $string = preg_replace('/[\s-]+/', '-', $string);
     return trim($string, '-');
-} 
+}
+
+function upload_img()
+{
+    try {
+        if (!isset($_FILES['img_cover']) && $_FILES['img_cover']['error'] !== UPLOAD_ERR_OK) {
+            throw new RuntimeException("Aucun fichier téléchargé.");
+        }
+
+        $tmp_name = $_FILES['img_cover']['tmp_name'];
+        $name = basename($_FILES['img_cover']['name']);
+        $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+        // 1. Vérifier la taille (max 2 Mo)
+        if ($_FILES['img_cover']['size'] > 2 * 1024 * 1024) {
+            throw new DomainException("Erreur : fichier trop volumineux (max 2 Mo).");
+        }
+
+        // 2. Vérifier l’extension
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
+        if (!in_array($ext, $allowed_ext)) {
+            throw new DomainException("Erreur : extension non autorisée.");
+        }
+
+        // 3. Vérifier le type MIME réel avec finfo
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($tmp_name);
+        $allowed_mime = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!in_array($mime, $allowed_mime)) {
+            throw new DomainException("Erreur : le fichier n'est pas une image valide.");
+        }
+
+        // 4. Générer un nouveau nom unique
+        $new_name = bin2hex(random_bytes(16)) . '.' . $ext;
+
+        // 5. Déplacer le fichier
+        $dir = PUBLIC_PATH . "/uploads/media/";
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+        $full_path = $dir . $new_name;
+
+        if (!move_uploaded_file($tmp_name, $full_path)) {
+            throw new RuntimeException("Erreur lors du déplacement du fichier.");
+        }
+
+        set_flash('success', "Upload réussi : " . $new_name);
+        return [
+            'name' => $new_name,
+            'full_path' => $full_path,
+            'url' => "/uploads/media/$new_name"
+        ];
+    } catch (Throwable $e) {
+        $_SESSION['errors']['img_cover'] = $e->getMessage();
+        return null;
+    }
+}

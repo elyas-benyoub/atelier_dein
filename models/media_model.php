@@ -1,76 +1,98 @@
 <?php
 
-// Ajouter dans la table media, retourne le media_id
-function add_media($title, $type, $pb_year)
+/**
+ * Ajoute un média dans la base.
+ *
+ * Insère une nouvelle ligne dans la table `media` avec l'utilisateur courant,
+ * le type de média (book, movie, game, ...), un titre, une image optionnelle
+ * et une année de publication optionnelle.
+ *
+ * @param string      $title   Titre du média (obligatoire).
+ * @param string      $type    Type de média ('book', 'movie', 'game', ...).
+ * @param int|null    $pb_year Année de publication (NULL si non renseignée).
+ * @param string|null $img_url URL/chemin de l'image (NULL si pas d'image).
+ *
+ * @return int|false  Retourne l'ID auto-incrémenté du média inséré
+ *                    ou false si l'insertion a échoué.
+ *
+ */
+function add_media($title, $type, $pb_year, $img_url)
 {
-    if (isset($_SESSION['user_id'])) {
-        $user_id = $_SESSION['user_id'];
+    if (!is_logged_in()) {
+        return false;
     }
 
-    $query = "INSERT INTO media (user_id, type, title, year) VALUES (?, ?, ?, ?)";
+    $user_id = current_user_id();
 
-    if (db_execute($query, [$user_id, $type, $title, $pb_year])) {
+    $query = "INSERT INTO media (user_id, type, title, image_path, year) VALUES (?, ?, ?, ?, ?)";
+
+    try {
+        $ok = db_execute($query, [$user_id, $type, $title, $img_url, $pb_year]);
+
+        if (!$ok) {
+            app_log("[add_media] La requête à échoué.");
+            return false;
+        }
+
         return db_last_insert_id();
+    } catch (Throwable $e) {
+        app_log("[add_media] " . $e->getMessage());
+        return false;
     }
-
-    return false;
 }
 
-// Ajouter les informations dans Books
-
-function add_book($media_id, $author, $isbn, $page_count, $summary, $pb_year)
+/**
+ * Supprime un média par son ID.
+ *
+ * @param int $media_id
+ * @return bool succès/échec
+ */
+function delete_media($media_id)
 {
-    $query = "INSERT INTO books (media_id, author, isbn, page_count, summary, publication_year) VALUES (?, ?, ?, ?, ?, ?)";
-    db_execute($query, [$media_id, $author, $isbn, $page_count, $summary, $pb_year]);
+    $query = "DELETE FROM media WHERE id = ?";
+    return db_execute($query, [$media_id]);
 }
 
-function add_movie($media_id, $director, $duration, $synopsis, $classification)
+
+
+/**
+ * Ajoute tous les genres liés à un média.
+ *
+ * @param int   $media_id
+ * @param array $genres   IDs de genres
+ * @return bool succès/échec
+ */
+function add_genres($media_id, $genres)
 {
-    $query = "INSERT INTO movies (media_id, director, duration_minutes, synopsis, classification) VALUES (?, ?, ?, ?, ?)";
-    db_execute($query, [$media_id, $director, $duration, $synopsis, $classification]);
-}
-
-function add_game($media_id, $publisher, $platform, $min_age, $description)
-{
-    $query = "INSERT INTO books (media_id, publisher, platform, min_age, description) VALUES (?, ?, ?, ?, ?)";
-    db_execute($query, [$media_id, $publisher, $platform, $min_age, $description]);
-}
-
-// Ajouter les tous les genre selectionnés dans media_genres
-function add_genres($media_id, $genres) {
     foreach ($genres as $genre) {
         $query = "INSERT INTO media_genres (media_id, genre_id) VALUES (?, ?)";
-        db_execute($query, [$media_id, $genre]);
+        if (!db_execute($query, [$media_id, $genre])) {
+           set_flash('error', "Les genres n'ont pas pu être ajoutés");
+           return false;
+        }
     }
+
+    return true;
 }
 
-// Fonctions principales pour ajouter un media
-
-function create_book($title, $author, $isbn, $pages, $summary, $pb_year, $genres)
+/**
+ * Ajoute toutes les plateformes liées à un média.
+ *
+ * @param int   $media_id
+ * @param array $platforms IDs de plateformes
+ * @return bool succès/échec
+ */
+function add_platform($media_id, $platforms)
 {
-    $media_id = add_media($title, 'book', $pb_year);
-    add_book($media_id, $author, $isbn, $pages, $summary, $pb_year);
-    add_genres($media_id, $genres);
+    foreach ($platforms as $platform) {
+        $query = "INSERT INTO media_platform (media_id, platform_id) VALUES (?, ?)";
+        if (!db_execute($query, [$media_id, $platform])) {
+           set_flash('error', "Les plateformes n'ont pas pu être ajoutés");
+            return false;
+        }
+    }
 
-    return false;
-}
-
-function create_movie($title, $director, $duration, $synopsis, $classification, $pb_year, $genres)
-{
-    $media_id = add_media($title, 'movie', $pb_year);
-    add_movie($media_id, $director, $duration, $synopsis, $classification);
-    add_genres($media_id, $genres);
-
-    return false;
-}
-
-function create_game($title, $publisher, $platform, $min_age, $description, $year, $genres)
-{
-    $media_id = add_media($title, 'game', $year);
-    add_game($media_id, $publisher, $platform, $min_age, $description);
-    add_genres($media_id, $genres);
-
-    return false;
+    return true;
 }
 
 /**
@@ -79,6 +101,11 @@ function create_game($title, $publisher, $platform, $min_age, $description, $yea
 *
 */
 
+/**
+ * Récupère tous les genres.
+ *
+ * @return array [id => name]
+ */
 function get_all_genres()
 {
     $query = "SELECT id, name FROM genres";
@@ -146,4 +173,23 @@ function search_media_by_title($q) {
     $query = "SELECT * FROM media WHERE LOWER(title) LIKE ?";
 
     return db_select($query, [$like]);
+}
+
+/**
+ * Récupère toutes les plateformes.
+ *
+ * @return array [id => name]
+ */
+function get_all_platforms()
+{
+    $query = "SELECT id, name FROM platform";
+
+    $data = db_select($query);
+    $platforms = [];
+
+    foreach ($data as $platform) {
+        $platforms[$platform['id']] = $platform['name'];
+    }
+
+    return $platforms;
 }
