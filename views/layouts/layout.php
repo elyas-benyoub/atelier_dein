@@ -14,63 +14,43 @@
             <div class="nav-brand">
                 <a href="<?php echo url(); ?>"><?php echo APP_NAME; ?></a>
             </div>
-                <ul class="nav-menu">
-                    <li><a href="<?php echo url(); ?>">Accueil</a></li>
-                    <li><a href="<?php echo url('home/about'); ?>">À propos</a></li>
-                    <li><a href="<?php echo url('home/contact'); ?>">Contact</a></li>
-                    <!-- acces media et users / admin only  -->
-                    <?php if (is_logged_in()): ?>
-                        <li class="deroulant">
-                            <div class="bouton-deroulant">
-                                <?php if (!empty($_SESSION['user_profile'])): ?>
-                                    <img src="<?php echo url('uploads/profiles/' . $_SESSION['user_profile']); ?>" alt="Profil"
-                                        class="photo-profil">
-                                <?php else: ?>
-                                    <i class="fas fa-user-circle fa-2x"></i>
-                                <?php endif; ?>
-                                <span class="profil-nom"><?php echo e($_SESSION['user_name']); ?></span>
-                            </div>
-
-                            <!-- Liste déroulante -->
-                            <ul class="menu-deroulant">
-                                <?php if (is_admin()): ?>
-                                    <li><a href="<?php echo url('media/add_book'); ?>">Ajouter un livre</a></li>
-                                    <li><a href="<?php echo url('media/add_movie'); ?>">Ajouter un film</a></li>
-                                    <li><a href="<?php echo url('media/add_game'); ?>">Ajouter un jeu</a></li>
-                                    <li><a href="<?php echo url('admin/show_users'); ?>">Gérer les utilisateurs</a></li>
-                                    <li><a href="<?php echo url('admin/show_users'); ?>">Gérer les medias</a></li>
-                                <?php endif; ?>
-                                <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
-                            </ul>
-                        </li>
-                    <?php else: ?>
-                        <li><a href="<?php echo url('auth/login'); ?>">Connexion</a></li>
-                        <li><a href="<?php echo url('auth/register'); ?>">Inscription</a></li>
-                    <?php endif; ?>
-                    </ul>
             <ul class="nav-menu">
                 <li><a href="<?php echo url(); ?>">Accueil</a></li>
-                <li><a href="<?php echo url('book/add'); ?>">Livres</a></li>
-                <li><a href="<?php echo url('movie/add'); ?>">Films</a></li>
-                <li><a href="<?php echo url('game/add'); ?>">Jeux</a></li>
                 <li><a href="<?php echo url('home/about'); ?>">À propos</a></li>
                 <li><a href="<?php echo url('home/contact'); ?>">Contact</a></li>
+
+                <!-- acces media et users / admin only  -->
                 <?php if (is_logged_in()): ?>
-                    <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
+                    <li class="deroulant">
+                        <div class="bouton-deroulant">
+                            <?php if (!empty($_SESSION['user_profile'])): ?>
+                                <img src="<?php echo url('uploads/profiles/' . $_SESSION['user_profile']); ?>" alt="Profil"
+                                    class="photo-profil">
+                            <?php else: ?>
+                                <i class="fas fa-user-circle fa-2x"></i>
+                            <?php endif; ?>
+                            <span class="profil-nom"><?php echo e($_SESSION['user_name']); ?></span>
+                        </div>
+
+                        <!-- Liste déroulante -->
+                        <ul class="menu-deroulant">
+                            <?php if (is_admin()): ?>
+                                <li><a href="<?php echo url('media/add_book'); ?>">Ajouter un livre</a></li>
+                                <li><a href="<?php echo url('media/add_movie'); ?>">Ajouter un film</a></li>
+                                <li><a href="<?php echo url('media/add_game'); ?>">Ajouter un jeu</a></li>
+                                <li><a href="<?php echo url('admin/show_users'); ?>">Gérer les utilisateurs</a></li>
+                                <li><a href="<?php echo url('loan/users'); ?>">Gérer les emprunts</a></li>
+                            <?php endif; ?>
+                            <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
+                        </ul>
+                    </li>
                 <?php else: ?>
                     <li><a href="<?php echo url('auth/login'); ?>">Connexion</a></li>
                     <li><a href="<?php echo url('auth/register'); ?>">Inscription</a></li>
-                    <li><a href="<?php echo url('auth/forgot-password2'); ?>">Mot de passe oublié fatima et morad</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
     </header>
-
-
-
-
-
-
 
 
 
