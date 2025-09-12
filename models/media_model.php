@@ -95,6 +95,11 @@ function add_platform($media_id, $platforms)
     return true;
 }
 
+/**
+*
+* MODEL DE NESRINE
+*
+*/
 
 /**
  * Récupère tous les genres.
@@ -113,6 +118,61 @@ function get_all_genres()
     }
 
     return $genres;
+}
+
+function get_all_medias()
+{
+    $query = "SELECT * FROM media";
+
+    $data = db_select($query);
+    
+    return $data;
+}
+
+function get_media_by_id($media_id) {
+    $query = "SELECT * FROM media WHERE id = ?";
+    return db_select($query, [$media_id]);
+}
+
+function get_movie_by_id($media_id) {
+    $query = "SELECT director, duration_minutes, synopsis, classification FROM movies WHERE media_id = ?";
+    return db_select($query, [$media_id]);
+}
+
+
+function get_all_movies()
+{
+    $query = "SELECT * FROM media where type = 'movie'";
+
+    $data = db_select($query);
+    
+    return $data;
+}
+
+function get_all_books()
+{
+    $query = "SELECT * FROM media where type = 'book'";
+    
+    $data = db_select($query);
+    
+    return $data;
+}
+
+function get_all_games()
+{
+    $query = "SELECT * FROM media where type = 'game'";
+ 
+    $data = db_select($query);
+    
+    return $data;
+}
+
+function search_media_by_title($q) {
+    $q = strtolower(trim($q));       // make lowercase + clean spaces
+    $like = '%' . $q . '%';          // wrap with % signs
+    $query = "SELECT * FROM media WHERE LOWER(title) LIKE ?";
+
+    return db_select($query, [$like]);
 }
 
 /**
