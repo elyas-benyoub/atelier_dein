@@ -21,7 +21,6 @@
                 <li><a href="<?php echo url('media/add_game'); ?>">Jeux</a></li>
                 <li><a href="<?php echo url('home/about'); ?>">À propos</a></li>
                 <li><a href="<?php echo url('home/contact'); ?>">Contact</a></li>
-                <li><a href="<?php echo url('admin/show_users'); ?>">Users</a></li>
 
                 <!-- acces media et users / admin only  -->
                 <?php if (is_logged_in()): ?>
@@ -42,7 +41,8 @@
                                 <li><a href="<?php echo url('media/add_book'); ?>">Ajouter un livre</a></li>
                                 <li><a href="<?php echo url('media/add_movie'); ?>">Ajouter un film</a></li>
                                 <li><a href="<?php echo url('media/add_game'); ?>">Ajouter un jeu</a></li>
-                                <li><a href="<?php echo url('admin/users'); ?>">Gérer les utilisateurs</a></li>
+                                <li><a href="<?php echo url('admin/show_users'); ?>">Gérer les utilisateurs</a></li>
+                                <li><a href="<?php echo url('loan/users'); ?>">Gérer les emprunts</a></li>
                             <?php endif; ?>
                             <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
                         </ul>
@@ -54,12 +54,6 @@
             </ul>
         </nav>
     </header>
-
-
-
-
-
-
 
 
 

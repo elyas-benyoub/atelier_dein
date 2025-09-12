@@ -553,19 +553,11 @@ code {
 .nav-menu .bouton-deroulant {
     display: flex;
     align-items: center;
-    gap: 10px; /* espace entre photo et nom */
     cursor: pointer;
     padding: 5px 10px;
     font-weight: 500;
 }
 
-/* Rond de la photo */
-.nav-menu .photo-profil {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
 
 /* Nom de l'utilisateur */
 .nav-menu .profil-nom {
@@ -611,9 +603,32 @@ code {
     border-radius: 0 25px 25px 0;
 }
 
+/* bouton creer user*/
 
 
 
+.btn-create {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3b82f6; 
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none; /* pour <a> */
+    transition: background 0.3s ease, transform 0.2s ease;
+}
 
+.btn-create:hover {
+    background-color: #0d9f2c90; 
+    transform: translateY(-2px);
+}
+
+.btn-create:active {
+    background-color: #1e40af; 
+    transform: translateY(0);
+}
 
 

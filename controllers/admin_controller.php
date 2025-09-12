@@ -5,9 +5,13 @@ function admin_show_users()
     $users = get_all_users();
 
     $data = [
-        'title' => "Utilisateurs",
+        'title' => "Les Utilisateurs",
         'users' => $users
     ];
 
     load_view_with_layout('/admin/users', $data);
 }
+
+
+
+

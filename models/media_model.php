@@ -1,7 +1,8 @@
 <?php
 
 // Ajouter dans la table media, retourne le media_id
-function add_media($title, $type, $pb_year, $images_name)
+function 
+add_media($title, $type, $pb_year, $images_name)
 {
     if (!is_logged_in()) {
         set_flash('error', "Vous devez être connecté pour ajouter un média.");
@@ -187,5 +188,6 @@ function get_all_platforms()
 
     return $platforms;
 }
+
 
 
