@@ -266,6 +266,30 @@ function generate_slug($string)
     $string = preg_replace('/[^a-z0-9\s-]/', '', $string);
     $string = preg_replace('/[\s-]+/', '-', $string);
     return trim($string, '-');
+} 
+
+
+/**
+ * Veririfier le role admin ou user lors de la connexion
+ */
+function is_admin() {
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+}
+
+function is_user() {
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'user';
+}
+
+
+/**
+ * accès reserver a l'admin
+ */
+
+function only_admin() {
+    if (!is_logged_in() || !is_admin()){
+        set_flash('error', 'Accès reservé à l admnistrateur');
+        redirect('home');
+    }
 }
 
 function upload_img()

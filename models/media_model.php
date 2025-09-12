@@ -53,8 +53,6 @@ function delete_media($media_id)
     return db_execute($query, [$media_id]);
 }
 
-
-
 /**
  * Ajoute tous les genres liés à un média.
  *
@@ -182,14 +180,15 @@ function search_media_by_title($q) {
  */
 function get_all_platforms()
 {
-    $query = "SELECT id, name FROM platform";
-
+    $query = "SELECT media_id, platform FROM games";
     $data = db_select($query);
-    $platforms = [];
 
-    foreach ($data as $platform) {
-        $platforms[$platform['id']] = $platform['name'];
+    $platforms = [];
+    foreach ($data as $row) {
+        $platforms[$row['media_id']] = $row['platform'];
     }
 
     return $platforms;
 }
+
+

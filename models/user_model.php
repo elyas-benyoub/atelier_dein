@@ -1,5 +1,6 @@
+
+
 <?php
-// Modèle pour les utilisateurs
 
 /**
  * Récupère un utilisateur par son email
@@ -20,11 +21,12 @@ function get_user_by_id($id) {
 /**
  * Crée un nouvel utilisateur
  */
-function create_user($name, $email, $password) {
+function create_user($name, $email, $password, $role = 'user', $profile_picture = null) {
     $hashed_password = hash_password($password);
-    $query = "INSERT INTO users (name, email, password, created_at) VALUES (?, ?, ?, NOW())";
+    $query = "INSERT INTO users (name, email, password, role, profile_picture, created_at, updated_at) 
+              VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
     
-    if (db_execute($query, [$name, $email, $hashed_password])) {
+    if (db_execute($query, [$name, $email, $hashed_password, $role, $profile_picture])) {
         return db_last_insert_id();
     }
     
@@ -34,9 +36,10 @@ function create_user($name, $email, $password) {
 /**
  * Met à jour un utilisateur
  */
-function update_user($id, $name, $email) {
-    $query = "UPDATE users SET name = ?, email = ?, updated_at = NOW() WHERE id = ?";
-    return db_execute($query, [$name, $email, $id]);
+function update_user($id, $name, $email, $role) {
+    $query = "UPDATE users SET name = ?, email = ?, role= ?, updated_at = NOW() where id = ?";
+
+    return db_execute($query, [$name, $email, $role, $id]);
 }
 
 /**
@@ -60,7 +63,7 @@ function delete_user($id) {
  * Récupère tous les utilisateurs
  */
 function get_all_users($limit = null, $offset = 0) {
-    $query = "SELECT id, name, email, created_at FROM users ORDER BY created_at DESC";
+    $query = "SELECT id, name, email, role, created_at, updated_at FROM users ORDER BY created_at DESC";
     
     if ($limit !== null) {
         $query .= " LIMIT $offset, $limit";
@@ -92,4 +95,4 @@ function email_exists($email, $exclude_id = null) {
     
     $result = db_select_one($query, $params);
     return $result['count'] > 0;
-} 
+}

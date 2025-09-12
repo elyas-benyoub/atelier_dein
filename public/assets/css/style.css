@@ -572,6 +572,49 @@ code {
     font-size: 0.9rem;
 }
 
+/* Table css */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    border: 1px solid #ddd !important;
+}
+
+table th,
+table td {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+
+}
+
+table th {
+    background: var(--background-color);
+    font-weight: 600;
+}
+
+table tr:nth-child(even) {
+    background: var(--light-background-color);
+}
+
+td a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    display: flex;
+    align-items: spqace-between;
+
+}
+
+td a:hover {
+    color: var(--secondary-color); 
+    text-decoration: underline;  
+}
+
+
 /* searchbar styling */
 .hero .search-bar input[type="text"] {
   padding: 0.75rem 1rem;
@@ -644,4 +687,74 @@ code {
     .error-actions {
         flex-direction: column;
     }
+} 
+
+/* profile picture admin only */
+
+.nav-menu .deroulant {
+    position: relative;
 }
+
+/* Ligne bouton profil : photo + nom */
+.nav-menu .bouton-deroulant {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* espace entre photo et nom */
+    cursor: pointer;
+    padding: 5px 10px;
+    font-weight: 500;
+
+}
+
+/* Rond de la photo */
+.nav-menu .photo-profil {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Nom de l'utilisateur */
+.nav-menu .profil-nom {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* Liste déroulante sous le bouton profil */
+.nav-menu .menu-deroulant {
+    display: none;
+    position: absolute;
+    top: 100%; /* juste en dessous du bouton */
+    right: 0;
+    background: var(--white);
+    min-width: 200px;
+    box-shadow: var(--shadow-lg);
+    border-radius: 6px;
+    z-index: 1000;
+    padding: 0.5rem 0;
+}
+
+/* Affiche la liste au survol */
+.nav-menu .deroulant:hover .menu-deroulant {
+    display: block;
+}
+
+/* Liens de la liste déroulante */
+.nav-menu .menu-deroulant li a {
+    display: block;
+    padding: 10px 15px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.nav-menu .menu-deroulant li {
+    list-style-type: none;
+}
+
+.nav-menu .menu-deroulant li a:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 0 25px 25px 0;
+}
+

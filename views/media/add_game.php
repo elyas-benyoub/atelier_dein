@@ -1,11 +1,17 @@
+
+
+
+<?php if (is_user()): ?>
+    <p>Bienvenue utilisateur</p>
+<?php endif; ?>
+
+
+
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
             <h1><?= e($title) ?></h1>
-            <p>Ajouter un nouveau jeu</p>
         </div>
-
-        <form enctype="multipart/form-data" method="POST" class="auth-form" action="<?php echo url('game/store'); ?>">
             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
             <div class="form-group">
@@ -30,8 +36,6 @@
                 <div class="checkbox-list">
                     <?php foreach ($platform as $id => $name): ?>
                         <label class="chk">
-                            <input type="checkbox" name="platform[]" value="<?= $id ?>" <?= (!empty($form['platform']) && in_array((int) $id, $form['platform'])) ? 'checked' : '' ?>>
-                            <p><?= e($name) ?></p>
                         </label>
                     <?php endforeach; ?>
                 </div>
@@ -80,6 +84,19 @@
                     <p class="error" id="genres-error"><?= e($errors['genres']) ?></p>
                 <?php endif; ?>
             </fieldset>
+
+
+             <div class="form-group">
+                <label for="year">Année</label>
+                <input type="number" id="year" name="year" required placeholder="Année">
+            </div>
+
+            <!-- UPLOAD IMAGES CODES → le formulaire pour ajouter un jeu (avec input type="file"). -->
+
+            <div class="form-group">
+                <label for="cover_image">Image de couverture :</label>
+                <input type="file" name="cover_image" id="cover_image" accept=".jpg,.jpeg,.png,.gif" required>
+            </div>
 
             <button type="submit" class="btn btn-primary btn-full">
                 <i class="fas fa-plus"></i>
