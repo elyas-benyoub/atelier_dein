@@ -1,80 +1,87 @@
-
-
-
-<?php if (is_user()): ?>
-    <p>Bienvenue utilisateur</p>
-<?php endif; ?>
-
-
-
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
             <h1><?= e($title) ?></h1>
+            <p>Ajouter un jeu</p>
         </div>
 
-        <form enctype='multipart/form-data' method="POST" class="auth-form" action="<?php echo url('media/store_game'); ?>"
-            enctype="multipart/form-data">
-
+        <form enctype="multipart/form-data" action="<?php echo url('game/store'); ?>" method="post" class="auth-form">
             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
             <div class="form-group">
-                <label for="title">Titre du jeu</label>
-                <input type="text" id="title" name="title" required>
+                <label for="title">Titre</label>
+                <input type="text" name="title" value="<?= !empty($form['title']) ? e($form['title']) : "" ?>" required>
+                <?php if (!empty($errors['title'])): ?>
+                    <p class="error"><?= e($errors['title']) ?></p>
+                <?php endif; ?>
             </div>
 
             <div class="form-group">
-                <label for="publisher">Éditeur</label>
-                <input type="text" id="publisher" name="publisher" required>
+                <label for="publisher">Auteur:</label>
+                <input type="text" name="publisher"
+                    value="<?= !empty($form['publisher']) ? e($form['publisher']) : "" ?>" required>
+                <?php if (!empty($errors['publisher'])): ?>
+                    <p class="error"><?= e($errors['publisher']) ?></p>
+                <?php endif; ?>
             </div>
 
-            <div role="group" aria-labelledby="legend-plateformes">
-                <p id="legend-plateformes">Plateforme(s) :</p>
+            <fieldset class="form-group">
+                <legend>Plateforme(s) :</legend>
                 <div class="checkbox-list">
-                    <?php
-                    $plateformes = ["PC", "PlayStation", "Xbox", "Nintendo 64", "Mobile"];
-                    foreach ($plateformes as $plateforme): ?>
+                    <?php foreach ($platforms as $id => $name): ?>
                         <label class="chk">
-                            <!-- <input type="checkbox" name="plateformes[]" value="PC"> -->
-                             <input type="checkbox" name="platform[]" value="<?= e($plateforme) ?>">
-                            <p><?= e($plateforme) ?></p>
+                            <input type="checkbox" name="platforms[]" value="<?= $id ?>" <?= (!empty($form['platforms']) && in_array((int) $id, (array) $form['platforms'], true)) ? 'checked' : '' ?>>
+                            <span><?= e($name) ?></span>
                         </label>
                     <?php endforeach; ?>
                 </div>
-            </div>
+                <?php if (!empty($errors['platforms'])): ?>
+                    <p class="error"><?= e($errors['platforms']) ?></p>
+                <?php endif; ?>
+            </fieldset>
 
 
             <div class="form-group">
-                <label for="description">Description</label>
-                <textarea type="text" id="description" name="description" rows="5" required></textarea>
+                <label for="description">Résumé:</label>
+                <textarea id="description" name="description" required><?= e($form['description'] ?? '') ?></textarea>
+                <?php if (!empty($errors['description'])): ?>
+                    <p class="error"><?= e($errors['description']) ?></p>
+                <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label for="min_age">Âge minimum (PEGI)</label>
-                <select id="min_age" name="min_age" required>
-                    <option value="">-- Sélectionne un âge --</option>
-                    <option value="3">PEGI 3</option>
-                    <option value="7">PEGI 7</option>
-                    <option value="12">PEGI 12</option>
-                    <option value="16">PEGI 16</option>
-                    <option value="18">PEGI 18</option>
+                <?php $minAge = (string) ($form['min_age'] ?? ''); ?>
+                <select id="min_age" name="min_age" aria-describedby="min_age-error" required>
+                    <option value="">-- Sélectionnez un âge --</option>
+                    <option value="3" <?= $minAge === '3' ? 'selected' : '' ?>>PEGI 3</option>
+                    <option value="7" <?= $minAge === '7' ? 'selected' : '' ?>>PEGI 7</option>
+                    <option value="12" <?= $minAge === '12' ? 'selected' : '' ?>>PEGI 12</option>
+                    <option value="16" <?= $minAge === '16' ? 'selected' : '' ?>>PEGI 16</option>
+                    <option value="18" <?= $minAge === '18' ? 'selected' : '' ?>>PEGI 18</option>
                 </select>
+                <?php if (!empty($errors['min_age'])): ?>
+                    <p class="error" id="min_age-error"><?= e($errors['min_age']) ?></p>
+                <?php endif; ?>
             </div>
 
-            <div role="group" aria-labelledby="legend-genres">
-                <p id="legend-genres">Genre(s) :</p>
+            <fieldset class="form-group" aria-describedby="genres-error">
+                <legend>Genre(s) :</legend>
                 <div class="checkbox-list">
                     <?php foreach ($genres as $id => $name): ?>
                         <label class="chk">
-                            <input type="checkbox" name="genres[]" value="<?= e($id) ?>">
+                            <input type="checkbox" name="genres[]" value="<?= $id ?>" <?= (!empty($form['genres']) && in_array((int) $id, $form['genres'])) ? 'checked' : '' ?>>
                             <p><?= e($name) ?></p>
                         </label>
                     <?php endforeach; ?>
                 </div>
-            </div>
+                <?php if (!empty($errors['genres'])): ?>
+                    <p class="error" id="genres-error"><?= e($errors['genres']) ?></p>
+                <?php endif; ?>
+            </fieldset>
 
 
-             <div class="form-group">
+            <div class="form-group">
                 <label for="year">Année</label>
                 <input type="number" id="year" name="year" required placeholder="Année">
             </div>

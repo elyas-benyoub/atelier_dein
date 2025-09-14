@@ -5,7 +5,6 @@
 </div>
 
 <section class="getting-started">
-
     <a href="<?php echo url('admin/add_users'); ?>" class="btn btn-primary">
         Créer un utilisateur
     </a>
@@ -33,6 +32,11 @@
                         <td><?php e($user['created_at']); ?></td>
                         <td><?php e($user['updated_at']); ?></td>
                         <!-- <?php e($user['emprunts']); ?></td>  -->
+                        <!-- <td><?php e($user['emprunts']); ?></td> -->
+                        <td>
+                            <a href="<?php echo url('admin/form_edit_user?id=' . $user['id']); ?>">Edit</a>
+                            <a href="<?php echo url('admin/handle_delete_user?id=' . $user['id']); ?>">Delete</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

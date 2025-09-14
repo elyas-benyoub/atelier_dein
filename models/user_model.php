@@ -36,24 +36,10 @@ function create_user($name, $email, $password, $role = 'user', $profile_picture 
 /**
  * Met à jour un utilisateur
  */
-function update_user($id, $name, $email, $role = null, $profile_picture = null) {
-    $query = "UPDATE users SET name = ?, email = ?, updated_at = NOW()";
-    $params = [$name, $email];
+function update_user($id, $name, $email, $role) {
+    $query = "UPDATE users SET name = ?, email = ?, role= ?, updated_at = NOW() where id = ?";
 
-    if ($role !== null) {
-        $query .= ", role = ?";
-        $params[] = $role;
-    }
-
-    if ($profile_picture !== null) {
-        $query .= ", profile_picture = ?";
-        $params[] = $profile_picture;
-    }
-
-    $query .= " WHERE id = ?";
-    $params[] = $id;
-
-    return db_execute($query, $params);
+    return db_execute($query, [$name, $email, $role, $id]);
 }
 
 /**
