@@ -189,5 +189,37 @@ function get_all_platforms()
     return $platforms;
 }
 
+// les EMPRUNTSSSSSSSSSSSSSS
 
 
+require_once __DIR__ . '/../core/database.php';
+
+/**
+ * Récupère tous les médias disponibles (non empruntés)
+ */
+function get_all_media() {
+    $sql = "SELECT m.*
+            FROM media m
+            WHERE m.id NOT IN (
+                SELECT id_m 
+                FROM loans 
+                WHERE status = 'borrowed'
+            )
+            ORDER BY m.created_at DESC";
+    return db_select($sql);
+}
+
+/**
+ * Récupère tous les médias (même ceux empruntés)
+ */
+function get_all_media_with_status() {
+    $sql = "SELECT m.*, 
+                   CASE 
+                     WHEN l.status = 'borrowed' THEN 'Emprunté'
+                     ELSE 'Disponible'
+                   END AS loan_status
+            FROM media m
+            LEFT JOIN loans l ON l.id_m = m.id AND l.status = 'borrowed'
+            ORDER BY m.created_at DESC";
+    return db_select($sql);
+}

@@ -4,32 +4,31 @@
 // gestion emprunts
 
 
-// creer un emprunt
-function create_loan($title, $user_id, $media_id, $loan_date, $due_date)
+function create_loan($user_id, $media_id, $loan_date, $due_date)
 {
-    global $db;
-    $sql = "INSERT INTO loans ($title, id_u, id_m, loan_date, due_date, status)
-            VALUES ( ?, ?, ?, ?, ?, 'borrowed')";
-    return $db->query($sql, [$title, $user_id, $media_id, $loan_date, $due_date]);
+    $sql = "INSERT INTO loans (id_u, id_m, loan_date, due_date, status)
+            VALUES (?, ?, ?, ?, 'borrowed')";
+    return db_execute($sql, [$user_id, $media_id, $loan_date, $due_date]);
 }
 
-// nb d'emprunts  d'un utilisateur
+
+// Compter le nombre d'emprunts actifs pour un utilisateur
 function count_active_loans($user_id)
 {
-    global $db;
-    $sql = "SELECT COUNT(*) AS total FROM loans
+    $sql = "SELECT COUNT(*) AS total 
+            FROM loans
             WHERE id_u = ? AND status = 'borrowed'";
-    $row = $db->query($sql, [$user_id])->fetch();
-    return $row ? $row['total'] : 0;
+    $row = db_select_one($sql, [$user_id]);
+    return $row ? (int) $row['total'] : 0;
 }
 
-//  nd d'emprunt
+// Vérifier si un média est déjà emprunté
 function is_media_borrowed($media_id)
 {
-    global $db;
-    $sql = "SELECT id FROM loans
+    $sql = "SELECT id 
+            FROM loans
             WHERE id_m = ? AND status = 'borrowed'";
-    $row = $db->query($sql, [$media_id])->fetch();
+    $row = db_select_one($sql, [$media_id]);
     return !empty($row);
 }
 
@@ -38,14 +37,11 @@ function is_media_borrowed($media_id)
 
 function get_all_media_loans()
 {
-    global $db;
     $sql = "SELECT l.*, u.name, m.title
-    FROM loans l
-    INNER JOIN media m ON l.id_m = m.id
-    INNER JOIN users u ON l.id_u = u.id
-    ORDER BY m.created_at, u.created_at DESC";
-    return $db->query($sql)->fetchAll();
+            FROM loans l
+            INNER JOIN media m ON l.id_m = m.id
+            INNER JOIN users u ON l.id_u = u.id
+            ORDER BY m.created_at DESC, u.created_at DESC";
+    return db_select($sql);
 }
-
-
 
