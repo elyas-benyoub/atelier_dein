@@ -702,33 +702,25 @@ td a:hover {
 .nav-menu .bouton-deroulant {
     display: flex;
     align-items: center;
-    gap: 10px; /* espace entre photo et nom */
     cursor: pointer;
     padding: 5px 10px;
     font-weight: 500;
     height: 100%;
 }
 
-/* Rond de la photo */
-.nav-menu .photo-profil {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
 
 /* Nom de l'utilisateur */
 .nav-menu .profil-nom {
     font-weight: 500;
     color: var(--text-color);
-}
+} 
 
 /* Liste déroulante sous le bouton profil */
 .nav-menu .menu-deroulant {
     display: none;
     position: absolute;
     top: 100%; /* juste en dessous du bouton */
-    right: 0;
+     right: 0;
     background: var(--white);
     min-width: 200px;
     box-shadow: var(--shadow-lg);
@@ -758,5 +750,128 @@ td a:hover {
 .nav-menu .menu-deroulant li a:hover {
     background: var(--primary-color);
     color: var(--white);
+}
+
+/* bouton creer user*/
+
+.btn-create {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3b82f6; 
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none; /* pour <a> */
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-create:hover {
+    background-color: #0d9f2c90; 
+    transform: translateY(-2px);
+}
+
+.btn-create:active {
+    background-color: #1e40af; 
+    transform: translateY(0);
+} 
+
+
+/* les EMPRUNTS  */
+
+
+/* Container et titres */
+.page-header .container,
+.current-loans .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Formulaire */
+.auth-form {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.auth-form .form-group {
+    margin-bottom: 10px;
+}
+
+.auth-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.auth-form select,
+.auth-form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+}
+
+.auth-form button {
+    padding: 8px 15px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.auth-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Tableau des emprunts */
+.table-loans {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-loans th,
+.table-loans td {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    text-align: left;
+}
+
+.table-loans th {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+.table-loans tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Statuts */
+.status-borrowed {
+    color: white;
+    background-color: #17a2b8;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.status-returned {
+    color: white;
+    background-color: #28a745;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.status-overdue {
+    color: white;
+    background-color: #dc3545;
+    padding: 2px 6px;
+    border-radius: 3px;
 }
 
