@@ -257,17 +257,6 @@ function format_number($number, $decimals = 2)
     return number_format($number, $decimals, ',', ' ');
 }
 
-/**
- * Génère un slug à partir d'une chaîne
- */
-function generate_slug($string)
-{
-    $string = strtolower($string);
-    $string = preg_replace('/[^a-z0-9\s-]/', '', $string);
-    $string = preg_replace('/[\s-]+/', '-', $string);
-    return trim($string, '-');
-} 
-
 
 /**
  * Veririfier le role admin ou user lors de la connexion
@@ -336,7 +325,6 @@ function upload_img()
             throw new RuntimeException("Erreur lors du déplacement du fichier.");
         }
 
-        set_flash('success', "Upload réussi : " . $new_name);
         return [
             'name' => $new_name,
             'full_path' => $full_path,
@@ -344,6 +332,7 @@ function upload_img()
         ];
     } catch (Throwable $e) {
         $_SESSION['errors']['img_cover'] = $e->getMessage();
+        app_log('[upload_image] error:' . $e->getMessage());
         return null;
     }
 }

@@ -50,7 +50,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0 2rem;
+    height: 60px;
 }
 
 .nav-brand a {
@@ -63,6 +64,7 @@ body {
 .nav-menu {
     display: flex;
     list-style: none;
+    align-items: center;
     gap: 2rem;
 }
 
@@ -693,6 +695,7 @@ td a:hover {
 
 .nav-menu .deroulant {
     position: relative;
+    height: 60px;
 }
 
 /* Ligne bouton profil : photo + nom */
@@ -703,7 +706,7 @@ td a:hover {
     cursor: pointer;
     padding: 5px 10px;
     font-weight: 500;
-
+    height: 100%;
 }
 
 /* Rond de la photo */
@@ -732,6 +735,7 @@ td a:hover {
     border-radius: 6px;
     z-index: 1000;
     padding: 0.5rem 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
 
 /* Affiche la liste au survol */
@@ -745,7 +749,6 @@ td a:hover {
     padding: 10px 15px;
     color: var(--text-color);
     text-decoration: none;
-    transition: background 0.2s ease;
 }
 
 .nav-menu .menu-deroulant li {
@@ -755,6 +758,5 @@ td a:hover {
 .nav-menu .menu-deroulant li a:hover {
     background: var(--primary-color);
     color: var(--white);
-    border-radius: 0 25px 25px 0;
 }
 

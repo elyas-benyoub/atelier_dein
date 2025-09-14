@@ -55,8 +55,9 @@ function book_store()
         }
     }
 
+    // si on recupere des erreurs, on retourne sur le formulaire pour les afficher
     if ($errors) {
-        $_SESSION['errors'] = ($errors + ($_SESSION['errors'] ?? []));
+        $_SESSION['errors'] = $errors;
         set_flash('error', "Certains champs sont invalides");
         redirect('book/add');
         return;

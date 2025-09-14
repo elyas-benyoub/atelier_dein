@@ -5,7 +5,7 @@ function game_add()
     $data = [
         'title' => "Jeux vidéos",
         'genres' => get_all_genres(),
-        'platform' => get_all_platforms(),
+        'platforms' => get_all_platforms(),
         'form' => $_SESSION['form'] ?? [],
         'errors' => $_SESSION['errors'] ?? [],
     ];

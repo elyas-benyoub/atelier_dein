@@ -1,17 +1,11 @@
-
-
-
-<?php if (is_user()): ?>
-    <p>Bienvenue utilisateur</p>
-<?php endif; ?>
-
-
-
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
             <h1><?= e($title) ?></h1>
+            <p>Ajouter un jeu</p>
         </div>
+
+        <form enctype="multipart/form-data" action="<?php echo url('game/store'); ?>" method="post" class="auth-form">
             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
             <div class="form-group">
@@ -34,13 +28,15 @@
             <fieldset class="form-group">
                 <legend>Plateforme(s) :</legend>
                 <div class="checkbox-list">
-                    <?php foreach ($platform as $id => $name): ?>
+                    <?php foreach ($platforms as $id => $name): ?>
                         <label class="chk">
+                            <input type="checkbox" name="platforms[]" value="<?= $id ?>" <?= (!empty($form['platforms']) && in_array((int) $id, (array) $form['platforms'], true)) ? 'checked' : '' ?>>
+                            <span><?= e($name) ?></span>
                         </label>
                     <?php endforeach; ?>
                 </div>
-                <?php if (!empty($errors['platform'])): ?>
-                    <p class="error"><?= e($errors['platform']) ?></p>
+                <?php if (!empty($errors['platforms'])): ?>
+                    <p class="error"><?= e($errors['platforms']) ?></p>
                 <?php endif; ?>
             </fieldset>
 
@@ -74,8 +70,7 @@
                 <div class="checkbox-list">
                     <?php foreach ($genres as $id => $name): ?>
                         <label class="chk">
-                            <input type="checkbox" name="genres[]" value="<?= $id ?>"
-                                <?= (!empty($form['genres']) && in_array((int)$id, $form['genres'])) ? 'checked' : '' ?>>
+                            <input type="checkbox" name="genres[]" value="<?= $id ?>" <?= (!empty($form['genres']) && in_array((int) $id, $form['genres'])) ? 'checked' : '' ?>>
                             <p><?= e($name) ?></p>
                         </label>
                     <?php endforeach; ?>
@@ -86,7 +81,7 @@
             </fieldset>
 
 
-             <div class="form-group">
+            <div class="form-group">
                 <label for="year">Année</label>
                 <input type="number" id="year" name="year" required placeholder="Année">
             </div>
