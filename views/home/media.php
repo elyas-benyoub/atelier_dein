@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 
 
 <?php /** @var array $media */ ?>
+=======
+>>>>>>> 8ca0ff4 (let s merge)
 <div class="media-detail-container">
   <div class="media-card-detail">
     
@@ -13,12 +16,12 @@
     <div class="media-info">
       <h1 class="media-title"><?= e($media['title']); ?> (<?= e($media['year']); ?>)</h1>
 
-      <p><strong>Durée :</strong> <?= e($movie['duration_minutes']); ?> min</p>
-      <p><strong>Classification :</strong> <?= e($movie['classification']); ?></p>
-      <p><strong>Réalisateur / Auteur :</strong> <?= e($movie['director']); ?></p>
+      <p><strong>Durée :</strong> <?= e($data['duration_minutes'] ?? 'N/A'); ?> min</p>
+      <p><strong>Classification :</strong> <?= e($data['classification'] ?? $data['min_age'] ?? 'N/A'); ?></p>
+      <p><strong>Réalisateur / Auteur :</strong> <?= e($data['director'] ?? $data['publisher'] ?? $data['author']); ?></p>
 
       <h2>Synopsis</h2>
-      <p><?= e($movie['synopsis']); ?></p>
+      <p><?= e($data['synopsis'] ?? $data['summary'] ?? $data['description']); ?></p>
     </div>
   </div>
 </div>

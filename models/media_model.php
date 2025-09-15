@@ -168,6 +168,30 @@ function get_media_by_id($media_id) {
     return db_select($query, [$media_id]);
 }
 
+function get_movie_by_id($media_id) {
+    $query = "SELECT director, duration_minutes, synopsis, classification FROM movies WHERE media_id = ?";
+    return db_select($query, [$media_id]);
+}
+
+function get_book_by_id($media_id) {
+    $query = "SELECT author, isbn, page_count, summary, publication_year FROM books WHERE media_id = ?";
+    return db_select($query, [$media_id]);
+}
+
+function get_game_by_id($media_id) {
+    $query = "SELECT publisher, platform, min_age, description FROM games WHERE media_id = ?";
+    return db_select($query, [$media_id]);
+}
+
+
+function get_all_movies()
+{
+    $query = "SELECT * FROM media where type = 'movie'";
+
+    $data = db_select($query);
+    
+    return $data;
+}
 
 function search_media_by_title($q) {
     $q = strtolower(trim($q)); // make lowercase + clean spaces
