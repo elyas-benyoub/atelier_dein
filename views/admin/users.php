@@ -5,10 +5,6 @@
 </div>
 
 <section class="getting-started">
-    <a href="<?php echo url('admin/add_users'); ?>" class="btn btn-primary">
-        Créer un utilisateur
-    </a>
-
     <table border="1" cellpadding="5">
         <thead>
             <tr>

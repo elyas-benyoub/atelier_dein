@@ -10,38 +10,24 @@
             <div class="content-main">
                 <h2>À propos de cette application</h2>
                 <p><?php e($content); ?></p>
-                
-                <h3>Architecture MVC</h3>
-                <p>Cette application suit le pattern Model-View-Controller :</p>
+
+                <h3>Détails</h3>
+                <p>Ici, un utilisateur peut rechercher un média spécifique tel que :</p>
                 <ul>
-                    <li><strong>Models</strong> : Gestion des données et logique métier</li>
-                    <li><strong>Views</strong> : Présentation et interface utilisateur</li>
-                    <li><strong>Controllers</strong> : Logique de contrôle et coordination</li>
+                    <li><strong>Livres</strong></li>
+                    <li><strong>Films</strong></li>
+                    <li><strong>Jeux</strong></li>
                 </ul>
 
-                <h3>Fonctionnalités techniques</h3>
+                <h3>Médiathèque DEIN est alimenté par :</h3>
                 <ul>
-                    <li>PHP procédural (pas d'orienté objet)</li>
-                    <li>Système de routing simple et efficace</li>
-                    <li>Templating HTML/CSS avec layouts</li>
-                    <li>Gestion de base de données avec PDO</li>
-                    <li>Système d'authentification intégré</li>
-                    <li>Protection CSRF</li>
-                    <li>Messages flash</li>
-                    <li>Validation de formulaires</li>
+                    <li>PHP (architecture MVC)</li>
+                    <li>MySQL (gestion de base de données)</li>
+                    <li>WAMP (environnement de développement local)</li>
+                    <li>HTML/CSS/JS (développement front-end)</li>
+                    <li>Bootstrap (UI Framework)</li>
                 </ul>
 
-                <h3>Structure du projet</h3>
-                <pre><code>php-starter-cdpi/
-├── config/         # Configuration
-├── controllers/    # Contrôleurs MVC
-├── models/         # Modèles de données
-├── views/          # Vues et templates
-├── core/           # Système de routing et fonctions core
-├── includes/       # Fonctions utilitaires
-└── public/         # Point d'entrée et assets</code></pre>
-            </div>
-            
             <div class="sidebar">
                 <div class="info-box">
                     <h4>Informations système</h4>
@@ -52,4 +38,4 @@
             </div>
         </div>
     </div>
-</section> 
+</section>
