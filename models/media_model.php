@@ -162,7 +162,7 @@ function get_book_by_id($media_id) {
 }
 
 function get_game_by_id($media_id) {
-    $query = "SELECT publisher, platform, min_age, description FROM games WHERE media_id = ?";
+    $query = "SELECT publisher, min_age, description FROM games WHERE media_id = ?";
     return db_select($query, [$media_id]);
 }
 
@@ -195,17 +195,31 @@ function get_all_platforms()
 
 function get_genres_by_media_id($media_id) {
     $query = "
-        select g.id, g.name, m.title
-        from media m
-        join media_genres mg on mg.media_id = m.id
-        join genres g on mg.genre_id = g.id
+        select g.name
+        from genres g
+        join media_genres mg on mg.genre_id = g.id
+        join media m on mg.media_id = m.id
         where m.id = ?;
     ";
 
     $data = db_select($query, [$media_id]);
-    return $data[0];
+    
+    $genres = [];
+    foreach ($data as $row) {
+        $genres[] = $row['name'];
+    }
+
+    return $genres;
  }
 
+    // On renvoie tous les genres sous forme de tableau associatif
+    $genres = [];
+    foreach ($data as $genre) {
+        $genres[$genre['id']] = $genre['name'];
+    }
+
+    return $genres;
+}
 
 /**
  * Récupère tous les médias disponibles (non empruntés)
@@ -236,3 +250,5 @@ function get_all_media_with_status() {
             ORDER BY m.created_at DESC";
     return db_select($sql);
 }
+=======
+>>>>>>> ea8d317 (mergez)

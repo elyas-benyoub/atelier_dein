@@ -48,10 +48,11 @@
 <!-- Tableau des emprunts en cours en tableau css j'arrive pas -->
 <section class="current-loans">
     <div class="container">
-        <h2>Emprunts en cours des users</h2>
+        <h2>Emprunts en cours des utilisateurs</h2>
         <table class="table-loans">
             <thead>
                 <tr>
+       <!-- En-têtes du tableau -->
                     <th>Utilisateur</th>
                     <th>Média</th>
                     <th>Date d'emprunt</th>
@@ -60,23 +61,33 @@
                 </tr>
             </thead>
             <tbody>
+         <!-- Vérifie s'il y a des emprunts à afficher -->
                 <?php if (!empty($loans)): ?>
+                  <!-- Parcourt chaque emprunt contenu dans $loans -->
                     <?php foreach ($loans as $loan): ?>
                         <tr>
+                        <!-- Nom de l'utilisateur -->
                             <td><?php e($loan['name']); ?></td>
+                         <!-- Titre du média (film, livre, jeu) -->
                             <td><?php e($loan['title']); ?></td>
+                         <!-- Date de début d'emprunt (formatée en jour/mois/année heure:minute) -->
                             <td><?php e(date('d/m/Y H:i', strtotime($loan['loan_date']))); ?></td>
+                        <!-- Date limite de retour -->
                             <td><?php e(date('d/m/Y H:i', strtotime($loan['due_date']))); ?></td>
+                        <!-- Statut de l'emprunt avec une classe CSS différente selon le cas -->
                             <td class="<?php 
                                 echo $loan['status'] === 'borrowed' ? 'status-borrowed' : 
                                      ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue');
                             ?>">
+                        <!-- ucfirst met la première lettre en majuscule (ex : borrowed -> Borrowed) -->
                                 <?php e(ucfirst($loan['status'])); ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
+            <!-- Si aucun emprunt n'existe, on affiche un message -->
                 <?php else: ?>
                     <tr>
+                  <!-- colspan="5" veut dire que la cellule prend toute la largeur du tableau -->
                         <td colspan="5">Aucun emprunt en cours.</td>
                     </tr>
                 <?php endif; ?>

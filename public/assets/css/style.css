@@ -223,7 +223,7 @@ body {
 .media-detail-container {
   max-width: 1000px;
   margin: 40px auto;
-  padding: 20px;
+  padding: 2rem;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -244,13 +244,30 @@ body {
 
 .media-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 450px;
 }
 
 .media-title {
   font-size: 2rem;
-  margin-bottom: 10px;
 }
 
+.media-title span {
+    color: lightgray;
+}
+
+.media-info .sub-title {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.sub-title .classification {
+    padding: .02rem .5rem;
+    border: 1px solid black;
+    margin-right: 1rem;
+}
 
 /* Getting Started */
 .getting-started {
@@ -792,7 +809,7 @@ td a:hover {
 
 /* Formulaire */
 .auth-form {
-    /* background-color: #f9f9f9; */
+    background-color: #ffffff;
     padding: 15px;
     margin-bottom: 30px;
     /* border: 1px solid #ccc; */

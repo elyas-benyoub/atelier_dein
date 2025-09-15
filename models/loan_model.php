@@ -3,7 +3,7 @@
 
 // gestion emprunts
 
-
+ 
 function create_loan($user_id, $media_id, $loan_date, $due_date)
 {
     $sql = "INSERT INTO loans (id_u, id_m, loan_date, due_date, status)
