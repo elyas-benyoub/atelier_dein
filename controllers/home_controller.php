@@ -35,14 +35,26 @@ function home_index()
 
 function home_info()
 {
+    $data_type = [];
     $media_id = get('id');
-    $media = get_media_by_id($media_id);
-    $movie = get_movie_by_id($media_id);
-
-    // tester si les informations du film marche avec var_dump
+    $media = get_media_by_id($media_id)[0];
+    if ($media['type'] === 'movie') {
+        $data_type = get_movie_by_id($media_id)[0];
+    }
+    
+    if ($media['type'] === 'book') {
+        $data_type = get_book_by_id($media_id)[0];
+    }
+    
+    if ($media['type'] === 'game') {
+        $data_type = get_game_by_id($media_id)[0];
+    }
+    
+    $genres = get_genres_by_media_id($media_id);
     $data = [
-        'media' => $media[0],
-        'movie' => $movie[0],
+        'media' => $media ?? [],
+        'data' => $data_type ?? [],
+        'genres' => $genres ?? [],
     ];
 
     load_view_with_layout('home/media', $data);
