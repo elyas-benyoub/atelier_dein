@@ -199,11 +199,13 @@ body {
 
 .feature-card img {
   width: 100%;
-  height: 280px;
+  height: auto;
+  /* max-height: 250px; */
+  aspect-ratio: 1/1.5;
   object-fit: contain; /* garde toute l’image */
   border-radius: 8px;
   margin-bottom: 10px;
-  background: #000; /* optionnel : ajoute un fond noir pour combler si l’image ne remplit pas */
+  background: transparent /* optionnel : ajoute un fond noir pour combler si l’image ne remplit pas */
 }
 
 .feature-card h3 {
@@ -212,6 +214,9 @@ body {
   margin: 2rem 0
 }
 
+.feature-card .card-link {
+    text-decoration: none;
+}
 
 
 /* Effet au survol */
