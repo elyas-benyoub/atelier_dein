@@ -46,35 +46,38 @@ function loan_users()
 
 
 // Nouvelle fonction côté user
-function borrow_media()
+function borrow_media($media_id)
 {
-    only_logged_in(); // sécurité : seulement les utilisateurs connectés
+    is_logged_in(); // sécurité : utilisateur connecté obligatoire
 
-    $user_id = post('user_id');
-    $media_id = post('media_id');
+    $user_id = $_SESSION['user_id']; // l'utilisateur connecté
 
-    // Vérifier si le média est déjà emprunté
+    // Vérifier si déjà emprunté
     if (is_media_borrowed($media_id)) {
         set_flash('error', "Ce média est déjà emprunté.");
-        redirect("media/show/$media_id"); // retour à la fiche du média
+        redirect("media/show/$media_id");
     }
 
-    // Vérifier si l'utilisateur a déjà atteint la limite
+    // Vérifier la limite (3 emprunts max)
     if (count_active_loans($user_id) >= 3) {
         set_flash('error', "Vous avez déjà atteint la limite d'emprunts.");
         redirect("media/show/$media_id");
     }
 
-    // Calcul des dates
-    $loan_date = date('Y-m-d H:i:s');
-    $due_date = date('Y-m-d H:i:s', strtotime('+14 days'));
+    // Vérifier si déjà emprunté par ce même user
+    if (has_user_borrowed_media($user_id, $media_id)) {
+        set_flash('error', "Vous avez déjà emprunté ce média.");
+        redirect("media/show/$media_id");
+    }
 
     // Créer l’emprunt
+    $loan_date = date('Y-m-d H:i:s');
+    $due_date  = date('Y-m-d H:i:s', strtotime('+14 days'));
     create_loan($user_id, $media_id, $loan_date, $due_date);
 
-    // Message + redirection
-    set_flash('success', "Vous avez emprunté ce média avec succès !");
-    redirect("media/show/$media_id");
+    set_flash('success', "Média emprunté avec succès !");
+    // redirect("media/show/$media_id");
+    redirect($_SERVER['REQUEST_URI']);
 }
 
 function loan_create()
