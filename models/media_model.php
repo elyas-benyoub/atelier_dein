@@ -195,15 +195,21 @@ function get_all_platforms()
 
 function get_genres_by_media_id($media_id) {
     $query = "
-        select g.id, g.name, m.title
-        from media m
-        join media_genres mg on mg.media_id = m.id
-        join genres g on mg.genre_id = g.id
+        select g.name
+        from genres g
+        join media_genres mg on mg.genre_id = g.id
+        join media m on mg.media_id = m.id
         where m.id = ?;
     ";
 
     $data = db_select($query, [$media_id]);
-    return $data[0];
+    
+    $genres = [];
+    foreach ($data as $row) {
+        $genres[] = $row['name'];
+    }
+
+    return $genres;
  }
 
 

@@ -38,6 +38,7 @@ function home_info()
     $data_type = [];
     $media_id = get('id');
     $media = get_media_by_id($media_id)[0];
+
     if ($media['type'] === 'movie') {
         $data_type = get_movie_by_id($media_id)[0];
     }
@@ -51,6 +52,8 @@ function home_info()
     }
     
     $genres = get_genres_by_media_id($media_id);
+
+    
     $data = [
         'media' => $media ?? [],
         'data' => $data_type ?? [],

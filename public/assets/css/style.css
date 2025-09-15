@@ -248,9 +248,18 @@ body {
 
 .media-title {
   font-size: 2rem;
-  margin-bottom: 10px;
 }
 
+.media-info .sub-title {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.sub-title .classification {
+    padding: .05rem .5rem;
+    border: 1px solid black;
+    margin-right: 1rem;
+}
 
 /* Getting Started */
 .getting-started {
