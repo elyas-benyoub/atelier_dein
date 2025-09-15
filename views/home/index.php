@@ -24,60 +24,17 @@
 
   <section class="features">
     <div class="container">
-      <h2 class="main-title">📚 Résultats de recherche</h2>
-
-      <!-- Films -->
-      <div class="media-section">
-        <h3 class="section-title margin-bottom-25 margin-top-50">🎥 Films</h3>
-        <div class="feature-grid">
-          <?php foreach ($results as $result): ?>
-            <?php if ($result['type'] === 'movie'): ?>
-              <div class="feature-card">
-                <a href="<?= url("home/info?id=" . $result['id']); ?>" class="card-link">
-                  <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
-                  <h3><?php e($result['title']); ?></h3>
-                </a>
-              </div>
-            <?php endif; ?>
-          <?php endforeach; ?>
-        </div>
+      <h2 class="main-title">📚 Résultats de recherche (<?= count($results) ?>)</h2>
+      <div class="feature-grid">
+        <?php foreach ($results as $result): ?>
+          <div class="feature-card">
+            <a href="<?= url("home/info?id=" . $result['id']); ?>" class="card-link">
+              <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+              <h3><?php e($result['title']); ?></h3>
+            </a>
+          </div>
+        <?php endforeach; ?>
       </div>
-
-      <!-- Livres -->
-      <div class="media-section">
-        <h3 class="section-title margin-bottom-25 margin-top-50">📖 Livres</h3>
-        <div class="feature-grid">
-          <?php foreach ($results as $result): ?>
-            <?php if ($result['type'] === 'book'): ?>
-              <div class="feature-card">
-                <a href="<?= url("home/info?id=" . $result['id']); ?>" class="card-link">
-                  <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
-                  <h3><?php e($result['title']); ?></h3>
-                </a>
-              </div>
-            <?php endif; ?>
-          <?php endforeach; ?>
-        </div>
-      </div>
-
-      <!-- Jeux -->
-      <div class="media-section">
-        <h3 class="section-title margin-bottom-25 margin-top-50">🎮 Jeux</h3>
-        <div class="feature-grid">
-          <?php foreach ($results as $result): ?>
-            <?php if ($result['type'] === 'game'): ?>
-              <div class="feature-card">
-                <a href="<?= url("home/info?id=" . $result['id']); ?>" class="card-link">
-                  <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
-                  <h3><?php e($result['title']); ?></h3>
-                </a>
-              </div>
-            <?php endif; ?>
-          <?php endforeach; ?>
-        </div>
-      </div>
-    </div>
-  </section>
 
 <?php else: ?>
 

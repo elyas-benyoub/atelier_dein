@@ -78,7 +78,7 @@
                         <label class="chk">
                             <input type="checkbox" name="genres[]" value="<?= $id ?>"
                                 <?= (!empty($form['genres']) && in_array((int)$id, $form['genres'])) ? 'checked' : '' ?>>
-                            <p><?= e($name) ?></p>
+                            <?= e($name) ?>
                         </label>
                     <?php endforeach; ?>
                 </div>

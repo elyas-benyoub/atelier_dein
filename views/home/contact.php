@@ -11,19 +11,19 @@
                 <h2>Nous contacter</h2>
                 <p>N'hésitez pas à nous envoyer un message. Nous vous répondrons dans les plus brefs délais.</p>
                 
-                <form method="POST" class="contact-form">
+                <form method="POST" class="contact-form" action="<?php url('home/contact') ?>">
                     <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
                     
                     <div class="form-group">
                         <label for="name">Nom complet</label>
                         <input type="text" id="name" name="name" required 
-                               value="<?php echo escape(post('name', '')); ?>">
+                               value="<?php echo escape($name); ?>">
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Adresse email</label>
                         <input type="email" id="email" name="email" required 
-                               value="<?php echo escape(post('email', '')); ?>">
+                               value="<?php echo escape($email); ?>">
                     </div>
                     
                     <div class="form-group">

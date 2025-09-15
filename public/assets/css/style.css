@@ -30,6 +30,13 @@ body {
     flex-direction: column;
 }
 
+main {
+    width: 100%;
+    max-width: 1200px;
+    padding: 3rem;
+    margin: 0 auto;
+}
+
 /* Layout */
 .container {
     max-width: 1200px;
@@ -316,14 +323,15 @@ body {
 
 /* Page Header */
 .page-header {
-    background: var(--white);
+    background: var(--primary-color);
+    color: white;
     padding: 2rem 0;
     border-bottom: 1px solid var(--border-color);
 }
 
 .page-header h1 {
     font-size: 2.5rem;
-    color: var(--text-color);
+    text-align: center;
 }
 
 .page-header .add-media {
@@ -410,11 +418,11 @@ body {
 }
 
 .chk {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    /* margin-bottom: 0.25rem; */
-    gap: 1rem;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  gap: .5rem;
+  margin-bottom: .5rem;
 }
 
 #min_age {
@@ -451,12 +459,6 @@ p#legend-genres {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Checkbox et radio restent natifs */
-.form-group input[type="checkbox"],
-.form-group input[type="radio"] {
-  /* width: auto; */
-  margin-right: 0.5rem;
-}
 
 .form-group input:focus,
 .form-group textarea:focus {
@@ -834,13 +836,22 @@ td a:hover {
     margin: 0 auto;
     padding: 20px;
 }
-f
+
+.loan-container {
+    display: flex;
+    justify-content: center;
+}
+
+.loan-getting-started {
+    margin: 2rem 0;
+    background: var(--background-color);
+}
+
 /* Formulaire */
-.auth-form {
+/* .auth-form {
     background-color: #ffffff;
     padding: 15px;
     margin-bottom: 30px;
-    /* border: 1px solid #ccc; */
     border-radius: 5px;
 }
 
@@ -873,7 +884,7 @@ f
 
 .auth-form button:hover {
     background-color: #0056b3;
-}
+} */
 
 /* Tableau des emprunts */
 .table-loans {

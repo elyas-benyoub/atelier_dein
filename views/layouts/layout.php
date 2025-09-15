@@ -39,6 +39,7 @@
                                 <li><a href="<?php echo url('admin/show_medias'); ?>">Gérer les media</a></li>
                                 <li><a href="<?php echo url('loan/users'); ?>">Gérer les emprunts</a></li>
                             <?php endif; ?>
+                            <li><a href="<?php echo url('home/profile'); ?>">Profile</a></li>
                             <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
                         </ul>
                     </li>

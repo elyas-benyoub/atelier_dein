@@ -97,4 +97,3 @@ function email_exists($email, $exclude_id = null) {
     return $result['count'] > 0;
 }
  
-

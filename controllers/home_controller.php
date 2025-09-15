@@ -42,18 +42,18 @@ function home_info()
     if ($media['type'] === 'movie') {
         $data_type = get_movie_by_id($media_id)[0];
     }
-    
+
     if ($media['type'] === 'book') {
         $data_type = get_book_by_id($media_id)[0];
     }
-    
+
     if ($media['type'] === 'game') {
         $data_type = get_game_by_id($media_id)[0];
     }
-    
+
     $genres = get_genres_by_media_id($media_id);
 
-    
+
     $data = [
         'media' => $media ?? [],
         'data' => $data_type ?? [],
@@ -81,8 +81,13 @@ function home_about()
  */
 function home_contact()
 {
+    $user_name = $_SESSION['user_name'] ?? "";
+    $user_email = $_SESSION['user_email'] ?? "";
+
     $data = [
-        'title' => 'Contact'
+        'title' => 'Contact',
+        'name' => $user_name,
+        'email' => $user_email
     ];
 
     if (is_post()) {
@@ -93,16 +98,22 @@ function home_contact()
         // Validation simple
         if (empty($name) || empty($email) || empty($message)) {
             set_flash('error', 'Tous les champs sont obligatoires.');
+            redirect('home/contact');
         } elseif (!validate_email($email)) {
             set_flash('error', 'Adresse email invalide.');
-        } else {
-            // Ici vous pourriez envoyer l'email ou sauvegarder en base
-            set_flash('success', 'Votre message a été envoyé avec succès !');
             redirect('home/contact');
+        } else {
+            if (!send_message($name, $email, $message)) {
+                set_flash('error', "Le message n'a pas été envoyé");
+            } else {
+                set_flash('success', "Message envoyé avec succès");
+            }
         }
+        redirect('home/contact');
     }
 
-    load_view_with_layout('home/contact', $data);
+
+    load_view_with_layout('/home/contact', $data);
 }
 
 
@@ -111,10 +122,13 @@ function home_contact()
  */
 function home_profile()
 {
+    $user_id = $_SESSION['user_id'];
+    $loans = get_all_media_loans_by_user_id($user_id);
+
     $data = [
         'title' => 'Profile',
-        'message' => 'Bienvenue sur votre profil',
-        'content' => 'Cette application est un starter kit PHP MVC développé avec une approche procédurale.'
+        'message' => "Liste des empruns",
+        'loans' => $loans
     ];
 
     load_view_with_layout('home/profile', $data);

@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -12,7 +11,7 @@ function loan_users()
 
     // Si le formulaire est soumis
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $user_id  = post('user_id');
+        $user_id = post('user_id');
         $media_id = post('media_id');
 
         // Vérifier les règles d’emprunt
@@ -22,7 +21,7 @@ function loan_users()
             set_flash('error', "Ce média est déjà emprunté.");
         } else {
             $loan_date = date('Y-m-d H:i:s');
-            $due_date  = date('Y-m-d H:i:s', strtotime('+14 jours'));
+            $due_date = date('Y-m-d H:i:s', strtotime('+14 jours'));
 
             create_loan($user_id, $media_id, $loan_date, $due_date);
             set_flash('success', "Emprunt enregistré avec succès !");
@@ -30,15 +29,15 @@ function loan_users()
     }
 
     // Toujours recharger la vue avec les données à jour
-    $users  = get_all_users();
+    $users = get_all_users();
     $medias = get_all_media();       // médias disponibles
-    $loans  = get_all_media_loans(); // emprunts en cours
+    $loans = get_all_media_loans(); // emprunts en cours
 
     $data = [
-        'title'  => "Créer un emprunt ",
-        'users'  => $users,
+        'title' => "Créer un emprunt ",
+        'users' => $users,
         'medias' => $medias,
-        'loans'  => $loans
+        'loans' => $loans
     ];
 
     load_view_with_layout('/admin/loan_users', $data);
@@ -47,10 +46,11 @@ function loan_users()
 
 
 // Nouvelle fonction côté user
-function borrow_media() {
+function borrow_media()
+{
     only_logged_in(); // sécurité : seulement les utilisateurs connectés
 
-    $user_id  = post('user_id');
+    $user_id = post('user_id');
     $media_id = post('media_id');
 
     // Vérifier si le média est déjà emprunté
@@ -67,7 +67,7 @@ function borrow_media() {
 
     // Calcul des dates
     $loan_date = date('Y-m-d H:i:s');
-    $due_date  = date('Y-m-d H:i:s', strtotime('+14 days'));
+    $due_date = date('Y-m-d H:i:s', strtotime('+14 days'));
 
     // Créer l’emprunt
     create_loan($user_id, $media_id, $loan_date, $due_date);
@@ -75,4 +75,40 @@ function borrow_media() {
     // Message + redirection
     set_flash('success', "Vous avez emprunté ce média avec succès !");
     redirect("media/show/$media_id");
+}
+
+function loan_create()
+{
+    if (!is_logged_in()) {
+        set_flash("error", "Vous devez être connecté pour emprunter un média.");
+        redirect('auth/login');
+    }
+
+    $user_id  = $_SESSION['user_id'] ?? null;
+    $media_id = get('id') ?? null;
+
+    if (!$media_id) {
+        set_flash("error", "Aucun média spécifié.");
+        redirect();
+    }
+
+    $loanDate = date('Y-m-d H:i:s');
+    $dueDate  = date('Y-m-d H:i:s', strtotime('+14 days'));
+
+    $data = [
+        'user_id'   => $user_id,
+        'media_id'  => $media_id,
+        'loan_date' => $loanDate,
+        'due_date'  => $dueDate
+    ];
+
+    // Ici tu insères en BDD
+    if (create_loan($user_id, $media_id, $loanDate, $dueDate)) {
+        set_flash("success", "Emprunt enregistré !");
+    } else {
+        set_flash("error", "Impossible d'enregistrer l'emprunt.");
+    }
+
+    // 🔹 Redirection vers la page info du média
+    redirect('home/info?id=' . $media_id);
 }
