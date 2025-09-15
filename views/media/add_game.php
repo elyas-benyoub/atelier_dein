@@ -25,7 +25,7 @@
                 <?php endif; ?>
             </div>
 
-            <fieldset class="form-group">
+            <fieldset class="form-group">   
                 <legend>Plateforme(s) :</legend>
                 <div class="checkbox-list">
                     <?php foreach ($platforms as $id => $name): ?>
