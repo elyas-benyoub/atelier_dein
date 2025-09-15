@@ -2,7 +2,7 @@
 
   <div class="hero-content">
     <h1><?php e($title); ?></h1>
-    <p class="hero-subtitle">Un starter kit PHP avec architecture MVC procédurale</p>
+    <p class="hero-subtitle">Un lieu magique pour les médias!</p>
     <div class="search-bar">
       <form class="search-btn" method="get" action="<?php echo url('home/index'); ?>">
         <input type="text" name="search" placeholder="Recherche">
@@ -33,8 +33,10 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'movie'): ?>
               <div class="feature-card">
-                <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
-                <h3><?php e($result['title']); ?></h3>
+                <a href="<?= url("home/info?id=" . $result['id']); ?>" class="card-link">
+                  <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                  <h3><?php e($result['title']); ?></h3>
+                </a>
               </div>
             <?php endif; ?>
           <?php endforeach; ?>
@@ -48,8 +50,10 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'book'): ?>
               <div class="feature-card">
-                <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
-                <h3><?php e($result['title']); ?></h3>
+                <a href="<?= url("home/info?id=" . $result['id']); ?>" class="card-link">
+                  <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                  <h3><?php e($result['title']); ?></h3>
+                </a>
               </div>
             <?php endif; ?>
           <?php endforeach; ?>
@@ -63,8 +67,10 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'game'): ?>
               <div class="feature-card">
-                <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
-                <h3><?php e($result['title']); ?></h3>
+                <a href="<?= url("home/info?id=" . $result['id']); ?>" class="card-link">
+                  <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                  <h3><?php e($result['title']); ?></h3>
+                </a>
               </div>
             <?php endif; ?>
           <?php endforeach; ?>
@@ -75,7 +81,6 @@
 
 <?php else: ?>
 
-
   <!-- section de medias (nesrine) -->
   <section class="features">
     <div class="container">
@@ -84,27 +89,29 @@
 
       <!-- Grille des films -->
       <div class="media-section">
-        <h3 class="section-title margin-bottom-25 margin-top-50">🎮 Films</h3>
+        <h3 class="section-title margin-bottom-25 margin-top-50">🎥 Films</h3>
         <div class="feature-grid">
           <?php foreach ($movies as $movie): ?>
-            <a href="<?= url("home/info?id=" . $movie['id']); ?>">
-              <div class="feature-card">
+            <div class="feature-card">
+              <a href="<?= url("home/info?id=" . $movie['id']); ?>" class="card-link">
                 <img src="<?= BASE_URL . $movie['image_path'] ?>" alt="<?= e($movie['title']); ?>">
                 <h3><?php e($movie['title']); ?></h3>
-              </div>
-            </a>
+              </a>
+            </div>
           <?php endforeach; ?>
         </div>
       </div>
 
       <!-- Grille des livres -->
       <div class="media-section">
-        <h3 class="section-title margin-bottom-25 margin-top-50">🎮 Livres</h3>
+        <h3 class="section-title margin-bottom-25 margin-top-50">📖 Livres</h3>
         <div class="feature-grid">
           <?php foreach ($books as $book): ?>
             <div class="feature-card">
-              <img src="<?= BASE_URL . $book['image_path'] ?>" alt="<?= e($book['title']); ?>">
-              <h3><?php e($book['title']); ?></h3>
+              <a href="<?= url("home/info?id=" . $book['id']); ?>" class="card-link">
+                <img src="<?= BASE_URL . $book['image_path'] ?>" alt="<?= e($book['title']); ?>">
+                <h3><?php e($book['title']); ?></h3>
+              </a>
             </div>
           <?php endforeach; ?>
         </div>
@@ -116,8 +123,10 @@
         <div class="feature-grid">
           <?php foreach ($games as $game): ?>
             <div class="feature-card">
-              <img src="<?= BASE_URL . $game['image_path'] ?>" alt="<?= e($game['title']); ?>">
-              <h3><?php e($game['title']); ?></h3>
+              <a href="<?= url("home/info?id=" . $game['id']); ?>" class="card-link">
+                <img src="<?= BASE_URL . $game['image_path'] ?>" alt="<?= e($game['title']); ?>">
+                <h3><?php e($game['title']); ?></h3>
+              </a>
             </div>
           <?php endforeach; ?>
         </div>
@@ -127,28 +136,3 @@
   </section>
 
 <?php endif; ?>
-
-<!-- ************************************************************************ -->
-
-<section class="getting-started">
-  <div class="container">
-    <h2>Commencer rapidement</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-number">1</div>
-        <h3>Configuration</h3>
-        <p>Configurez votre base de données dans <code>config/database.php</code></p>
-      </div>
-      <div class="step">
-        <div class="step-number">2</div>
-        <h3>Développement</h3>
-        <p>Créez vos contrôleurs, modèles et vues dans leurs dossiers respectifs</p>
-      </div>
-      <div class="step">
-        <div class="step-number">3</div>
-        <h3>Déploiement</h3>
-        <p>Uploadez votre application sur votre serveur web</p>
-      </div>
-    </div>
-  </div>
-</section>
