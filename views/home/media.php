@@ -3,7 +3,7 @@
     
     <!-- Affichage de l'image -->
     <div class="media-poster">
-      <img src="<?= PUBLIC_URL . $media['image_path']; ?>" alt="<?= e($media['title']); ?>">
+      <img src="<?= BASE_URL . $media['image_path']; ?>" alt="<?= e($media['title']); ?>">
     </div>
 
     <!-- Affichage des infos -->

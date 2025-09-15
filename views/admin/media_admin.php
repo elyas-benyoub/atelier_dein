@@ -40,7 +40,6 @@
                             ?>
                         </td>
                         <td>
-                            <a href="<?= url('media/edit/' . $media['id']); ?>" class="btn btn-sm btn-primary">Modifier</a>
                             <a href="<?= url('admin/handle_delete_media?id=' . $media['id']); ?>" 
                                class="btn btn-sm btn-danger" >Supprimer</a>
                         </td>
