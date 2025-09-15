@@ -223,7 +223,7 @@ body {
 .media-detail-container {
   max-width: 1000px;
   margin: 40px auto;
-  padding: 20px;
+  padding: 2rem;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -244,10 +244,18 @@ body {
 
 .media-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 450px;
 }
 
 .media-title {
   font-size: 2rem;
+}
+
+.media-title span {
+    color: lightgray;
 }
 
 .media-info .sub-title {
@@ -256,7 +264,7 @@ body {
 }
 
 .sub-title .classification {
-    padding: .05rem .5rem;
+    padding: .02rem .5rem;
     border: 1px solid black;
     margin-right: 1rem;
 }
