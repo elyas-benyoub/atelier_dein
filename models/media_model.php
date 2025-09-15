@@ -212,15 +212,6 @@ function get_genres_by_media_id($media_id) {
     return $genres;
  }
 
-    // On renvoie tous les genres sous forme de tableau associatif
-    $genres = [];
-    foreach ($data as $genre) {
-        $genres[$genre['id']] = $genre['name'];
-    }
-
-    return $genres;
-}
-
 /**
  * Récupère tous les médias disponibles (non empruntés)
  */
@@ -250,5 +241,3 @@ function get_all_media_with_status() {
             ORDER BY m.created_at DESC";
     return db_select($sql);
 }
-=======
->>>>>>> ea8d317 (mergez)

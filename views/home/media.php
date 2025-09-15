@@ -8,12 +8,6 @@
 
     <!-- Affichage des infos -->
     <div class="media-info">
-      <h1 class="media-title"><?= e($media['title']); ?> (<?= e($media['year']); ?>)</h1>
-
-        <div class="media-poster">
-            <img src="<?= PUBLIC_URL . $media['image_path']; ?>" alt="<?= e($media['title']); ?>">
-        </div>
-
         <div class="media-info">
             <div>
                 <h1 class="media-title"><?= e($media['title']); ?> <span>(<?= e($media['year']); ?>)</span></h1>
