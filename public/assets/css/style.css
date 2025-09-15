@@ -403,9 +403,7 @@ body {
 
 .checkbox-list {
     max-height: 200px;
-    /* hauteur limitée */
     overflow-y: auto;
-    /* active le scroll vertical */
     border: 1px solid #ccc;
     padding: 0.5rem;
     margin-bottom: 1rem;
@@ -415,7 +413,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 0.25rem;
+    /* margin-bottom: 0.25rem; */
     gap: 1rem;
 }
 
@@ -456,7 +454,7 @@ p#legend-genres {
 /* Checkbox et radio restent natifs */
 .form-group input[type="checkbox"],
 .form-group input[type="radio"] {
-  width: auto;
+  /* width: auto; */
   margin-right: 0.5rem;
 }
 
