@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($title) ? esc($title) . ' - ' . APP_NAME : APP_NAME; ?></title>
     <link rel="stylesheet" href="<?php echo url('assets/css/style.css'); ?>">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
     <header class="header">
         <nav class="navbar">
@@ -15,21 +16,45 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="<?php echo url(); ?>">Accueil</a></li>
-                <li><a href="<?php echo url('media/add_book'); ?>">Livres</a></li>
-                <li><a href="<?php echo url('media/add_movie'); ?>">Films</a></li>
-                <li><a href="<?php echo url('media/add_game'); ?>">Jeux</a></li>
                 <li><a href="<?php echo url('home/about'); ?>">À propos</a></li>
                 <li><a href="<?php echo url('home/contact'); ?>">Contact</a></li>
+
+                <!-- acces media et users / admin only  -->
                 <?php if (is_logged_in()): ?>
-                    <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
+                    <li class="deroulant">
+                        <div class="bouton-deroulant">
+                            <?php if (!empty($_SESSION['user_profile'])): ?>
+                                <img src="<?php echo url('uploads/profiles/' . $_SESSION['user_profile']); ?>" alt="Profil"
+                                    class="photo-profil">
+                            <?php else: ?>
+                                <i class="fas fa-user-circle fa-2x"></i>
+                            <?php endif; ?>
+                            <span class="profil-nom"><?php echo e($_SESSION['user_name']); ?></span>
+                        </div>
+
+                        <!-- Liste déroulante -->
+                        <ul class="menu-deroulant">
+                            <?php if (is_admin()): ?>
+                                <li><a href="<?php echo url('book/add'); ?>">Ajouter un livre</a></li>
+                                <li><a href="<?php echo url('movie/add'); ?>">Ajouter un film</a></li>
+                                <li><a href="<?php echo url('game/add'); ?>">Ajouter un jeu</a></li>
+                                <li><a href="<?php echo url('admin/show_users'); ?>">Gérer les utilisateurs</a></li>
+                                <li><a href="<?php echo url('admin/show_medias'); ?>">Gérer les media</a></li>
+                                <li><a href="<?php echo url('loan/users'); ?>">Gérer les emprunts</a></li>
+                            <?php endif; ?>
+                            <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
+                        </ul>
+                    </li>
                 <?php else: ?>
                     <li><a href="<?php echo url('auth/login'); ?>">Connexion</a></li>
                     <li><a href="<?php echo url('auth/register'); ?>">Inscription</a></li>
-                    <li><a href="<?php echo url('auth/forgot-password2'); ?>">Mot de passe oublié fatima et morad</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
     </header>
+
+
+
 
     <main class="main-content">
         <?php flash_messages(); ?>
@@ -45,4 +70,5 @@
 
     <script src="<?php echo url('assets/js/app.js'); ?>"></script>
 </body>
-</html> 
+
+</html>
