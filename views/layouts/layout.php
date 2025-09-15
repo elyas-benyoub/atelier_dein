@@ -35,9 +35,9 @@
                         <!-- Liste déroulante -->
                         <ul class="menu-deroulant">
                             <?php if (is_admin()): ?>
-                                <li><a href="<?php echo url('media/add_book'); ?>">Ajouter un livre</a></li>
-                                <li><a href="<?php echo url('media/add_movie'); ?>">Ajouter un film</a></li>
-                                <li><a href="<?php echo url('media/add_game'); ?>">Ajouter un jeu</a></li>
+                                <li><a href="<?php echo url('book/add'); ?>">Ajouter un livre</a></li>
+                                <li><a href="<?php echo url('movie/add'); ?>">Ajouter un film</a></li>
+                                <li><a href="<?php echo url('game/add'); ?>">Ajouter un jeu</a></li>
                                 <li><a href="<?php echo url('admin/show_users'); ?>">Gérer les utilisateurs</a></li>
                                 <li><a href="<?php echo url('admin/show_medias'); ?>">Gérer les media</a></li>
                                 <li><a href="<?php echo url('loan/users'); ?>">Gérer les emprunts</a></li>

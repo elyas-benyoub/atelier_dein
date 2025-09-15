@@ -1,7 +1,7 @@
 <div class="hero">
 
   <div class="hero-content">
-    <h1><?php e($message); ?></h1>
+    <h1><?php e($title); ?></h1>
     <p class="hero-subtitle">Un starter kit PHP avec architecture MVC procédurale</p>
     <div class="search-bar">
       <form class="search-btn" method="get" action="<?php echo url('home/index'); ?>">

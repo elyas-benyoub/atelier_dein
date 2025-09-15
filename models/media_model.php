@@ -114,10 +114,17 @@ function add_platform($media_id, $platforms)
 }
 
 /**
-*
-* MODEL DE NESRINE
-*
-*/
+ * Supprime un média par son ID.
+ *
+ * @param int $media_id
+ * @return bool succès/échec
+ */
+function delete_media($media_id)
+{
+    $query = "DELETE FROM media WHERE id = ?";
+    return db_execute($query, [$media_id]);
+}
+
 
 /**
  * Récupère tous les genres.
@@ -161,42 +168,12 @@ function get_media_by_id($media_id) {
     return db_select($query, [$media_id]);
 }
 
-function get_movie_by_id($media_id) {
-    $query = "SELECT director, duration_minutes, synopsis, classification FROM movies WHERE media_id = ?";
-    return db_select($query, [$media_id]);
-}
-
-
-function get_all_movies()
-{
-    $query = "SELECT * FROM media where type = 'movie'";
-
-    $data = db_select($query);
-    
-    return $data;
-}
-
-function get_all_books()
-{
-    $query = "SELECT * FROM media where type = 'book'";
-    
-    $data = db_select($query);
-    
-    return $data;
-}
-
-function get_all_games()
-{
-    $query = "SELECT * FROM media where type = 'game'";
- 
-    $data = db_select($query);
-    
-    return $data;
-}
 
 function search_media_by_title($q) {
-    $q = strtolower(trim($q));       // make lowercase + clean spaces
-    $like = '%' . $q . '%';          // wrap with % signs
+    $q = strtolower(trim($q)); // make lowercase + clean spaces
+
+    $like = '%' . $q . '%'; // wrap with % signs
+
     $query = "SELECT * FROM media WHERE LOWER(title) LIKE ?";
 
     return db_select($query, [$like]);
@@ -209,15 +186,47 @@ function search_media_by_title($q) {
  */
 function get_all_platforms()
 {
-    $query = "SELECT media_id, platform FROM games";
+    $query = "SELECT id, name FROM platform";
     $data = db_select($query);
 
     $platforms = [];
     foreach ($data as $row) {
-        $platforms[$row['media_id']] = $row['platform'];
+        $platforms[(int)$row['id']] = $row['name'];
     }
-
     return $platforms;
 }
 
+// les EMPRUNTSSSSSSSSSSSSSS
 
+
+require_once __DIR__ . '/../core/database.php';
+
+/**
+ * Récupère tous les médias disponibles (non empruntés)
+ */
+function get_all_media() {
+    $sql = "SELECT m.*
+            FROM media m
+            WHERE m.id NOT IN (
+                SELECT id_m 
+                FROM loans 
+                WHERE status = 'borrowed'
+            )
+            ORDER BY m.created_at DESC";
+    return db_select($sql);
+}
+
+/**
+ * Récupère tous les médias (même ceux empruntés)
+ */
+function get_all_media_with_status() {
+    $sql = "SELECT m.*, 
+                   CASE 
+                     WHEN l.status = 'borrowed' THEN 'Emprunté'
+                     ELSE 'Disponible'
+                   END AS loan_status
+            FROM media m
+            LEFT JOIN loans l ON l.id_m = m.id AND l.status = 'borrowed'
+            ORDER BY m.created_at DESC";
+    return db_select($sql);
+}

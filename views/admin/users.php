@@ -3,8 +3,13 @@
         <h1>Utilisateurs</h1>
     </div>
 </div>
+
 <section class="getting-started">
-    <table>
+    <a href="<?php echo url('admin/add_users'); ?>" class="btn btn-primary">
+        Créer un utilisateur
+    </a>
+
+    <table border="1" cellpadding="5">
         <thead>
             <tr>
                 <th>ID</th>
@@ -13,9 +18,8 @@
                 <th>Role</th>
                 <th>Créé à</th>
                 <th>Mis à jour le</th>
-                <!-- <th>Emprunts</th> -->
-                <th>Actions</th>
-
+                <th>Emprunts</th>
+            </tr>
         </thead>
         <tbody>
             <?php if (!empty($users)): ?>
@@ -27,6 +31,7 @@
                         <td><?php e($user['role']); ?></td>
                         <td><?php e($user['created_at']); ?></td>
                         <td><?php e($user['updated_at']); ?></td>
+                        <!-- <?php e($user['emprunts']); ?></td>  -->
                         <!-- <td><?php e($user['emprunts']); ?></td> -->
                         <td>
                             <a href="<?php echo url('admin/form_edit_user?id=' . $user['id']); ?>">Edit</a>
@@ -36,7 +41,7 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="5">Aucun utilisateur trouvé.</td>
+                    <td colspan="7">Aucun utilisateur trouvé.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

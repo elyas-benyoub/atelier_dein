@@ -51,11 +51,20 @@ function create_game($title, $publisher, $min_age, $description, $genres, $platf
         }
 
         db_commit();
-        set_flash('success', "Jeu ajouté avec succès");
+        app_log('[create_game] Jeu ajouté avec succès.');
         return true;
     } catch (Throwable $e) {
         db_rollback();
-        set_flash('error', "Insertion annulée.");
+        app_log('[create_game] ' . $e->getMessage());
         return false;
     }
+}
+
+function get_all_games()
+{
+    $query = "SELECT * FROM media where type = 'game'";
+ 
+    $data = db_select($query);
+    
+    return $data;
 }
