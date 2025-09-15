@@ -67,7 +67,7 @@ function home_about()
 {
     $data = [
         'title' => 'À propos',
-        'content' => 'Cette application est un starter kit PHP MVC développé avec une approche procédurale.'
+        'content' => "Atelier Dein est une plateforme de médiathèque de pointe conçue pour simplifier la gestion des livres, films, jeux et autres types de médias. Développée à l'aide d'un puissant framework PHP MVC, elle offre une interface utilisateur intuitive qui facilite la navigation, l'emprunt et l'organisation de votre collection multimédia. Que vous soyez passionné de lecture, de cinéma ou de jeux vidéo, notre plateforme vous offre une expérience fluide et agréable pour gérer vos médias préférés."
     ];
 
     load_view_with_layout('home/about', $data);
