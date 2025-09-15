@@ -46,3 +46,33 @@ function loan_users()
 
 
 
+// Nouvelle fonction côté user
+function borrow_media() {
+    only_logged_in(); // sécurité : seulement les utilisateurs connectés
+
+    $user_id  = post('user_id');
+    $media_id = post('media_id');
+
+    // Vérifier si le média est déjà emprunté
+    if (is_media_borrowed($media_id)) {
+        set_flash('error', "Ce média est déjà emprunté.");
+        redirect("media/show/$media_id"); // retour à la fiche du média
+    }
+
+    // Vérifier si l'utilisateur a déjà atteint la limite
+    if (count_active_loans($user_id) >= 3) {
+        set_flash('error', "Vous avez déjà atteint la limite d'emprunts.");
+        redirect("media/show/$media_id");
+    }
+
+    // Calcul des dates
+    $loan_date = date('Y-m-d H:i:s');
+    $due_date  = date('Y-m-d H:i:s', strtotime('+14 days'));
+
+    // Créer l’emprunt
+    create_loan($user_id, $media_id, $loan_date, $due_date);
+
+    // Message + redirection
+    set_flash('success', "Vous avez emprunté ce média avec succès !");
+    redirect("media/show/$media_id");
+}
