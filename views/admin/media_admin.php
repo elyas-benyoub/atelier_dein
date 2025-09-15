@@ -2,6 +2,11 @@
     <div class="container">
         <h1>Médias</h1>
     </div>
+    <ul class="add-media">
+        <li><a href="<?php echo url('book/add'); ?>">Ajouter un livre</a></li>
+        <li><a href="<?php echo url('movie/add'); ?>">Ajouter un film</a></li>
+        <li><a href="<?php echo url('game/add'); ?>">Ajouter un jeu</a></li>
+    </ul>
 </div>
 
 <section class="getting-started">
@@ -21,9 +26,8 @@
                     <tr>
                         <td>
                             <?php if (!empty($media['image_path'])): ?>
-                                <img src="<?= BASE_URL . $media['image_path']; ?>"
-                                     alt="<?= e($media['title']); ?>"
-                                     style="width:60px; height:auto; border-radius:4px;">
+                                <img src="<?= BASE_URL . $media['image_path']; ?>" alt="<?= e($media['title']); ?>"
+                                    style="width:60px; height:auto; border-radius:4px;">
                             <?php else: ?>
                                 —
                             <?php endif; ?>
@@ -40,8 +44,8 @@
                             ?>
                         </td>
                         <td>
-                            <a href="<?= url('admin/handle_delete_media?id=' . $media['id']); ?>" 
-                               class="btn btn-sm btn-danger" >Supprimer</a>
+                            <a href="<?= url('admin/handle_delete_media?id=' . $media['id']); ?>"
+                                class="btn btn-sm btn-danger">Supprimer</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
