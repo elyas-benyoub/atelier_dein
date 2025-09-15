@@ -113,18 +113,6 @@ function add_platform($media_id, $platforms)
     return true;
 }
 
-/**
- * Supprime un média par son ID.
- *
- * @param int $media_id
- * @return bool succès/échec
- */
-function delete_media($media_id)
-{
-    $query = "DELETE FROM media WHERE id = ?";
-    return db_execute($query, [$media_id]);
-}
-
 
 /**
  * Récupère tous les genres.
@@ -168,11 +156,6 @@ function get_media_by_id($media_id) {
     return db_select($query, [$media_id]);
 }
 
-function get_movie_by_id($media_id) {
-    $query = "SELECT director, duration_minutes, synopsis, classification FROM movies WHERE media_id = ?";
-    return db_select($query, [$media_id]);
-}
-
 function get_book_by_id($media_id) {
     $query = "SELECT author, isbn, page_count, summary, publication_year FROM books WHERE media_id = ?";
     return db_select($query, [$media_id]);
@@ -181,16 +164,6 @@ function get_book_by_id($media_id) {
 function get_game_by_id($media_id) {
     $query = "SELECT publisher, platform, min_age, description FROM games WHERE media_id = ?";
     return db_select($query, [$media_id]);
-}
-
-
-function get_all_movies()
-{
-    $query = "SELECT * FROM media where type = 'movie'";
-
-    $data = db_select($query);
-    
-    return $data;
 }
 
 function search_media_by_title($q) {
@@ -220,10 +193,14 @@ function get_all_platforms()
     return $platforms;
 }
 
-// les EMPRUNTSSSSSSSSSSSSSS
+ get_genres_by_media_id() {
+    
+ }
+
+// les EMPRUNTS
 
 
-require_once __DIR__ . '/../core/database.php';
+// require_once __DIR__ . '/../core/database.php';
 
 /**
  * Récupère tous les médias disponibles (non empruntés)
