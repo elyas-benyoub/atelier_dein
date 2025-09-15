@@ -8,7 +8,7 @@ require_once MODEL_PATH . '/media_model.php';
 
 function loan_users()
 {
-    only_admin(); // sécurité admin
+    only_admin(); // juste admin
 
     // Si le formulaire est soumis
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -35,7 +35,7 @@ function loan_users()
     $loans  = get_all_media_loans(); // emprunts en cours
 
     $data = [
-        'title'  => "Créer un emprunt userssss",
+        'title'  => "Créer un emprunt ",
         'users'  => $users,
         'medias' => $medias,
         'loans'  => $loans

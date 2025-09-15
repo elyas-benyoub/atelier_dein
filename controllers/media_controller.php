@@ -111,6 +111,6 @@ function media_store_movie()
 
 
 
-// UPLOAD IMAGES CODES → le contrôleur qui reçoit le formulaire et appelle le modèle.
+
 
 
