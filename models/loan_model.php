@@ -45,3 +45,26 @@ function get_all_media_loans()
     return db_select($sql);
 }
 
+function return_loan($loan_id)
+{
+    $sql = "UPDATE loans 
+            SET status = 'returned' 
+            WHERE id = ?";
+
+    return db_execute($sql, [$loan_id]);
+}
+
+
+/**
+ * Vérifie si un utilisateur a déjà emprunté un média donné
+ * (utile pour éviter les doublons)
+ */
+function has_user_borrowed_media($user_id, $media_id)
+{
+    $sql = "SELECT id 
+            FROM loans
+            WHERE id_u = ? AND id_m = ? AND status = 'borrowed'";
+
+    $row = db_select_one($sql, [$user_id, $media_id]);
+    return !empty($row);
+}
