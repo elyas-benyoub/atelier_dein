@@ -41,6 +41,37 @@ function add_media($title, $type, $pb_year, $img_url)
     }
 }
 
+/**
+ * Supprime un média par son ID.
+ *
+ * @param int $media_id
+ * @return bool succès/échec
+ */
+function delete_media($media_id)
+{
+    $media = get_media_by_id($media_id);
+
+    $type = $media['type'];
+
+    if ($type === 'book') {
+        $query = "DELETE FROM books WHERE media_id = ?";
+        db_execute($query, [$media_id]);
+    } 
+    elseif ($type === 'movie') {
+        $query = "DELETE FROM movies WHERE media_id = ?";
+        db_execute($query, [$media_id]);
+    }
+    elseif ($type === 'games') {
+        $query = "DELETE FROM games WHERE media_id = ?";
+        db_execute($query, [$media_id]);
+    }
+
+    $query = "DELETE FROM media_genres WHERE media_id = ?";
+    db_execute($query, [$media_id]);
+
+    $query = "DELETE FROM media WHERE id = ?";
+    return db_execute($query, [$media_id]);
+}
 
 /**
  * Ajoute tous les genres liés à un média.
@@ -112,6 +143,15 @@ function get_all_genres()
     }
 
     return $genres;
+}
+
+function get_all_media_genres(){
+
+    $query = "SELECT media_id, genre_id FROM media_genres";
+
+    $data = db_select($query);
+
+    return $data;
 }
 
 function get_all_medias()
