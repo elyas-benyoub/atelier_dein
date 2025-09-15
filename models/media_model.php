@@ -192,6 +192,7 @@ function get_all_platforms()
     }
     return $platforms;
 }
+<<<<<<< HEAD
 
 function get_genres_by_media_id($media_id) {
     $query = "
@@ -242,3 +243,5 @@ function get_all_media_with_status() {
             ORDER BY m.created_at DESC";
     return db_select($sql);
 }
+=======
+>>>>>>> ea8d317 (mergez)
