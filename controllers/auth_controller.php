@@ -31,6 +31,8 @@ function auth_login() {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_email'] = $user['email'];
+                $_SESSION['user_role'] = $user['role'];  // <-- important
+                $_SESSION['user_profile'] = $user['profile_picture']; // optionnel
                 
                 set_flash('success', 'Connexion réussie !');
                 redirect('home');
@@ -38,6 +40,7 @@ function auth_login() {
                 set_flash('error', 'Email ou mot de passe incorrect.');
             }
         }
+
     }
     
     load_view_with_layout('auth/login', $data);
@@ -75,7 +78,7 @@ function auth_register() {
             set_flash('error', 'Cette adresse email est déjà utilisée.');
         } else {
             // Créer l'utilisateur
-            $user_id = create_user($name, $email, $password);
+            $user_id = create_user($name, $email, $password, 'user', null);
             
             if ($user_id) {
                 set_flash('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
@@ -84,6 +87,7 @@ function auth_register() {
                 set_flash('error', 'Erreur lors de l\'inscription.');
             }
         }
+
     }
     
     load_view_with_layout('auth/register', $data);

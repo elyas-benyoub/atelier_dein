@@ -36,7 +36,7 @@ function create_book($title, $author, $isbn, $page_count, $summary, $pb_year, $g
         db_begin_transaction();
 
         $media_id = add_media($title, 'book', $pb_year, $img_url);
-        
+
         if (!$media_id) {
             throw new Exception("Échec de l'ajout dans 'media'.");
         }
@@ -48,7 +48,7 @@ function create_book($title, $author, $isbn, $page_count, $summary, $pb_year, $g
         if (!add_genres($media_id, $genres)) {
             throw new Exception("Echec de l'ajout dans la table 'genres'.");
         }
-    
+
         db_commit();
         return true;
     } catch (Throwable $e) {
@@ -56,4 +56,13 @@ function create_book($title, $author, $isbn, $page_count, $summary, $pb_year, $g
         app_log('[create_book] ' . $e->getMessage());
         return false;
     }
+}
+
+function get_all_books()
+{
+    $query = "SELECT * FROM media where type = 'book'";
+
+    $data = db_select($query);
+
+    return $data;
 }

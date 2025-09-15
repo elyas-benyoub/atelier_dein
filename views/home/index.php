@@ -1,41 +1,21 @@
 <div class="hero">
-  <div class="search-bar">
-    <form class="search-btn" method="get" action="<?php echo url('home/index'); ?>">
-      <input type="text" name="search" placeholder="Recherche">
-      <button class="search-button">
-        <i class="fa fa-search"></i>
-      </button>
-    </form>
-  </div>
-    <div class="search-bar">
-        
-    </div>
-    <div class="hero-content">
-        <h1><?php e($message); ?></h1>
-        <p class="hero-subtitle">Un starter kit PHP avec architecture MVC procédurale</p>
-        <?php if (!is_logged_in()): ?>
-            <div class="hero-buttons">
-                <a href="<?php echo url('auth/register'); ?>" class="btn btn-primary">Commencer</a>
-                <a href="<?php echo url('auth/login'); ?>" class="btn btn-secondary">Se connecter</a>
-            </div>
-        <?php endif; ?>
-    </div>
-</div>
-<div class="hero">
+
   <div class="hero-content">
     <h1><?php e($title); ?></h1>
-
     <p class="hero-subtitle">Un starter kit PHP avec architecture MVC procédurale</p>
+    <div class="search-bar">
+      <form class="search-btn" method="get" action="<?php echo url('home/index'); ?>">
+        <input type="text" name="search" placeholder="Recherche">
+        <button class="search-button">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+    </div>
     <?php if (!is_logged_in()): ?>
       <div class="hero-buttons">
         <a href="<?php echo url('auth/register'); ?>" class="btn btn-primary">Commencer</a>
         <a href="<?php echo url('auth/login'); ?>" class="btn btn-secondary">Se connecter</a>
       </div>
-    <?php else: ?>
-      <p class="welcome-message">
-        <i class="fas fa-user"></i>
-        Bienvenue, <?php e($_SESSION['user_name']); ?> !
-      </p>
     <?php endif; ?>
   </div>
 </div>
@@ -53,7 +33,7 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'movie'): ?>
               <div class="feature-card">
-                <img src="<?= PUBLIC_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
                 <h3><?php e($result['title']); ?></h3>
               </div>
             <?php endif; ?>
@@ -68,7 +48,7 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'book'): ?>
               <div class="feature-card">
-                <img src="<?= PUBLIC_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
                 <h3><?php e($result['title']); ?></h3>
               </div>
             <?php endif; ?>
@@ -83,7 +63,7 @@
           <?php foreach ($results as $result): ?>
             <?php if ($result['type'] === 'game'): ?>
               <div class="feature-card">
-                <img src="<?= PUBLIC_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
                 <h3><?php e($result['title']); ?></h3>
               </div>
             <?php endif; ?>
@@ -109,7 +89,7 @@
           <?php foreach ($movies as $movie): ?>
             <a href="<?= url("home/info?id=" . $movie['id']); ?>">
               <div class="feature-card">
-                <img src="<?= PUBLIC_URL . $movie['image_path'] ?>" alt="<?= e($movie['title']); ?>">
+                <img src="<?= BASE_URL . $movie['image_path'] ?>" alt="<?= e($movie['title']); ?>">
                 <h3><?php e($movie['title']); ?></h3>
               </div>
             </a>
@@ -123,7 +103,7 @@
         <div class="feature-grid">
           <?php foreach ($books as $book): ?>
             <div class="feature-card">
-              <img src="<?= PUBLIC_URL . $book['image_path'] ?>" alt="<?= e($book['title']); ?>">
+              <img src="<?= BASE_URL . $book['image_path'] ?>" alt="<?= e($book['title']); ?>">
               <h3><?php e($book['title']); ?></h3>
             </div>
           <?php endforeach; ?>
@@ -136,7 +116,7 @@
         <div class="feature-grid">
           <?php foreach ($games as $game): ?>
             <div class="feature-card">
-              <img src="<?= PUBLIC_URL . $game['image_path'] ?>" alt="<?= e($game['title']); ?>">
+              <img src="<?= BASE_URL . $game['image_path'] ?>" alt="<?= e($game['title']); ?>">
               <h3><?php e($game['title']); ?></h3>
             </div>
           <?php endforeach; ?>

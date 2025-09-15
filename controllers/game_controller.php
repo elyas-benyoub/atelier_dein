@@ -5,7 +5,7 @@ function game_add()
     $data = [
         'title' => "Jeux vidéos",
         'genres' => get_all_genres(),
-        'platform' => get_all_platforms(),
+        'platforms' => get_all_platforms(),
         'form' => $_SESSION['form'] ?? [],
         'errors' => $_SESSION['errors'] ?? [],
     ];
@@ -28,11 +28,11 @@ function game_store()
     $min_age = post('min_age');
     $description = clean_input(post('description'));
     $genres = post('genres');
-    $platform = post('platform');
+    $platforms = post('platforms');
 
 
     // Sauvegarde des variables dans un tableau dans $_SESSION
-    $_SESSION['form'] = compact('title','publisher', 'min_age', 'description', 'genres', 'platform');
+    $_SESSION['form'] = compact('title','publisher', 'min_age', 'description', 'genres', 'platforms');
 
     // Validation et recupération des erreurs
     $errors = validate_game_input();
@@ -57,7 +57,7 @@ function game_store()
     $min_age = (int)$min_age;
     $img_url = $image['url'] ?? null;
 
-    $ok = create_game($title, $publisher, $min_age, $description, $genres, $platform, $img_url);
+    $ok = create_game($title, $publisher, $min_age, $description, $genres, $platforms, $img_url);
 
     if ($ok) {
         set_flash('success', "Jeu ajouté.");
@@ -85,7 +85,7 @@ function validate_game_input(): array
     }
     if ($description === '') $errors['description'] = "La description est obligatoire";
     if (empty($genres)) $errors['genres'] = "Sélectionne au moins un genre";
-    if (empty($platform)) $errors['platform'] = "Sélectionne au moins une plateforme";
+    if (empty($platforms)) $errors['platforms'] = "Sélectionne au moins une plateforme";
 
     return $errors;
 }

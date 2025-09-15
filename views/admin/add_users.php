@@ -1,8 +1,9 @@
-<div class="auth-container">
+
+</div> <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
             <h1><?php e($title); ?></h1>
-            <p>Créez votre compte</p>
+            <p>Créer le compte de l'utilisateur</p>
         </div>
         
         <form method="POST" class="auth-form">
@@ -36,15 +37,8 @@
             
             <button type="submit" class="btn btn-primary btn-full">
                 <i class="fas fa-user-plus"></i>
-                S'inscrire
+                Créer l'utilisateur
             </button>
         </form>
-        
-        <div class="auth-footer">
-            <p>Déjà un compte ? 
-                <a href="<?php echo url('auth/login'); ?>">Se connecter</a>
-            </p>
-        </div>
     </div>
 </div> 
-

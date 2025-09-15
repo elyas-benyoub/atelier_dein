@@ -29,7 +29,6 @@ function db_connect() {
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES   => false,
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . DB_CHARSET . " COLLATE " . DB_COLLATION
             ];
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
             db_log("DB CONNECT OK host=" . DB_HOST . " db=" . DB_NAME . " user=" . DB_USER);

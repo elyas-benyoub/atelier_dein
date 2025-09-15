@@ -48,12 +48,25 @@ function create_movie($title, $director, $duration, $synopsis, $classification, 
         }
 
         db_commit();
-        set_flash('success', "Film ajouté avec succès");
+        app_log('[create_movie] Ajout du film réussi.');
         return true;
     } catch (Throwable $e) {
         db_rollback();
-        set_flash('error', "Insertion annulée.");
+        app_log('[create_movie] ' . $e->getMessage());
         return false;
     }
+}
 
+function get_all_movies()
+{
+    $query = "SELECT * FROM media where type = 'movie'";
+
+    $data = db_select($query);
+    
+    return $data;
+}
+
+function get_movie_by_id($media_id) {
+    $query = "SELECT director, duration_minutes, synopsis, classification FROM movies WHERE media_id = ?";
+    return db_select($query, [$media_id]);
 }

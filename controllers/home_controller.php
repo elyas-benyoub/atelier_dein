@@ -23,10 +23,10 @@ function home_index()
     // 🔹 Préparer les données pour la vue
     $data = [
         'title' => 'Accueil Médiathèque',
-        'movies' => $movies,
-        'books' => $books,
-        'games' => $games,
-        'results' => $results
+        'movies' => $movies ?? [],
+        'books' => $books ?? [],
+        'games' => $games ?? [],
+        'results' => $results ?? []
     ];
 
     // 🔹 Charger la vue avec ces 3 tableaux

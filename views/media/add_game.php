@@ -2,10 +2,10 @@
     <div class="auth-card">
         <div class="auth-header">
             <h1><?= e($title) ?></h1>
-            <p>Ajouter un nouveau jeu</p>
+            <p>Ajouter un jeu</p>
         </div>
 
-        <form enctype="multipart/form-data" method="POST" class="auth-form" action="<?php echo url('game/store'); ?>">
+        <form enctype="multipart/form-data" action="<?php echo url('game/store'); ?>" method="post" class="auth-form">
             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
             <div class="form-group">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="form-group">
-                <label for="publisher">Auteur:</label>
+                <label for="publisher">Editeur:</label>
                 <input type="text" name="publisher"
                     value="<?= !empty($form['publisher']) ? e($form['publisher']) : "" ?>" required>
                 <?php if (!empty($errors['publisher'])): ?>
@@ -28,15 +28,15 @@
             <fieldset class="form-group">
                 <legend>Plateforme(s) :</legend>
                 <div class="checkbox-list">
-                    <?php foreach ($platform as $id => $name): ?>
+                    <?php foreach ($platforms as $id => $name): ?>
                         <label class="chk">
-                            <input type="checkbox" name="platform[]" value="<?= $id ?>" <?= (!empty($form['platform']) && in_array((int) $id, $form['platform'])) ? 'checked' : '' ?>>
-                            <p><?= e($name) ?></p>
+                            <input type="checkbox" name="platforms[]" value="<?= $id ?>" <?= (!empty($form['platforms']) && in_array((int) $id, (array) $form['platforms'], true)) ? 'checked' : '' ?>>
+                            <span><?= e($name) ?></span>
                         </label>
                     <?php endforeach; ?>
                 </div>
-                <?php if (!empty($errors['platform'])): ?>
-                    <p class="error"><?= e($errors['platform']) ?></p>
+                <?php if (!empty($errors['platforms'])): ?>
+                    <p class="error"><?= e($errors['platforms']) ?></p>
                 <?php endif; ?>
             </fieldset>
 
@@ -70,9 +70,8 @@
                 <div class="checkbox-list">
                     <?php foreach ($genres as $id => $name): ?>
                         <label class="chk">
-                            <input type="checkbox" name="genres[]" value="<?= $id ?>"
-                                <?= (!empty($form['genres']) && in_array((int)$id, $form['genres'])) ? 'checked' : '' ?>>
-                            <p><?= e($name) ?></p>
+                            <input type="checkbox" name="genres[]" value="<?= $id ?>" <?= (!empty($form['genres']) && in_array((int) $id, (array) $form['genres'], true)) ? 'checked' : '' ?>>
+                            <span><?= e($name) ?></span>
                         </label>
                     <?php endforeach; ?>
                 </div>
@@ -80,6 +79,14 @@
                     <p class="error" id="genres-error"><?= e($errors['genres']) ?></p>
                 <?php endif; ?>
             </fieldset>
+
+            <div class="form-group">
+                <label for="img_cover">Ajouter l'image de couverture:</label>
+                <input type="file" name="img_cover">
+                <?php if (!empty($errors['img_cover'])): ?>
+                    <p class="error"><?= e($errors['img_cover']) ?></p>
+                <?php endif; ?>
+            </div>
 
             <button type="submit" class="btn btn-primary btn-full">
                 <i class="fas fa-plus"></i>
