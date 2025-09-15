@@ -162,7 +162,7 @@ function get_book_by_id($media_id) {
 }
 
 function get_game_by_id($media_id) {
-    $query = "SELECT publisher, platform, min_age, description FROM games WHERE media_id = ?";
+    $query = "SELECT publisher, min_age, description FROM games WHERE media_id = ?";
     return db_select($query, [$media_id]);
 }
 
@@ -192,7 +192,6 @@ function get_all_platforms()
     }
     return $platforms;
 }
-<<<<<<< HEAD
 
 function get_genres_by_media_id($media_id) {
     $query = "
@@ -213,6 +212,14 @@ function get_genres_by_media_id($media_id) {
     return $genres;
  }
 
+    // On renvoie tous les genres sous forme de tableau associatif
+    $genres = [];
+    foreach ($data as $genre) {
+        $genres[$genre['id']] = $genre['name'];
+    }
+
+    return $genres;
+}
 
 /**
  * Récupère tous les médias disponibles (non empruntés)
