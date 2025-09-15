@@ -37,15 +37,6 @@ function home_info()
 {
     $data_type = [];
     $media_id = get('id');
-<<<<<<< HEAD
-    $media = get_media_by_id($media_id);
-    $movie = get_movie_by_id($media_id);
-    // tester si les informations du film marche avec var_dump
-   var_dump($movie);exit;
-    $data = [
-        'media' => $media[0],
-        'movie' => $movie[0],
-=======
     $media = get_media_by_id($media_id)[0];
     if ($media['type'] === 'movie') {
         $data_type = get_movie_by_id($media_id)[0];
@@ -64,7 +55,6 @@ function home_info()
         'media' => $media ?? [],
         'data' => $data_type ?? [],
         'genres' => $genres ?? [],
->>>>>>> 8ca0ff4 (let s merge)
     ];
 
     load_view_with_layout('home/media', $data);
