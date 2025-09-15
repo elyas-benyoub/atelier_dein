@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-
-
-<?php /** @var array $media */ ?>
-=======
->>>>>>> 8ca0ff4 (let s merge)
 <div class="media-detail-container">
   <div class="media-card-detail">
     

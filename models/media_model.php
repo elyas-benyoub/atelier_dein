@@ -193,14 +193,19 @@ function get_all_platforms()
     return $platforms;
 }
 
- get_genres_by_media_id() {
-    
+function get_genres_by_media_id($media_id) {
+    $query = "
+        select g.id, g.name, m.title
+        from media m
+        join media_genres mg on mg.media_id = m.id
+        join genres g on mg.genre_id = g.id
+        where m.id = ?;
+    ";
+
+    $data = db_select($query, [$media_id]);
+    return $data[0];
  }
 
-// les EMPRUNTS
-
-
-// require_once __DIR__ . '/../core/database.php';
 
 /**
  * Récupère tous les médias disponibles (non empruntés)
