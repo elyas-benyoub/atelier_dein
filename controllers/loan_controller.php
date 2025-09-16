@@ -115,3 +115,6 @@ function loan_create()
     // 🔹 Redirection vers la page info du média
     redirect('home/info?id=' . $media_id);
 }
+
+
+

@@ -212,6 +212,10 @@ function get_genres_by_media_id($media_id) {
     return $genres;
  }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c56e8966aed87b77eda3f93c1a353615bd73f6b9
 /**
  * Récupère tous les médias disponibles (non empruntés)
  */
