@@ -24,7 +24,7 @@ function count_active_loans($user_id)
 
 // Vérifier si un média est déjà emprunté
 function is_media_borrowed($media_id)
-{
+{ 
     $sql = "SELECT id 
             FROM loans
             WHERE id_m = ? AND status = 'borrowed'";
