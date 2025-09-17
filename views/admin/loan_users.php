@@ -72,16 +72,16 @@
                             <!-- Titre du média (film, livre, jeu) -->
                             <td><?php e($loan['title']); ?></td>
                             <!-- Date de début d'emprunt (formatée en jour/mois/année heure:minute) -->
-                            <td><?php e(date('d/m/Y H:i', strtotime($loan['loan_date']))); ?></td>
+                            <td><?php e(format_date($loan['loan_date'])); ?></td>
                             <!-- Date limite de retour -->
-                            <td><?php e(date('d/m/Y H:i', strtotime($loan['due_date']))); ?></td>
+                            <td><?php e(format_date($loan['due_date'])); ?></td>
                             <!-- Statut de l'emprunt avec une classe CSS différente selon le cas -->
                             <td class="<?php
                             echo $loan['status'] === 'borrowed' ? 'status-borrowed' :
                                 ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue');
                             ?>">
                                 <!-- ucfirst met la première lettre en majuscule (ex : borrowed -> Borrowed) -->
-                                <?php e(ucfirst($loan['status'])); ?>
+                                <?php e(ucfirst(translate_status($loan['status']))); ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

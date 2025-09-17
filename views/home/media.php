@@ -20,7 +20,9 @@
             <!-- Bouton Emprunter : POST vers la même page -->
             <?php if (is_logged_in()): ?>
                 <?php if (!is_media_borrowed($media['id'])): ?>
-                    <a href="<?php e(url("loan/create?id=" . $media['id'])) ?>">Emprunter</a>
+                    <a href="<?php e(url("loan/create?id=" . $media['id'])) ?>" class="btn btn-primary">Emprunter</a>
+                <?php else: ?>
+                    <a href="<?php e(url("loan/create?id=" . $media['id'])) ?>" class="btn btn-primary">Emprunter</a>
                 <?php endif; ?>
             <?php else: ?>
                 <p><a href="<?= BASE_URL ?>/login" class="btn btn-secondary">Connectez-vous pour emprunter</a></p>

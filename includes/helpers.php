@@ -336,3 +336,16 @@ function upload_img()
         return null;
     }
 }
+
+function translate_status(string $status) {
+    switch ($status) {
+        case 'borrowed':
+            return 'Emprunté';
+        case 'returned':
+            return 'Rendu';
+        case 'overdue':
+            return 'Retard';        
+        default:
+            return 'Disponible';
+    }
+}

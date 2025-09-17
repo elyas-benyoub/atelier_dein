@@ -4,7 +4,7 @@
  * 
  * Ce fichier initialise l'application et lance le système de routing
  */
-
+date_default_timezone_set('Europe/Paris');
 // Démarrer la session
 session_start();
 
