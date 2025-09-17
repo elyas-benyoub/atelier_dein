@@ -60,3 +60,8 @@ function return_loan($id, $status) {
     $query = "UPDATE loans SET status = 'returned' WHERE status = ? and id = ?";
     return db_execute($query, [$status, $id]);
 }
+
+function get_loan_by_id($id) {
+    $query = "SELECT * FROM loans WHERE id = ? LIMIT 1";
+    return db_select_one($query, [$id]);
+}

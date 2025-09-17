@@ -119,6 +119,7 @@ function handle_return_loan() {
         set_flash('error', 'Id de l\'user manquant.');
         redirect('admin/show_users');
     }
+    $loan = get_loan_by_id($id);
 
     $status = get('status');
 
@@ -129,4 +130,6 @@ function handle_return_loan() {
     } else {
         set_flash('success', "Media retourne avec succès !");
     }
+ 
+    load_view_with_layout('admin/loan_users');
 }
