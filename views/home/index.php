@@ -43,8 +43,6 @@
         <!-- Disponibilité -->
         <select name="availability">
             <option value="">-- Disponibilité --</option>
-            <!-- !isset($_GET['availability']) → vérifie si aucune valeur n’est passée dans l’URL.
-              ($_GET['availability'] ?? '') === 'available' → sinon, sélectionne “Disponible” si c’est bien la valeur demandée. DISPONIBLE PAR DEFAUT -->
             <option value="available" <?= (!isset($_GET['availability']) || ($_GET['availability'] ?? '') === 'available') ? 'selected' : '' ?>>Disponible</option>
             <option value="borrowed" <?= ($_GET['availability'] ?? '') === 'borrowed' ? 'selected' : '' ?>>Emprunté
             </option>
