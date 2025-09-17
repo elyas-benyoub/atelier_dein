@@ -10,6 +10,11 @@ function get_user_by_email($email) {
     return db_select_one($query, [$email]);
 }
 
+function get_all_admins() {
+    $query = "SELECT * FROM users WHERE role = 'admin'";
+    return db_select($query);
+}
+
 /**
  * Récupère un utilisateur par son ID
  */
@@ -79,6 +84,12 @@ function count_users() {
     $query = "SELECT COUNT(*) as total FROM users";
     $result = db_select_one($query);
     return $result['total'] ?? 0;
+}
+
+function count_admin() {
+    $query = "SELECT COUNT(*) FROM users WHERE role = ?";
+    $result = db_select_one($query, ["admin"]);
+    return (int) $result;
 }
 
 /**
