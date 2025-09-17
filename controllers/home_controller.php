@@ -6,32 +6,47 @@
  */
 function home_index()
 {
-    $results = null;
-    $movies = null;
-    $books = null;
-    $games = null;
+    // Récupérer var recherche + filtres
+    $q            = get('search') ?? '';
+    $type         = get('type') ?? '';
+    $genre        = get('genre') ?? '';
+    $availability = get('availability') ?? '';
 
-    if (isset($_GET['search'])) {
-        $q = $_GET['search'];
-        $results = search_media_by_title($q);
+    // Si recherche ou filtre actif → lancer filtrage
+    if ($q || $type || $genre || $availability) {
+        $results = filter_media($q, $type, $genre, $availability);
     } else {
-        $movies = get_all_movies();
-        $books = get_all_books();
-        $games = get_all_games();
+        $results = [];
     }
 
-    // 🔹 Préparer les données pour la vue
+    // affichage médias sur la page d’accueil
+    $movies = get_all_movies();
+    $books  = get_all_books();
+    $games  = get_all_games();
+
     $data = [
-        'title' => 'Accueil Médiathèque',
-        'movies' => $movies ?? [],
-        'books' => $books ?? [],
-        'games' => $games ?? [],
-        'results' => $results ?? []
+        'title'   => 'Accueil Médiathèque',
+        'movies'  => $movies ?? [],
+        'books'   => $books ?? [],
+        'games'   => $games ?? [],
+        'results' => $results ?? [],
+        'genres'  => get_all_genres(),
     ];
 
-    // 🔹 Charger la vue avec ces 3 tableaux
     load_view_with_layout('home/index', $data);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 function home_info()
 {
