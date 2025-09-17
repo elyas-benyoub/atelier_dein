@@ -584,6 +584,10 @@ td a:hover {
   margin: 2rem auto;
 }
 
+.fa-right-from-bracket {
+  transform: rotate(180deg);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -638,7 +642,10 @@ table tr:nth-child(even) {
 }
 
 .status-borrowed {
-  background: #17a2b8
+  background: #17a2b8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .status-returned {
