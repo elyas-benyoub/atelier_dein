@@ -111,3 +111,22 @@ function loan_create()
     // 🔹 Redirection vers la page info du média
     redirect('home/info?id=' . $media_id);
 }
+
+function handle_return_loan() {
+    $id = get('id') ?? null;
+
+    if ($id === null) {
+        set_flash('error', 'Id de l\'user manquant.');
+        redirect('admin/show_users');
+    }
+
+    $status = get('status');
+
+    $ok = return_loan($id, $status);
+
+    if(!$ok) {
+        set_flash('error', "Retour impossible.");
+    } else {
+        set_flash('success', "Media retourne avec succès !");
+    }
+}

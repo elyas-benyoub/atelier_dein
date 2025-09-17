@@ -56,3 +56,7 @@ function get_all_media_loans_by_user_id($user_id)
     return db_select($sql, [$user_id]);
 }
 
+function return_loan($id, $status) {
+    $query = "UPDATE loans SET status = 'returned' WHERE status = ? and id = ?";
+    return db_execute($query, [$status, $id]);
+}
