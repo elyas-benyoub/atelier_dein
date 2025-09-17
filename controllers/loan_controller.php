@@ -48,8 +48,7 @@ function loan_users()
 // Nouvelle fonction côté user
 function borrow_media()
 {
-    only_logged_in(); // sécurité : seulement les utilisateurs connectés
-
+    only_admin();
     $user_id = post('user_id');
     $media_id = post('media_id');
 
