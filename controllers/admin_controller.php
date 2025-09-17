@@ -4,10 +4,14 @@ function admin_show_users()
 {
     only_admin(); //only admin can see it
     $users = get_all_users(); //
+    $role = $_SESSION['user_role'];
+    $admin_id = $_SESSION['user_id'];
 
     $data = [
         'title' => "Les Utilisateurs",
-        'users' => $users
+        'users' => $users,
+        'role' => $role,
+        'admin_id' => $admin_id
     ];
 
     load_view_with_layout('/admin/users', $data);
@@ -121,3 +125,4 @@ function admin_handle_delete_media()
 
     redirect('admin/show_medias');
 }
+
