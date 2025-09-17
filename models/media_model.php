@@ -176,6 +176,84 @@ function search_media_by_title($q) {
     return db_select($query, [$like]);
 }
 
+
+/**
+ * Filtre les médias dans la base selon plusieurs critères.
+ *
+ * @param string $q          Texte à rechercher dans le titre (optionnel)
+ * @param string $type       Type de média ('book', 'movie', 'game', ...) (optionnel)
+ * @param string $genre      ID du genre (optionnel)
+ * @param string $availability Disponibilité ('available' ou 'borrowed') (optionnel)
+ *
+ * @return array             Retourne un tableau de médias correspondant aux critères
+ */
+function filter_media($q = '', $type = '', $genre = '', $availability = '')
+{
+    // 🔹 Requête de base pour récupérer tous les médias
+    // LEFT JOIN media_genres pour récupérer les genres associés
+    // LEFT JOIN loans pour savoir si le média est emprunté
+    $sql = "SELECT m.* 
+            FROM media m
+            LEFT JOIN media_genres mg ON m.id = mg.media_id
+            LEFT JOIN loans l ON l.id_m = m.id AND l.status = 'borrowed'
+            WHERE 1=1"; // 1=1 permet de concaténer facilement des conditions avec AND
+
+    $params = []; // Tableau pour stocker les valeurs à sécuriser dans la requête (protection contre SQL injection)
+
+    // Recherche texte dans le titre du média = barre de recherche
+    if (!empty($q)) {
+        $sql .= " AND LOWER(m.title) LIKE ?"; // On convertit le titre en minuscules pour une recherche insensible à la casse
+        $params[] = "%" . strtolower(trim($q)) . "%"; // On ajoute % pour une recherche partielle (LIKE)
+    }
+
+    // Filtrer par type de média
+    if (!empty($type)) {
+        $sql .= " AND m.type = ?"; // Ex: book, movie, game = sql prend le type du media
+        $params[] = $type; // $params = sécuriser la requête => donc ajout valeur dans le tableau 
+    }
+
+    // Filtrer par genre
+    if (!empty($genre)) { // si genres n'est pas vide(différent) traduct°
+        $sql .= " AND mg.genre_id = ?"; // Filtre sur l'ID du genre
+        $params[] = $genre;
+    }
+
+    // Filtrer par disponibilité
+    if ($availability === 'available') {
+        $sql .= " AND l.id IS NULL"; // Aucun prêt actif → le média est disponible
+    } elseif ($availability === 'borrowed') {
+        $sql .= " AND l.id IS NOT NULL"; // Il y a un prêt actif → le média est emprunté
+    }
+
+    // regroupe les résultats par média (évite les doublons si plusieurs genres) et on trie par date de création
+    $sql .= " GROUP BY m.id ORDER BY m.created_at DESC";
+
+    // exécute la requête et on renvoie les résultats
+    return db_select($sql, $params);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * Récupère toutes les plateformes.
  *
