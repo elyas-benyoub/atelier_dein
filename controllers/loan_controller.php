@@ -1,33 +1,40 @@
 <?php
-function loan_show_loans()
+function loan_admin_form()
 {
-    only_admin(); // juste admin
+    only_admin();
 
-    // Si le formulaire est soumis
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = post('user_id');
         $media_id = post('media_id');
 
-        // Vérifier les règles d’emprunt
         if (count_active_loans($user_id) >= 3) {
             set_flash('error', "L'utilisateur a déjà 3 emprunts en cours.");
         } elseif (is_media_borrowed($media_id)) {
             set_flash('error', "Ce média est déjà emprunté.");
         } else {
-            $loan_date = date('Y-m-d H:i:s');
-            $due_date = date('Y-m-d H:i:s', strtotime('+14 jours'));
+            $loan_date = format_date(date('Y-m-d H:i:s'));
+            $due_date = format_date(date('Y-m-d H:i:s', strtotime('+14 jours')));
 
-            create_loan($user_id, $media_id, $loan_date, $due_date);
-            set_flash('success', "Emprunt enregistré avec succès !");
+            $ok = create_loan($user_id, $media_id, $loan_date, $due_date);
+            if ($ok) {
+                set_flash('success', "Emprunt enregistré avec succès.");
+            } else {
+                set_flash('error', "Echec de l'emprunt.");
+            }
         }
     }
 
-    // Toujours recharger la vue avec les données à jour
-    $id = get('id') ?? null;
+    redirect('loan/show_loans');
+}
+
+function loan_show_loans()
+{
+    only_admin();
+
     $users = get_all_users() ?? [];
     $medias = get_all_media() ?? [];       // médias disponibles
     $loans = get_all_media_loans() ?? []; // emprunts en cours
-    $loan_id = get_loan_by_id($id) ?? [];
+    $loan_id = get('loan_id') ?? null;
 
     $data = [
         'title' => "Créer un emprunt ",
@@ -37,40 +44,8 @@ function loan_show_loans()
         'loan_id' => $loan_id
     ];
 
+    // var_dump($data['medias']); exit;
     load_view_with_layout('admin/loan_users', $data);
-}
-
-
-// ????????????????????????????????????????
-// Nouvelle fonction côté user
-function loan_borrow_media() {
-    is_logged_in(); // sécurité : seulement les utilisateurs connectés
-
-    $user_id = post('user_id');
-    $media_id = post('media_id');
-
-    // Vérifier si le média est déjà emprunté
-    if (is_media_borrowed($media_id)) {
-        set_flash('error', "Ce média est déjà emprunté.");
-        redirect("media/show/$media_id"); // retour à la fiche du média
-    }
-
-    // Vérifier si l'utilisateur a déjà atteint la limite
-    if (count_active_loans($user_id) >= 3) {
-        set_flash('error', "Vous avez déjà atteint la limite d'emprunts.");
-        redirect("media/show/$media_id");
-    }
-
-    // Calcul des dates
-    $loan_date = date('Y-m-d H:i:s');
-    $due_date = date('Y-m-d H:i:s', strtotime('+14 days'));
-
-    // Créer l’emprunt
-    create_loan($user_id, $media_id, $loan_date, $due_date);
-
-    // Message + redirection
-    set_flash('success', "Vous avez emprunté ce média avec succès !");
-    redirect("media/show/$media_id");
 }
 
 function loan_create()
@@ -91,39 +66,31 @@ function loan_create()
     $loanDate = date('Y-m-d H:i:s');
     $dueDate  = date('Y-m-d H:i:s', strtotime('+14 days'));
 
-    $data = [
-        'user_id'   => $user_id,
-        'media_id'  => $media_id,
-        'loan_date' => $loanDate,
-        'due_date'  => $dueDate
-    ];
-
-    // Ici tu insères en BDD
     if (create_loan($user_id, $media_id, $loanDate, $dueDate)) {
         set_flash("success", "Emprunt enregistré !");
     } else {
         set_flash("error", "Impossible d'enregistrer l'emprunt.");
     }
 
-    // 🔹 Redirection vers la page info du média
     redirect('home/info?id=' . $media_id);
 }
 
-function loan_handle_return_loan() {
-    $id = get('id') ?? null;
+function loan_return_loan()
+{
+    $loan_id = get('loan_id') ?? null;
 
-    if ($id === null) {
+    if ($loan_id === null) {
         set_flash('error', "Identifiant d'emprunt manquant.");
-        redirect('admin/loan_users');
+        redirect('loan/show_loans');
     }
 
-    $ok = return_loan($id);
+    $ok = return_loan($loan_id);
 
-    if(!$ok) {
+    if (!$ok) {
         set_flash('error', "Retour impossible.");
     } else {
         set_flash('success', "Media retourne avec succès !");
     }
-  
-    load_view_with_layout('admin/loan_users');
+
+    redirect('loan/show_loans');
 }

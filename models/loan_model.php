@@ -41,7 +41,7 @@ function get_all_media_loans()
             FROM loans l
             INNER JOIN media m ON l.id_m = m.id
             INNER JOIN users u ON l.id_u = u.id
-            ORDER BY m.created_at DESC, u.created_at DESC";
+           ORDER BY status = 'returned', loan_date DESC";
     return db_select($sql);
 }
 
@@ -65,4 +65,14 @@ function return_loan($id) {
 function get_loan_by_id($id) {
     $query = "SELECT * FROM loans WHERE id = ? LIMIT 1";
     return db_select_one($query, [$id]);
+}
+
+function sort_loan_list() {
+    $query = "SELECT * FROM loans ORDER BY status = 'returned', loan_date DESC";
+    return db_select($query);
+}
+
+function get_loan_by_media_id($media_id) {
+    $query = "SELECT * FROM loans WHERE id_m = ?";
+    return db_select_one($query, [$media_id]);
 }
