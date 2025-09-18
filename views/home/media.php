@@ -22,7 +22,7 @@
                 <?php if (!is_media_borrowed($media['id'])): ?>
                     <a href="<?php e(url("loan/create?id=" . $media['id'])) ?>" class="btn btn-primary">Emprunter</a>
                 <?php else: ?>
-                    <a href="<?php e(url("loan/create?id=" . $media['id'])) ?>" class="btn btn-primary">Emprunter</a>
+                    <a href="<?php e(url("loan/create?id=" . $media['id'])) ?>" class="btn btn-return">Retour</a>
                 <?php endif; ?>
             <?php else: ?>
                 <p><a href="<?= BASE_URL ?>/login" class="btn btn-secondary">Connectez-vous pour emprunter</a></p>

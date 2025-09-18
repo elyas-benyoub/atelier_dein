@@ -52,9 +52,6 @@
         </nav>
     </header>
 
-
-
-
     <main class="main-content">
         <?php flash_messages(); ?>
         <?php echo $content ?? ''; ?>

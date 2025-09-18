@@ -124,6 +124,6 @@ function loan_handle_return_loan() {
     } else {
         set_flash('success', "Media retourne avec succès !");
     }
-
+  
     load_view_with_layout('admin/loan_users');
 }

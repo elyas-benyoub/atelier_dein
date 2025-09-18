@@ -14,7 +14,7 @@ function admin_show_users()
         'admin_id' => $admin_id
     ];
 
-    load_view_with_layout('/admin/users', $data);
+    load_view_with_layout('admin/users', $data);
 }
 
 function admin_form_edit_user()
@@ -32,6 +32,7 @@ function admin_form_edit_user()
 function admin_show_medias()
 {
     only_admin(); //only admin can see it
+
     $medias = get_all_medias();
     $genres = get_all_genres();
     $media_genres = get_all_media_genres();
@@ -53,16 +54,20 @@ function admin_show_medias()
 
     load_view_with_layout('/admin/media_admin', $data);
 }
+
 function admin_handle_edit_user()
 {
+
+    only_admin();
     $id = get('id') ?? null;
+    
 
     if ($id === null) {
         set_flash('error', 'Id de l\'user manquant.');
         redirect('admin/show_users');
     }
 
-    // $user = get_user_by_id($id);
+    $user = get_user_by_id($id);
 
     // Utiliser les données du formulaire pour la mise à jour
     $name = post('name');
@@ -81,16 +86,159 @@ function admin_handle_edit_user()
     redirect('admin/show_users');
 }
 
+
+
+// function admin_handle_edit_media(){
+
+//     only_admin();
+    
+//     get_all_medias();
+//     get_all_genres();
+//     get_all_media_genres();
+
+//         $data = [
+//             'title'=> 'Edit'
+//     ];
+
+//     load_view_with_layout('/admin/media_admin', $data);
+// }
+
+
+// function admin_handle_edit_media() {
+
+//     only_admin();
+
+//     $id = get('id');
+//     if (!$id) {
+//         set_flash('error', 'ID du média manquant.');
+//         redirect('admin/media_admin');
+//     }
+
+//     $media = get_media_by_id($id);
+//     $genres = get_all_genres();
+
+//     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//         $title = post('title');
+//         $type = post('type');
+//         $selected_genres = post('genres') ?? [];
+
+//         // Image
+//         $image_path = null;
+//         if (!empty($_FILES['img_cover']['name'])) {
+//             $target = "uploads/" . basename($_FILES['img_cover']['name']);
+//             move_uploaded_file($_FILES['img_cover']['tmp_name'], $target);
+//             $image_path = $target;
+//         }
+
+//         $ok = edit_media($id, $title, $type, $selected_genres, $image_path);
+
+//         if ($ok) {
+//             set_flash('success', 'Média modifié avec succès.');
+//             redirect('admin/media_admin');
+//         } else {
+//             set_flash('error', 'Erreur lors de la modification.');
+//         }
+//     }
+
+//     $data = [
+//         'title' => 'Modifier un média',
+//         'media' => $media,
+//         'genres' => $genres
+//     ];
+
+//     load_view_with_layout('admin/edit_media', $data);
+// }
+
+
+
+
+function admin_handle_edit_media(){
+
+    $id = get('id');
+
+    only_admin();
+
+    $id = get('id');
+    if (!$id) {
+        set_flash('error', 'ID du média manquant.');
+        redirect('admin/media_admin');
+    }
+
+    $media = get_media_by_id($id);
+
+    if ($media && isset($media[0])) {
+    $media = $media[0]; // On prend 1er élément du tableau
+}
+
+    $genres = get_all_genres();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $title = post('title');
+        $type = post('type');
+        $selected_genres = post('genres') ?? [];
+
+        $image_path = null;
+        if (!empty($_FILES['img_cover']['name'])) {
+            $target = "uploads/" . basename($_FILES['img_cover']['name']);
+            move_uploaded_file($_FILES['img_cover']['tmp_name'], $target);
+            $image_path = $target;
+        }
+
+        $ok = edit_media($id, $title, $type, $selected_genres, $image_path);
+
+        if ($ok) {
+            set_flash('success', 'Média modifié avec succès.');
+            redirect('admin/show_medias');
+        } else {
+            set_flash('error', 'Erreur lors de la modification.');
+        }
+    }
+
+    $data = [
+        'title'  => 'Modifier un média',
+        'media'  => $media,
+        'genres' => $genres
+    ];
+
+    load_view_with_layout('admin/edit_media', $data);
+}
+
+
+
+
+
+
+
+
+
+
+
 function admin_handle_delete_user()
 {
-    $id = get('id') ?? null;
+    if (!is_admin()) {
+        set_flash('error', "Accès refusé !");
+        redirect('admin/show_users');
+    }
+    $id = post('id') ?? null;
+
+    if (!$id) {
+        set_flash('error', "Utilisateur invalide.");
+        redirect("admin/show_users");
+    }
 
     $user = get_user_by_id($id);
     if (!$user) {
-        set_flash('error', 'Id de l\'user manquant.');
+        set_flash('error', 'Utilisateur introuvable.');
         redirect('admin/show_users');
     }
+
+    if ($user['role'] === 'admin' && !has_other_admins($id)) {
+        set_flash('error', "Le dernier admin ne peut pas être supprimé.");
+        redirect('admin/show_users');        
+    }
+
     $ok = delete_user($id);
+
     if (!$ok) {
         set_flash('error', 'Erreur lors de la suppression de l\'utilisateur.');
     } else {
