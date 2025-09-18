@@ -1,6 +1,6 @@
 <div class="page-header">
     <div class="container">
-        <h1><?php e($title); ?></h1>
+        <h1><?= e($title ?? 'Créer un emprunt'); ?></h1>
     </div>
 </div>
 
@@ -8,7 +8,7 @@
     <!-- Formulaire création d'emprunt -->
     <div class="loan-container">
         <div class="auth-card">
-            <form method="POST" class="auth-form">
+            <form method="POST" class="auth-form" action="<?php echo url('loan/form_loans'); ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
                 <div class="form-group">
@@ -59,10 +59,12 @@
                     <th>Date d'emprunt</th>
                     <th>Date limite</th>
                     <th>Statut</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Vérifie s'il y a des emprunts à afficher -->
+
                 <?php if (!empty($loans)): ?>
                     <!-- Parcourt chaque emprunt contenu dans $loans -->
                     <?php foreach ($loans as $loan): ?>
@@ -77,12 +79,16 @@
                             <td><?php e(format_date($loan['due_date'])); ?></td>
                             <!-- Statut de l'emprunt avec une classe CSS différente selon le cas -->
                             <td class="<?php
-                            echo $loan['status'] === 'borrowed' ? 'status-borrowed' :
-                                ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue');
-                            ?>">
+                                        echo $loan['status'] === 'borrowed' ? 'status-borrowed' : ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue');
+                                        ?>">
                                 <!-- ucfirst met la première lettre en majuscule (ex : borrowed -> Borrowed) -->
                                 <?php e(ucfirst(translate_status($loan['status']))); ?>
-                                <a href="<?= url('loan/handle_return_loan?id=' . $loan['id']) ?>"><i class="fa-solid fa-right-from-bracket"></i></a>
+                            </td>
+                            <td><?php if ($loan['status'] === 'borrowed'): ?>
+                                    <a href="<?= url('loan/return_loan?loan_id=' . $loan['id']) ?>"><i class="fa-solid fa-right-from-bracket"></i>Returne</a>
+                                <?php else: ?>
+                                    <a href="#" class="disabled-link" aria-disabled="true"><i class="fa-solid fa-right-from-bracket"></i>Returne</a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

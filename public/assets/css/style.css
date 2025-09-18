@@ -751,6 +751,11 @@ code {
   margin-bottom: 1.562em
 }
 
+.disabled-link {
+        pointer-events: none;  /* Prevent clicks */
+        opacity: 0.5;  /* Make the link look disabled */
+    }
+
 /* Responsive */
 @media (max-width:768px) {
   .navbar {

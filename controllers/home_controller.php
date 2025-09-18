@@ -36,18 +36,6 @@ function home_index()
     load_view_with_layout('home/index', $data);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 function home_info()
 {
     $data_type = [];
@@ -68,11 +56,18 @@ function home_info()
 
     $genres = get_genres_by_media_id($media_id);
 
+    $loan = [];
+
+    if (is_media_borrowed($media_id)) {
+        $loan = get_loan_by_media_id($media_id);
+    }
 
     $data = [
         'media' => $media ?? [],
         'data' => $data_type ?? [],
         'genres' => $genres ?? [],
+        'loan_id' => $loan['id'] ?? null,
+        'loan_user_id' => $loan['id_u'] ?? null
     ];
 
     load_view_with_layout('home/media', $data);
