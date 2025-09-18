@@ -1,3 +1,5 @@
+# Pour windows
+
 RewriteEngine On
 
 # Rediriger toutes les requêtes vers index.php sauf pour les fichiers existants

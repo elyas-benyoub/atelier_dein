@@ -17,7 +17,8 @@
                 <th>Titre</th>
                 <th>Type</th>
                 <th>Genres</th>
-                <th>Actions</th>
+                <th>Modifier</th>
+                <th>Effacer</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +43,10 @@
                                 echo '—';
                             }
                             ?>
+                        </td>
+                        <td>
+                            <a href="<?= url('admin/handle_edit_media?id=' . $media['id']); ?>"
+                                class="btn btn-sm btn-danger">Edit</a>
                         </td>
                         <td>
                             <a href="<?= url('admin/handle_delete_media?id=' . $media['id']); ?>"
