@@ -73,6 +73,59 @@ function delete_media($media_id)
     return db_execute($query, [$media_id]);
 }
 
+
+// function edit_media($media_id)
+// {
+
+//     $media_edits = get_media_by_id($media_id);
+//     $type = $media_edits["type"];
+
+
+// //     UPDATE table
+// // SET nom_colonne_1 = 'nouvelle valeur'
+// // WHERE condition
+
+
+//     if ($type === 'book') {
+//         $query = "UPDATE books SET ? WHERE media_id = ?";
+//         db_execute($query, [$media_id]);
+//     } 
+
+//  return db_execute($query, [$media_id]);
+
+// }
+
+
+function edit_media($id, $title, $type, $genres = [], $image_path = null) {
+
+    $query = "UPDATE media SET title = ?, type = ?" . ($image_path ? ", image_path = ?" : "") . " WHERE id = ?";
+    $params = [$title, $type];
+    if ($image_path) {
+        $params[] = $image_path;
+    }
+    $params[] = $id;
+    db_execute($query, $params);
+
+    // 2. Supprimer les anciens genres
+    db_execute("DELETE FROM media_genres WHERE media_id = ?", [$id]);
+
+    // 3. Réinsérer les nouveaux genres
+    foreach ($genres as $genre_id) {
+        db_execute("INSERT INTO media_genres (media_id, genre_id) VALUES (?, ?)", [$id, $genre_id]);
+    }
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
 /**
  * Ajoute tous les genres liés à un média.
  *
@@ -178,6 +231,7 @@ function search_media_by_title($q) {
 
 
 /**
+ * 
  * Filtre les médias dans la base selon plusieurs critères.
  *
  * @param string $q          Texte à rechercher dans le titre (optionnel)
