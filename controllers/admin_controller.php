@@ -54,16 +54,19 @@ function admin_show_medias()
 
     load_view_with_layout('/admin/media_admin', $data);
 }
+
 function admin_handle_edit_user()
 {
-    $id = get('id') ?? null;
 
-    if ($id === null) {
+    only_admin()
+    $ids = get('id') ?? null;
+
+    if ($ids === null) {
         set_flash('error', 'Id de l\'user manquant.');
         redirect('admin/show_users');
     }
 
-    // $user = get_user_by_id($id);
+    $user = get_user_by_id($id);
 
     // Utiliser les données du formulaire pour la mise à jour
     $name = post('name');
