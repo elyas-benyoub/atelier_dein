@@ -92,6 +92,14 @@ function count_admin() {
     return (int) $result;
 }
 
+function has_other_admins(int $exclude_id): bool {
+    $row = db_select_one(
+        "SELECT COUNT(*) AS c FROM users WHERE role = 'admin' AND id <> ?",
+        [$exclude_id]
+    );
+    return ((int)$row['c']) > 0;
+}
+
 /**
  * Vérifie si un email existe déjà
  */

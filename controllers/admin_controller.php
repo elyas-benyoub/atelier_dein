@@ -14,7 +14,7 @@ function admin_show_users()
         'admin_id' => $admin_id
     ];
 
-    load_view_with_layout('/admin/users', $data);
+    load_view_with_layout('admin/users', $data);
 }
 
 function admin_form_edit_user()
@@ -32,6 +32,7 @@ function admin_form_edit_user()
 function admin_show_medias()
 {
     only_admin(); //only admin can see it
+
     $medias = get_all_medias();
     $genres = get_all_genres();
     $media_genres = get_all_media_genres();
@@ -83,14 +84,30 @@ function admin_handle_edit_user()
 
 function admin_handle_delete_user()
 {
-    $id = get('id') ?? null;
+    if (!is_admin()) {
+        set_flash('error', "Accès refusé !");
+        redirect('admin/show_users');
+    }
+    $id = post('id') ?? null;
+
+    if (!$id) {
+        set_flash('error', "Utilisateur invalide.");
+        redirect("admin/show_users");
+    }
 
     $user = get_user_by_id($id);
     if (!$user) {
-        set_flash('error', 'Id de l\'user manquant.');
+        set_flash('error', 'Utilisateur introuvable.');
         redirect('admin/show_users');
     }
+
+    if ($user['role'] === 'admin' && !has_other_admins($id)) {
+        set_flash('error', "Le dernier admin ne peut pas être supprimé.");
+        redirect('admin/show_users');        
+    }
+
     $ok = delete_user($id);
+
     if (!$ok) {
         set_flash('error', 'Erreur lors de la suppression de l\'utilisateur.');
     } else {
