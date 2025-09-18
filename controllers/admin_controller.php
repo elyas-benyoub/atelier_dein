@@ -57,10 +57,11 @@ function admin_show_medias()
 function admin_handle_edit_user()
 {
 
-    only_admin()
-    $ids = get('id') ?? null;
+    only_admin();
+    $id = get('id') ?? null;
+    
 
-    if ($ids === null) {
+    if ($id === null) {
         set_flash('error', 'Id de l\'user manquant.');
         redirect('admin/show_users');
     }
@@ -83,6 +84,133 @@ function admin_handle_edit_user()
     // Redirection vers la page des utilisateurs
     redirect('admin/show_users');
 }
+
+
+
+// function admin_handle_edit_media(){
+
+//     only_admin();
+    
+//     get_all_medias();
+//     get_all_genres();
+//     get_all_media_genres();
+
+//         $data = [
+//             'title'=> 'Edit'
+//     ];
+
+//     load_view_with_layout('/admin/media_admin', $data);
+// }
+
+
+// function admin_handle_edit_media() {
+
+//     only_admin();
+
+//     $id = get('id');
+//     if (!$id) {
+//         set_flash('error', 'ID du média manquant.');
+//         redirect('admin/media_admin');
+//     }
+
+//     $media = get_media_by_id($id);
+//     $genres = get_all_genres();
+
+//     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//         $title = post('title');
+//         $type = post('type');
+//         $selected_genres = post('genres') ?? [];
+
+//         // Image
+//         $image_path = null;
+//         if (!empty($_FILES['img_cover']['name'])) {
+//             $target = "uploads/" . basename($_FILES['img_cover']['name']);
+//             move_uploaded_file($_FILES['img_cover']['tmp_name'], $target);
+//             $image_path = $target;
+//         }
+
+//         $ok = edit_media($id, $title, $type, $selected_genres, $image_path);
+
+//         if ($ok) {
+//             set_flash('success', 'Média modifié avec succès.');
+//             redirect('admin/media_admin');
+//         } else {
+//             set_flash('error', 'Erreur lors de la modification.');
+//         }
+//     }
+
+//     $data = [
+//         'title' => 'Modifier un média',
+//         'media' => $media,
+//         'genres' => $genres
+//     ];
+
+//     load_view_with_layout('admin/edit_media', $data);
+// }
+
+
+
+
+function admin_handle_edit_media(){
+
+    $id = get('id');
+
+    only_admin();
+
+    $id = get('id');
+    if (!$id) {
+        set_flash('error', 'ID du média manquant.');
+        redirect('admin/media_admin');
+    }
+
+    $media = get_media_by_id($id);
+
+    if ($media && isset($media[0])) {
+    $media = $media[0]; // On prend 1er élément du tableau
+}
+
+    $genres = get_all_genres();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $title = post('title');
+        $type = post('type');
+        $selected_genres = post('genres') ?? [];
+
+        $image_path = null;
+        if (!empty($_FILES['img_cover']['name'])) {
+            $target = "uploads/" . basename($_FILES['img_cover']['name']);
+            move_uploaded_file($_FILES['img_cover']['tmp_name'], $target);
+            $image_path = $target;
+        }
+
+        $ok = edit_media($id, $title, $type, $selected_genres, $image_path);
+
+        if ($ok) {
+            set_flash('success', 'Média modifié avec succès.');
+            redirect('admin/show_medias');
+        } else {
+            set_flash('error', 'Erreur lors de la modification.');
+        }
+    }
+
+    $data = [
+        'title'  => 'Modifier un média',
+        'media'  => $media,
+        'genres' => $genres
+    ];
+
+    load_view_with_layout('admin/edit_media', $data);
+}
+
+
+
+
+
+
+
+
+
+
 
 function admin_handle_delete_user()
 {
