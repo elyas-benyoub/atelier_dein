@@ -69,19 +69,14 @@
                     <!-- Parcourt chaque emprunt contenu dans $loans -->
                     <?php foreach ($loans as $loan): ?>
                         <tr>
-                            <!-- Nom de l'utilisateur -->
                             <td><?php e($loan['name']); ?></td>
-                            <!-- Titre du média (film, livre, jeu) -->
                             <td><?php e($loan['title']); ?></td>
-                            <!-- Date de début d'emprunt (formatée en jour/mois/année heure:minute) -->
                             <td><?php e(format_date($loan['loan_date'])); ?></td>
-                            <!-- Date limite de retour -->
                             <td><?php e(format_date($loan['due_date'])); ?></td>
-                            <!-- Statut de l'emprunt avec une classe CSS différente selon le cas -->
                             <td class="<?php
-                                        echo $loan['status'] === 'borrowed' ? 'status-borrowed' : ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue');
-                                        ?>">
-                                <!-- ucfirst met la première lettre en majuscule (ex : borrowed -> Borrowed) -->
+                            echo $loan['status'] === 'borrowed' ? 'status-borrowed' :
+                                ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue');
+                            ?>">
                                 <?php e(ucfirst(translate_status($loan['status']))); ?>
                             </td>
                             <td><?php if ($loan['status'] === 'borrowed'): ?>
@@ -92,7 +87,6 @@
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                    <!-- Si aucun emprunt n'existe, on affiche un message -->
                 <?php else: ?>
                     <tr>
                         <!-- colspan="5" veut dire que la cellule prend toute la largeur du tableau -->

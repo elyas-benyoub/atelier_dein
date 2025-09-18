@@ -37,6 +37,10 @@ function load_view_with_layout($view, $data = [], $layout = 'layout') {
     
     // Ajouter le contenu aux données
     $data['content'] = $content;
+
+    if (!empty($data)) {
+        extract($data);
+    }
     
     // Charger le layout
     load_view('layouts/' . $layout, $data);
