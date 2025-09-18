@@ -37,8 +37,8 @@
                         <ul class="menu-deroulant">
                             <?php if (is_admin()): ?>
                                 <li><a href="<?php echo url('admin/show_users'); ?>">Gérer les utilisateurs</a></li>
-                                <li><a href="<?php echo url('admin/show_medias'); ?>">Gérer les medias</a></li>
-                                <li><a href="<?php echo url('loan/users'); ?>">Gérer les emprunts</a></li>
+                                <li><a href="<?php echo url('admin/show_medias'); ?>">Gérer les media</a></li>
+                                <li><a href="<?php echo url('loan/show_loans'); ?>">Gérer les emprunts</a></li>
                             <?php endif; ?>
                             <li><a href="<?php echo url('home/profile'); ?>">Profile</a></li>
                             <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>

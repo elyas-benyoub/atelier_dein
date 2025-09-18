@@ -82,7 +82,7 @@
                             ?>">
                                 <!-- ucfirst met la première lettre en majuscule (ex : borrowed -> Borrowed) -->
                                 <?php e(ucfirst(translate_status($loan['status']))); ?>
-                                <a href="<?= url('admin/handle_return_loan?id=' . $loan['id'] )?>"><i class="fa-solid fa-right-from-bracket"></i></a>
+                                <a href="<?= url('loan/handle_return_loan?id=' . $loan['id']) ?>"><i class="fa-solid fa-right-from-bracket"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
