@@ -1,11 +1,5 @@
 <?php
-
-
-require_once MODEL_PATH . '/loan_model.php';
-require_once MODEL_PATH . '/user_model.php';
-require_once MODEL_PATH . '/media_model.php';
-
-function loan_users()
+function loan_show_loans()
 {
     only_admin(); // juste admin
 
@@ -29,24 +23,27 @@ function loan_users()
     }
 
     // Toujours recharger la vue avec les données à jour
-    $users = get_all_users();
-    $medias = get_all_media();       // médias disponibles
-    $loans = get_all_media_loans(); // emprunts en cours
+    $id = get('id') ?? null;
+    $users = get_all_users() ?? [];
+    $medias = get_all_media() ?? [];       // médias disponibles
+    $loans = get_all_media_loans() ?? []; // emprunts en cours
+    $loan_id = get_loan_by_id($id) ?? [];
 
     $data = [
         'title' => "Créer un emprunt ",
         'users' => $users,
         'medias' => $medias,
-        'loans' => $loans
+        'loans' => $loans,
+        'loan_id' => $loan_id
     ];
 
-    load_view_with_layout('/admin/loan_users', $data);
+    load_view_with_layout('admin/loan_users', $data);
 }
 
 
-
+// ????????????????????????????????????????
 // Nouvelle fonction côté user
-function borrow_media() {
+function loan_borrow_media() {
     is_logged_in(); // sécurité : seulement les utilisateurs connectés
 
     $user_id = post('user_id');
@@ -112,24 +109,21 @@ function loan_create()
     redirect('home/info?id=' . $media_id);
 }
 
-function handle_return_loan() {
+function loan_handle_return_loan() {
     $id = get('id') ?? null;
 
     if ($id === null) {
-        set_flash('error', 'Id de l\'user manquant.');
-        redirect('admin/show_users');
+        set_flash('error', "Identifiant d'emprunt manquant.");
+        redirect('admin/loan_users');
     }
-    $loan = get_loan_by_id($id);
 
-    $status = get('status');
-
-    $ok = return_loan($id, $status);
+    $ok = return_loan($id);
 
     if(!$ok) {
         set_flash('error', "Retour impossible.");
     } else {
         set_flash('success', "Media retourne avec succès !");
     }
- 
+
     load_view_with_layout('admin/loan_users');
 }
