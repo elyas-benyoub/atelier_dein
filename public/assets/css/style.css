@@ -12,6 +12,7 @@
   --success-color: #10b981;
   --error-color: #ef4444;
   --warning-color: #f59e0b;
+  --warning-color-hover: #f8b747;
   --background-color: #f8fafc;
   --light-background-color: #f2f2f2;
   --text-color: #1f2937;
@@ -197,6 +198,15 @@ main {
 .btn-primary {
   background: var(--primary-color);
   color: var(--white)
+}
+
+.btn-return {
+  background: var(--warning-color);
+  color: #000;
+}
+
+.btn-return:hover {
+  background: var(--warning-color-hover);
 }
 
 .btn-primary:hover {
@@ -502,6 +512,12 @@ td a {
 td a:hover {
   color: var(--secondary-color);
   text-decoration: underline
+}
+
+.user-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Auth */

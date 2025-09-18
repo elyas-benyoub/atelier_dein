@@ -27,16 +27,12 @@
             <td><?php e($user['role']); ?></td>
             <td><?php e($user['created_at']); ?></td>
             <td><?php e($user['updated_at']); ?></td>
-            <!-- <?php e($user['emprunts']); ?></td>  -->
-            <!-- <td><?php e($user['emprunts']); ?></td> -->
-            <td>
+            <td class="user-actions">
               <a href="<?php echo url('admin/form_edit_user?id=' . $user['id']); ?>">Edit</a>
-              <?php if (($role === 'admin') && ($user['id'] === $admin_id)): ?>
-                <?php if (count_admin() > 1): ?>
-                  <a href="<?= url('admin/handle_delete_user?id=' . $user['id']); ?>" class="btn btn-danger">Delete</a>
-                <?php endif; ?>
+              <?php if (($role === 'admin') && ($user['id'] === $admin_id) && (count_admin() === 1)): ?>
+                  <a href="<?= url('admin/handle_delete_user?id=' . $user['id']); ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
               <?php else: ?>
-                <a href="<?= url('admin/handle_delete_user?id=' . $user['id']); ?>" class="btn btn-danger">Delete</a>
+                <a href="<?= url('admin/handle_delete_user?id=' . $user['id']); ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
               <?php endif; ?>
             </td>
           </tr>
