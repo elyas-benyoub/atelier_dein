@@ -604,6 +604,7 @@ td a:hover {
   color: #92400e
 }
 
+
 /* Tables */
 
 .loan-container {
@@ -807,7 +808,6 @@ code {
     display: flex;
     justify-content: center; 
     align-items: center;
-    gap: 10px;
     margin: 20px 0;
     flex-wrap: wrap; /* permet de passer à la ligne sur petit écran */
 }

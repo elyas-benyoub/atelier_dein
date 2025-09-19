@@ -17,7 +17,6 @@ function load_view($view, $data = []) {
     if (!file_exists($view_file)) {
         die("Vue non trouvée : $view");
     }
-    
     // Charger la vue
     require $view_file;
 }
@@ -26,23 +25,18 @@ function load_view($view, $data = []) {
  * Charge une vue avec un layout
  */
 function load_view_with_layout($view, $data = [], $layout = 'layout') {
-    // Démarrer la capture de sortie
+
+    // 1) Rendre la vue dans un buffer
     ob_start();
-    
-    // Charger la vue
+
     load_view($view, $data);
     
-    // Récupérer le contenu de la vue
     $content = ob_get_clean();
-    
-    // Ajouter le contenu aux données
+
+    // 2) Ajouter le contenu au jeu de données
     $data['content'] = $content;
 
-    if (!empty($data)) {
-        extract($data);
-    }
-    
-    // Charger le layout
+    // 3) Rendre le layout (load_view fera extract($data) ici aussi)
     load_view('layouts/' . $layout, $data);
 }
 

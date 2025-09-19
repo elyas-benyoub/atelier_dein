@@ -7,30 +7,28 @@
 function home_index()
 {
     // Récupérer var recherche + filtres
-    $q            = get('search') ?? '';
-    $type         = get('type') ?? '';
-    $genre        = get('genre') ?? '';
+    $query = get('search') ?? '';
+    $type = get('type') ?? '';
+    $genre = get('genre') ?? '';
     $availability = get('availability') ?? '';
 
     // Si recherche ou filtre actif → lancer filtrage
-    if ($q || $type || $genre || $availability) {
-        $results = filter_media($q, $type, $genre, $availability);
-    } else {
-        $results = [];
-    }
+    $result = ($query || $type || $genre || $availability)
+        ? filter_media($query, $type, $genre, $availability)
+        : [];
 
     // affichage médias sur la page d’accueil
     $movies = get_all_movies();
-    $books  = get_all_books();
-    $games  = get_all_games();
+    $books = get_all_books();
+    $games = get_all_games();
 
     $data = [
-        'title'   => 'Accueil Médiathèque',
-        'movies'  => $movies ?? [],
-        'books'   => $books ?? [],
-        'games'   => $games ?? [],
+        'title' => 'Accueil Médiathèque',
+        'movies' => $movies ?? [],
+        'books' => $books ?? [],
+        'games' => $games ?? [],
         'results' => $results ?? [],
-        'genres'  => get_all_genres(),
+        'genres' => get_all_genres(),
     ];
 
     load_view_with_layout('home/index', $data);
@@ -56,18 +54,15 @@ function home_info()
 
     $genres = get_genres_by_media_id($media_id);
 
-    $loan = [];
-
-    if (is_media_borrowed($media_id)) {
-        $loan = get_loan_by_media_id($media_id);
-    }
+    $loan = get_loan_by_media_id($media_id);
 
     $data = [
         'media' => $media ?? [],
         'data' => $data_type ?? [],
         'genres' => $genres ?? [],
         'loan_id' => $loan['id'] ?? null,
-        'loan_user_id' => $loan['id_u'] ?? null
+        'loan_user_id' => $loan['id_u'] ?? null,
+        'available' => !is_media_borrowed($media_id)
     ];
 
     load_view_with_layout('home/media', $data);
@@ -133,7 +128,7 @@ function home_contact()
 function home_profile()
 {
     $user_id = $_SESSION['user_id'];
-    $loans = get_all_media_loans_by_user_id($user_id);
+    $loans = get_all_loans_by_user_id($user_id);
 
     $data = [
         'title' => 'Profile',

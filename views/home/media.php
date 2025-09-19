@@ -1,4 +1,5 @@
 <div class="media-detail-container">
+
     <div class="media-card-detail">
 
         <div class="media-poster">
@@ -9,21 +10,24 @@
             <h1 class="media-title"><?= e($media['title']); ?> <span>(<?= e($media['year']); ?>)</span></h1>
 
             <div class="sub-title">
-                <p class="classification"><?= e($data['classification'] ?? $data['min_age'] ?? 'N/A'); ?></p>
+                <?php if (isset($data['classification'], $data['min_age'])): ?>
+                    <p class="classification"><?= e($data['classification'] ?? $data['min_age']); ?></p>
+                <?php endif; ?>
                 <p class="genres-"><?= e(implode(', ', $genres)); ?></p>
             </div>
-            <p><strong>Durée :</strong> <?= e($data['duration_minutes'] ?? 'N/A'); ?> min</p>
+            <?php if (isset($data['duration_minutes'])): ?>
+                <p><strong>Durée :</strong> <?= e($data['duration_minutes']); ?> min</p>
+            <?php endif; ?>
 
             <h2>Synopsis</h2>
             <p><?= e($data['synopsis'] ?? $data['summary'] ?? $data['description']); ?></p>
 
-            <!-- Bouton Emprunter : POST vers la même page -->
             <?php if (is_logged_in()): ?>
-                <?php if (!is_media_borrowed($media['id'])): ?>
+                <?php if ($available): ?>
                     <a href="<?php e(url("loan/create?id=" . $media['id'])) ?>" class="btn btn-primary">Emprunter</a>
                 <?php else: ?>
                     <?php if ($loan_user_id === $_SESSION['user_id']): ?>
-                        <a href="<?= url('loan/return_loan?loan_id=' . $loan_id) ?>" class="btn btn-return">Retour</a>
+                        <a href="<?= url('loan/return_loan?loan_id=' . $loan_id . "&media_id=" . $media['id']) ?>" class="btn btn-return">Retour</a>
                     <?php endif; ?>
                 <?php endif; ?>
             <?php else: ?>

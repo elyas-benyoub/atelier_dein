@@ -58,18 +58,30 @@ function loan_create()
     $user_id  = $_SESSION['user_id'] ?? null;
     $media_id = get('id') ?? null;
 
+    if (count(get_all_loans_by_user_id($user_id))) {
+        set_flash('error', "Vous avez déjà emprunté 3 médias.");
+        redirect('home/info?id=' . $media_id);
+    }
+
     if (!$media_id) {
         set_flash("error", "Aucun média spécifié.");
         redirect();
     }
 
+    if (is_media_borrowed($media_id)) {
+        set_flash('error', "Ce média est déjà emprunté.");
+        redirect('home/info?id=' . $media_id);
+    }
+
     $loanDate = date('Y-m-d H:i:s');
     $dueDate  = date('Y-m-d H:i:s', strtotime('+14 days'));
 
-    if (create_loan($user_id, $media_id, $loanDate, $dueDate)) {
-        set_flash("success", "Emprunt enregistré !");
-    } else {
+
+
+    if (!create_loan($user_id, $media_id, $loanDate, $dueDate)) {
         set_flash("error", "Impossible d'enregistrer l'emprunt.");
+    } else {
+        set_flash("success", "Emprunt enregistré !");
     }
 
     redirect('home/info?id=' . $media_id);
@@ -78,6 +90,7 @@ function loan_create()
 function loan_return_loan()
 {
     $loan_id = get('loan_id') ?? null;
+    $media_id = get('media_id') ?? null;
 
     if ($loan_id === null) {
         set_flash('error', "Identifiant d'emprunt manquant.");
@@ -92,5 +105,5 @@ function loan_return_loan()
         set_flash('success', "Media retourne avec succès !");
     }
 
-    redirect('loan/show_loans');
+    redirect('home/info?id=' . $media_id);
 }

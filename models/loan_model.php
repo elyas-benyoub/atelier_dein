@@ -45,34 +45,38 @@ function get_all_media_loans()
     return db_select($sql);
 }
 
-function get_all_media_loans_by_user_id($user_id)
+function get_all_loans_by_user_id($user_id)
 {
     $sql = "SELECT l.*, u.name, m.title
             FROM loans l
             INNER JOIN media m ON l.id_m = m.id
             INNER JOIN users u ON l.id_u = u.id
-            WHERE u.id = ?
+            WHERE u.id = ? && l.status <> 'returned'
             ORDER BY m.created_at DESC, u.created_at DESC";
     return db_select($sql, [$user_id]);
 }
 
-function return_loan($id) {
+function return_loan($id)
+{
     $query = "UPDATE loans SET status = 'returned', return_date = NOW()
             WHERE id = ? AND status = 'borrowed'";
     return db_execute($query, [$id]);
 }
 
-function get_loan_by_id($id) {
+function get_loan_by_id($id)
+{
     $query = "SELECT * FROM loans WHERE id = ? LIMIT 1";
     return db_select_one($query, [$id]);
 }
 
-function sort_loan_list() {
+function sort_loan_list()
+{
     $query = "SELECT * FROM loans ORDER BY status = 'returned', loan_date DESC";
     return db_select($query);
 }
 
-function get_loan_by_media_id($media_id) {
+function get_loan_by_media_id($media_id)
+{
     $query = "SELECT * FROM loans WHERE id_m = ?";
     return db_select_one($query, [$media_id]);
 }

@@ -1,5 +1,4 @@
 <div class="hero">
-
     <div class="hero-content">
         <h1><?php e($title); ?></h1>
         <p class="hero-subtitle">Un lieu magique pour les médias!</p>
@@ -26,7 +25,7 @@
         <select name="type">
             <option value="">-- Type --</option>
             <option value="book" <?= ($_GET['type'] ?? '') === 'book' ? 'selected' : '' ?>>Livre</option>
-            <option value="movie" <?= ($_GET['type'] ?? '') === 'movie' ? 'selected' : '' ?>> Film</option>
+            <option value="movie" <?= ($_GET['type'] ?? '') === 'movie' ? 'selected' : '' ?>>Film</option>
             <option value="game" <?= ($_GET['type'] ?? '') === 'game' ? 'selected' : '' ?>>Jeu</option>
         </select>
 
@@ -35,7 +34,7 @@
             <option value="">-- Genre --</option>
             <?php foreach ($genres as $id => $name): ?>
                 <option value="<?= $id ?>" <?= ($_GET['genre'] ?? '') == $id ? 'selected' : '' ?>>
-                    <?= e($name) ?>
+                    <?php e($name); ?>
                 </option>
             <?php endforeach; ?>
         </select>
@@ -44,19 +43,16 @@
         <select name="availability">
             <option value="">-- Disponibilité --</option>
             <option value="available" <?= (!isset($_GET['availability']) || ($_GET['availability'] ?? '') === 'available') ? 'selected' : '' ?>>Disponible</option>
-            <option value="borrowed" <?= ($_GET['availability'] ?? '') === 'borrowed' ? 'selected' : '' ?>>Emprunté
-            </option>
+            <option value="borrowed" <?= ($_GET['availability'] ?? '') === 'borrowed' ? 'selected' : '' ?>>Emprunté</option>
         </select>
 
         <!-- Bouton -->
-        <button class="search-button">
-           Valider
-        </button>
+        <button class="search-button">Valider</button>
     </form>
 </div>
 
 <?php if (!empty($results)): ?>
-
+    <!-- Résultats de recherche -->
     <section class="features">
         <div class="container">
             <h2 class="main-title">📚 Résultats de recherche (<?= count($results) ?>)</h2>
@@ -64,67 +60,64 @@
                 <?php foreach ($results as $result): ?>
                     <div class="feature-card">
                         <a href="<?= url("home/info?id=" . $result['id']); ?>" class="card-link">
-                            <img src="<?= BASE_URL . $result['image_path'] ?>" alt="<?= e($result['title']); ?>">
+                            <img src="<?= BASE_URL . $result['image_path']; ?>" alt="<?php e($result['title']); ?>">
                             <h3><?php e($result['title']); ?></h3>
                         </a>
                     </div>
                 <?php endforeach; ?>
             </div>
+        </div>
+    </section>
+<?php else: ?>
+    <!-- Vue par défaut avec films, livres, jeux -->
+    <section class="features">
+        <div class="container">
+            <h2 class="main-title">📚 Découvrez notre médiathèque</h2>
 
-        <?php else: ?>
-
-            <!-- section de medias (nesrine) -->
-            <section class="features">
-                <div class="container">
-                    <!-- Titre général -->
-                    <h2 class="main-title">📚 Découvrez notre médiathèque</h2>
-
-                    <!-- Grille des films -->
-                    <div class="media-section">
-                        <h3 class="section-title margin-bottom-25 margin-top-50">🎥 Films</h3>
-                        <div class="feature-grid">
-                            <?php foreach ($movies as $movie): ?>
-                                <div class="feature-card">
-                                    <a href="<?= url("home/info?id=" . $movie['id']); ?>" class="card-link">
-                                        <img src="<?= BASE_URL . $movie['image_path'] ?>" alt="<?= e($movie['title']); ?>">
-                                        <h3><?php e($movie['title']); ?></h3>
-                                    </a>
-                                </div>
-                            <?php endforeach; ?>
+            <!-- Films -->
+            <div class="media-section">
+                <h3 class="section-title margin-bottom-25 margin-top-50">🎥 Films</h3>
+                <div class="feature-grid">
+                    <?php foreach ($movies as $movie): ?>
+                        <div class="feature-card">
+                            <a href="<?= url("home/info?id=" . $movie['id']); ?>" class="card-link">
+                                <img src="<?= BASE_URL . $movie['image_path']; ?>" alt="<?php e($movie['title']); ?>">
+                                <h3><?php e($movie['title']); ?></h3>
+                            </a>
                         </div>
-                    </div>
-
-                    <!-- Grille des livres -->
-                    <div class="media-section">
-                        <h3 class="section-title margin-bottom-25 margin-top-50">📖 Livres</h3>
-                        <div class="feature-grid">
-                            <?php foreach ($books as $book): ?>
-                                <div class="feature-card">
-                                    <a href="<?= url("home/info?id=" . $book['id']); ?>" class="card-link">
-                                        <img src="<?= BASE_URL . $book['image_path'] ?>" alt="<?= e($book['title']); ?>">
-                                        <h3><?php e($book['title']); ?></h3>
-                                    </a>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-
-                    <!-- Grille des jeux -->
-                    <div class="media-section">
-                        <h3 class="section-title margin-bottom-25 margin-top-50">🎮 Jeux</h3>
-                        <div class="feature-grid">
-                            <?php foreach ($games as $game): ?>
-                                <div class="feature-card">
-                                    <a href="<?= url("home/info?id=" . $game['id']); ?>" class="card-link">
-                                        <img src="<?= BASE_URL . $game['image_path'] ?>" alt="<?= e($game['title']); ?>">
-                                        <h3><?php e($game['title']); ?></h3>
-                                    </a>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-
+                    <?php endforeach; ?>
                 </div>
-            </section>
+            </div>
 
-        <?php endif; ?>
+            <!-- Livres -->
+            <div class="media-section">
+                <h3 class="section-title margin-bottom-25 margin-top-50">📖 Livres</h3>
+                <div class="feature-grid">
+                    <?php foreach ($books as $book): ?>
+                        <div class="feature-card">
+                            <a href="<?= url("home/info?id=" . $book['id']); ?>" class="card-link">
+                                <img src="<?= BASE_URL . $book['image_path']; ?>" alt="<?php e($book['title']); ?>">
+                                <h3><?php e($book['title']); ?></h3>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Jeux -->
+            <div class="media-section">
+                <h3 class="section-title margin-bottom-25 margin-top-50">🎮 Jeux</h3>
+                <div class="feature-grid">
+                    <?php foreach ($games as $game): ?>
+                        <div class="feature-card">
+                            <a href="<?= url("home/info?id=" . $game['id']); ?>" class="card-link">
+                                <img src="<?= BASE_URL . $game['image_path']; ?>" alt="<?php e($game['title']); ?>">
+                                <h3><?php e($game['title']); ?></h3>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
