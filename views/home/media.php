@@ -27,7 +27,8 @@
                     <a href="<?php e(url("loan/create?id=" . $media['id'])) ?>" class="btn btn-primary">Emprunter</a>
                 <?php else: ?>
                     <?php if ($loan_user_id === $_SESSION['user_id']): ?>
-                        <a href="<?= url('loan/return_loan?loan_id=' . $loan_id . "&media_id=" . $media['id'] . "&page=info") ?>" class="btn btn-return">Retour</a>
+                        <a href="<?= url('loan/return_loan?loan_id=' . $loan_id . "&media_id=" . $media['id'] . "&page=info") ?>"
+                            class="btn btn-return">Retour</a>
                     <?php endif; ?>
                 <?php endif; ?>
             <?php else: ?>

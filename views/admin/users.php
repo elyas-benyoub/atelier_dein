@@ -12,7 +12,7 @@
         <th>Nom</th>
         <th>Email</th>
         <th>Role</th>
-        <th>Créé à</th>
+        <th>Créé le</th>
         <th>Mis à jour le</th>
         <th>Emprunts</th>
       </tr>
@@ -28,13 +28,17 @@
             <td><?php e(format_date($user['created_at'])); ?></td>
             <td><?php e(format_date($user['updated_at'])); ?></td>
             <td class="user-actions">
-              <a href="<?php echo url('admin/form_edit_user?id=' . $user['id']); ?>">Edit</a>
-              <form action="<?= url('admin/handle_delete_user') ?>" method="post" style="display:inline;">
+              <form action="<?php echo url('admin/form_edit_user?id=' . $user['id']); ?>" method="post">
                 <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                 <input type="hidden" name="id" value="<?= e($user['id']) ?>">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Supprimer ?')"><i class="fa-solid fa-trash"></i></button>
+                <button type="submit" class="btn btn-secondary">Modifier</button>
               </form>
-              </a>
+
+              <form action="<?= url('admin/handle_delete_user') ?>" method="post">
+                <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+                <input type="hidden" name="id" value="<?= e($user['id']) ?>">
+                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+              </form>
             </td>
           </tr>
         <?php endforeach; ?>

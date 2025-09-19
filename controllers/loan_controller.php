@@ -37,7 +37,7 @@ function loan_show_loans()
     $loan_id = get('loan_id') ?? null;
 
     $data = [
-        'title' => "Créer un emprunt ",
+        'title' => "Gestion des emprunts",
         'users' => $users,
         'medias' => $medias,
         'loans' => $loans,
