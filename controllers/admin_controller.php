@@ -55,107 +55,15 @@ function admin_show_medias()
     load_view_with_layout('/admin/media_admin', $data);
 }
 
-function admin_handle_edit_user()
+
+
+
+
+
+
+
+function admin_handle_edit_media()
 {
-
-    only_admin();
-    $id = get('id') ?? null;
-    
-
-    if ($id === null) {
-        set_flash('error', 'Id de l\'user manquant.');
-        redirect('admin/show_users');
-    }
-
-    $user = get_user_by_id($id);
-
-    // Utiliser les données du formulaire pour la mise à jour
-    $name = post('name');
-    $email = post('email');
-    $role = post('role');
-
-    $ok = update_user($id, $name, $email, $role);
-
-    if (!$ok) {
-        set_flash('error', "La modification de l'utilisateur n'a pas été effectuée.");
-    } else {
-        set_flash('success', "L'utilisateur a été modifié avec succès !");
-    }
-
-    // Redirection vers la page des utilisateurs
-    redirect('admin/show_users');
-}
-
-
-
-// function admin_handle_edit_media(){
-
-//     only_admin();
-    
-//     get_all_medias();
-//     get_all_genres();
-//     get_all_media_genres();
-
-//         $data = [
-//             'title'=> 'Edit'
-//     ];
-
-//     load_view_with_layout('/admin/media_admin', $data);
-// }
-
-
-// function admin_handle_edit_media() {
-
-//     only_admin();
-
-//     $id = get('id');
-//     if (!$id) {
-//         set_flash('error', 'ID du média manquant.');
-//         redirect('admin/media_admin');
-//     }
-
-//     $media = get_media_by_id($id);
-//     $genres = get_all_genres();
-
-//     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//         $title = post('title');
-//         $type = post('type');
-//         $selected_genres = post('genres') ?? [];
-
-//         // Image
-//         $image_path = null;
-//         if (!empty($_FILES['img_cover']['name'])) {
-//             $target = "uploads/" . basename($_FILES['img_cover']['name']);
-//             move_uploaded_file($_FILES['img_cover']['tmp_name'], $target);
-//             $image_path = $target;
-//         }
-
-//         $ok = edit_media($id, $title, $type, $selected_genres, $image_path);
-
-//         if ($ok) {
-//             set_flash('success', 'Média modifié avec succès.');
-//             redirect('admin/media_admin');
-//         } else {
-//             set_flash('error', 'Erreur lors de la modification.');
-//         }
-//     }
-
-//     $data = [
-//         'title' => 'Modifier un média',
-//         'media' => $media,
-//         'genres' => $genres
-//     ];
-
-//     load_view_with_layout('admin/edit_media', $data);
-// }
-
-
-
-
-function admin_handle_edit_media(){
-
-    $id = get('id');
-
     only_admin();
 
     $id = get('id');
@@ -164,13 +72,11 @@ function admin_handle_edit_media(){
         redirect('admin/media_admin');
     }
 
-    $media = get_media_by_id($id);
-
-    if ($media && isset($media[0])) {
-    $media = $media[0]; // On prend 1er élément du tableau
-}
-
-    $genres = get_all_genres();
+    $media = get_full_media_by_id($id);
+    if (!$media) {
+        set_flash('error', 'Média introuvable.');
+        redirect('admin/media_admin');
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = post('title');
@@ -184,7 +90,33 @@ function admin_handle_edit_media(){
             $image_path = $target;
         }
 
-        $ok = edit_media($id, $title, $type, $selected_genres, $image_path);
+        // Champs spécifiques
+        $data = [];
+        if ($type === 'book') {
+            $data = [
+                'author'  => post('author'),
+                'isbn'    => post('isbn'),
+                'pages'   => post('pages'),
+                'resume'  => post('resume'),
+                'pb_year' => post('pb_year')
+            ];
+        } elseif ($type === 'movie') {
+            $data = [
+                'director'       => post('director'),
+                'duration'       => post('duration'),
+                'classification' => post('classification'),
+                'resume'         => post('resume')
+            ];
+        } elseif ($type === 'game') {
+            $data = [
+                'publisher'   => post('publisher'),
+                'min_age'     => post('min_age'),
+                'description' => post('description'),
+                'platforms'   => post('platforms') ?? []
+            ];
+        }
+
+        $ok = edit_media($id, $title, $type, $selected_genres, $image_path, $data);
 
         if ($ok) {
             set_flash('success', 'Média modifié avec succès.');
@@ -194,14 +126,25 @@ function admin_handle_edit_media(){
         }
     }
 
-    $data = [
-        'title'  => 'Modifier un média',
-        'media'  => $media,
-        'genres' => $genres
+    $data_for_view = [
+        'title'     => 'Modifier un média',
+        'media'     => $media,
+        'genres'    => get_all_genres(),
+        'platforms' => get_all_platforms(),
     ];
 
-    load_view_with_layout('admin/edit_media', $data);
+    load_view_with_layout('admin/edit_media', $data_for_view);
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

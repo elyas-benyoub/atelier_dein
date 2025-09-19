@@ -74,48 +74,200 @@ function delete_media($media_id)
 }
 
 
-// function edit_media($media_id)
+// function edit_media($id, $title, $type, $genres, $data = [ ], $image_path = null)
 // {
+//     try {
+//         db_begin_transaction();
 
-//     $media_edits = get_media_by_id($media_id);
-//     $type = $media_edits["type"];
+//         $query = "UPDATE media SET title = ?, type = ?";
+//         $params = [$title, $type];
 
+//         if ($image_path) {
+//             $query .= ", image_path = ?";
+//             $params[] = $image_path;
+//         }
+//         if (isset($data['pb_year'])) {
+//             $query .= ", year = ?";
+//             $params[] = $data['pb_year'];
+//         }
 
-// //     UPDATE table
-// // SET nom_colonne_1 = 'nouvelle valeur'
-// // WHERE condition
+//         $query .= " WHERE id = ?";
+//         $params[] = $id;
 
+//         db_execute($query, $params);
 
-//     if ($type === 'book') {
-//         $query = "UPDATE books SET ? WHERE media_id = ?";
-//         db_execute($query, [$media_id]);
-//     } 
+//         if ($type === 'book') {
+//             db_execute("UPDATE books 
+//                         SET author = ?, isbn = ?, page_count = ?, summary = ?, publication_year = ?
+//                         WHERE media_id = ?",
+//                         [$data['author'], $data['isbn'], $data['pages'], $data['resume'], $data['pb_year'], $id]);
+//         }
+//         elseif ($type === 'movie') {
+//             db_execute("UPDATE movies 
+//                         SET director = ?, duration_minutes = ?, classification = ?
+//                         WHERE media_id = ?",
+//                         [$data['director'], $data['duration'], $data['classification'], $id]);
+//         }
+//         elseif ($type === 'game') {
+//             db_execute("UPDATE games 
+//                         SET publisher = ?, min_age = ?, description = ?
+//                         WHERE media_id = ?",
+//                         [$data['publisher'], $data['min_age'], $data['game_description'] ?? '', $id]);
 
-//  return db_execute($query, [$media_id]);
+//             db_execute("DELETE FROM media_platforms WHERE media_id = ?", [$id]);
+//             foreach ($data['platforms'] ?? [] as $platform_id) {
+//                 db_execute("INSERT INTO media_platforms (media_id, platform_id) VALUES (?, ?)", [$id, $platform_id]);
+//             }
+//         }
 
+//         db_execute("DELETE FROM media_genres WHERE media_id = ?", [$id]);
+//         foreach ($genres as $genre_id) {
+//             db_execute("INSERT INTO media_genres (media_id, genre_id) VALUES (?, ?)", [$id, $genre_id]);
+//         }
+
+//         db_commit();
+//         return true;
+//     } catch (Throwable $e) {
+//         db_rollback();
+//         app_log('[edit_media] ' . $e->getMessage());
+//         return false;
+//     }
 // }
 
 
-function edit_media($id, $title, $type, $genres = [], $image_path = null) {
 
-    $query = "UPDATE media SET title = ?, type = ?" . ($image_path ? ", image_path = ?" : "") . " WHERE id = ?";
-    $params = [$title, $type];
-    if ($image_path) {
-        $params[] = $image_path;
+function edit_media($id, $title, $type, $genres = [], $image_path = null, $data = [])
+{
+    try {
+        db_begin_transaction();
+
+        $query = "UPDATE media SET title = ?, type = ?";
+        $params = [$title, $type];
+
+        if (!empty($data['year'])) {
+            $query .= ", year = ?";
+            $params[] = $data['year'];
+        }
+
+        if ($image_path) {
+            $query .= ", image_path = ?";
+            $params[] = $image_path;
+        }
+
+        $query .= " WHERE id = ?";
+        $params[] = $id;
+
+        db_execute($query, $params);
+
+        if ($type === 'book') {
+            db_execute("UPDATE books 
+                        SET author = ?, isbn = ?, page_count = ?, summary = ?, publication_year = ? 
+                        WHERE media_id = ?",
+                        [
+                            $data['author'] ?? '',
+                            $data['isbn'] ?? '',
+                            $data['pages'] ?? '',
+                            $data['resume'] ?? '',
+                            $data['pb_year'] ?? '',
+                            $id
+                        ]);
+        } elseif ($type === 'movie') {
+            db_execute("UPDATE movies
+                        SET director = ?, duration_minutes = ?, classification = ?, synopsis = ?
+                        WHERE media_id = ?",
+                        [
+                            $data['director'] ?? '',
+                            $data['duration'] ?? '',
+                            $data['classification'] ?? '',
+                            $data['resume'] ?? '',
+                            $id
+                        ]);
+        } elseif ($type === 'game') {
+            db_execute("UPDATE games
+                        SET publisher = ?, min_age = ?, description = ?
+                        WHERE media_id = ?",
+                        [
+                            $data['publisher'] ?? '',
+                            $data['min_age'] ?? '',
+                            $data['description'] ?? '',
+                            $id
+                        ]);
+
+            db_execute("DELETE FROM media_platform WHERE media_id = ?", [$id]);
+            foreach ($data['platforms'] ?? [] as $platform_id) {
+                db_execute("INSERT INTO media_platform (media_id, platform_id) VALUES (?, ?)", [$id, $platform_id]);
+            }
+        }
+
+        db_execute("DELETE FROM media_genres WHERE media_id = ?", [$id]);
+        foreach ($genres as $genre_id) {
+            db_execute("INSERT INTO media_genres (media_id, genre_id) VALUES (?, ?)", [$id, $genre_id]);
+        }
+
+        db_commit();
+        return true;
+
+    } catch (Throwable $e) {
+        db_rollback();
+        app_log('[edit_media] ' . $e->getMessage());
+        return false;
     }
-    $params[] = $id;
-    db_execute($query, $params);
-
-    // 2. Supprimer les anciens genres
-    db_execute("DELETE FROM media_genres WHERE media_id = ?", [$id]);
-
-    // 3. Réinsérer les nouveaux genres
-    foreach ($genres as $genre_id) {
-        db_execute("INSERT INTO media_genres (media_id, genre_id) VALUES (?, ?)", [$id, $genre_id]);
-    }
-
-    return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function get_full_media_by_id($id) {
+    $query = "SELECT 
+                m.id,
+                m.title, 
+                m.type, 
+                m.image_path, 
+                m.year,
+                b.author, 
+                b.isbn, 
+                b.page_count, 
+                b.summary, 
+                b.publication_year, 
+                g.publisher, 
+                g.min_age, 
+                g.description AS game_description, 
+                mv.director, 
+                mv.duration_minutes, 
+                mv.synopsis, 
+                mv.classification
+              FROM media m
+              LEFT JOIN books b ON m.id = b.media_id
+              LEFT JOIN games g ON m.id = g.media_id
+              LEFT JOIN movies mv ON m.id = mv.media_id
+              WHERE m.id = ?";
+    $rows = db_select($query, [$id]);
+    return $rows ? $rows[0] : null;
+}
+
+
+
+
+
+
+
 
 
 
