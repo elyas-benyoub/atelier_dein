@@ -73,16 +73,13 @@
                             <td><?php e($loan['title']); ?></td>
                             <td><?php e(format_date($loan['loan_date'])); ?></td>
                             <td><?php e(format_date($loan['due_date'])); ?></td>
-                            <td class="<?php
-                            echo $loan['status'] === 'borrowed' ? 'status-borrowed' :
-                                ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue');
-                            ?>">
+                            <td class="<?php echo $loan['status'] === 'borrowed' ? 'status-borrowed' :
+                                                ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue'); ?>">
                                 <?php e(ucfirst(translate_status($loan['status']))); ?>
                             </td>
                             <td><?php if ($loan['status'] === 'borrowed'): ?>
-                                    <a href="<?= url('loan/return_loan?loan_id=' . $loan['id']) ?>"><i class="fa-solid fa-right-from-bracket"></i>Returne</a>
-                                <?php else: ?>
-                                    <a href="#" class="disabled-link" aria-disabled="true"><i class="fa-solid fa-right-from-bracket"></i>Returne</a>
+                                    <a href="<?= url('loan/return_loan?loan_id=' . $loan['id'] . "&media_id=" . $loan['id_m'] . "&page=loans") ?>">
+                                        <i class="fa-solid fa-right-from-bracket"></i>Retourner</a>
                                 <?php endif; ?>
                             </td>
                         </tr>

@@ -57,8 +57,9 @@ function loan_create()
 
     $user_id  = $_SESSION['user_id'] ?? null;
     $media_id = get('id') ?? null;
-
-    if (count(get_all_loans_by_user_id($user_id))) {
+    $user_loans = count(get_all_loans_by_user_id($user_id));
+    
+    if ($user_loans >= 3) {
         set_flash('error', "Vous avez déjà emprunté 3 médias.");
         redirect('home/info?id=' . $media_id);
     }
@@ -91,6 +92,7 @@ function loan_return_loan()
 {
     $loan_id = get('loan_id') ?? null;
     $media_id = get('media_id') ?? null;
+    $page = get('page') ?? null;
 
     if ($loan_id === null) {
         set_flash('error', "Identifiant d'emprunt manquant.");
@@ -105,5 +107,6 @@ function loan_return_loan()
         set_flash('success', "Media retourne avec succès !");
     }
 
-    redirect('home/info?id=' . $media_id);
+    if ($page === 'info') redirect('home/info?id=' . $media_id);
+    else redirect('loan/show_loans?id=' . $loan_id);
 }
