@@ -7,6 +7,8 @@
  */
 function book_add()
 {
+    only_admin();
+
      $data = [
         'title'  => "Livres",
         'genres' => get_all_genres(),
@@ -27,10 +29,14 @@ function book_add()
  */
 function book_store()
 {
+    only_admin();
+
     if (!is_post()) {
         redirect('book/add');
         return;
     }
+
+    require_valid_csrf('book/add');
 
     // on recupere et nettoie les info du livre depuis la variable $_POST
     $title = clean_input(post('title'));

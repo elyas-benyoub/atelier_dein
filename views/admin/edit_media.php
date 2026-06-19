@@ -15,13 +15,8 @@
             </div>
 
             <div class="form-group">
-                <label for="type">Type</label>
-                <select name="type" id="type" required>
-                    <option value="">-- Type --</option>
-                    <option value="book" <?= ($media['type'] ?? '') === 'book' ? 'selected' : '' ?>>Livre</option>
-                    <option value="movie" <?= ($media['type'] ?? '') === 'movie' ? 'selected' : '' ?>>Film</option>
-                    <option value="game" <?= ($media['type'] ?? '') === 'game' ? 'selected' : '' ?>>Jeu</option>
-                </select>
+                <label>Type</label>
+                <p><?= e($media['type'] ?? '—') ?></p>
             </div>
 
             <fieldset class="form-group">
@@ -30,7 +25,7 @@
                     <?php foreach ($genres as $id => $name): ?>
                         <label class="chk">
                             <input type="checkbox" name="genres[]" value="<?= $id ?>"
-                                <?= in_array($id, $media['genres'] ?? []) ? 'checked' : '' ?>>
+                                <?= in_array((int) $id, $selected_genre_ids ?? [], true) ? 'checked' : '' ?>>
                             <span><?= e($name) ?></span>
                         </label>
                     <?php endforeach; ?>
@@ -40,12 +35,10 @@
             <div class="form-group">
                 <label for="img_cover">Changer l'image de couverture:</label>
                 <input type="file" name="img_cover">
-                <?php if (!empty($media['image_path'])): ?>
-                    <br>
-            <div style="display: flex; justify-content: center; margin-top: 20px;">
-                <img src="<?= BASE_URL . $media['image_path']; ?>" width="100" alt="Image du média">
-            </div>
-                <?php endif; ?>
+                <br>
+                <div style="display: flex; justify-content: center; margin-top: 20px;">
+                    <img src="<?= e(media_image_url($media['image_path'] ?? null)); ?>" width="100" alt="Image du média">
+                </div>
             </div>
 
             <button type="submit" name="action" value="edit" class="btn btn-primary btn-full">

@@ -2,6 +2,8 @@
 
 function movie_add()
 {
+    only_admin();
+
     $data = [
         'title' => "Films",
         'genres' => get_all_genres(),
@@ -22,10 +24,14 @@ function movie_add()
  */
 function movie_store()
 {
+    only_admin();
+
     if (!is_post()) {
         redirect('media/add_movie');
         return;
     }
+
+    require_valid_csrf('movie/add');
 
     // on recupere et nettoie les info film depuis la variable $_POST
     $title = clean_input(post('title'));

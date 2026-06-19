@@ -52,6 +52,28 @@ function url($path = '')
 }
 
 /**
+ * Retourne une URL d'image média pour une source externe, un upload local ou le visuel par défaut.
+ */
+function media_image_url($path)
+{
+    $path = is_string($path) ? trim($path) : '';
+    if ($path === '') {
+        return url('assets/images/default-media.svg');
+    }
+
+    $scheme = parse_url($path, PHP_URL_SCHEME);
+    if (in_array($scheme, ['http', 'https'], true) && filter_var($path, FILTER_VALIDATE_URL)) {
+        return $path;
+    }
+
+    if (str_starts_with($path, '/uploads/') || str_starts_with($path, 'uploads/')) {
+        return url($path);
+    }
+
+    return url('assets/images/default-media.svg');
+}
+
+/**
  * Redirection HTTP
  */
 function redirect($path = '')
@@ -78,6 +100,17 @@ function csrf_token()
 function verify_csrf_token($token)
 {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+}
+
+/**
+ * Interrompt une requête POST dont le token CSRF est absent ou invalide.
+ */
+function require_valid_csrf($redirect_path)
+{
+    if (!verify_csrf_token(post('csrf_token', ''))) {
+        set_flash('error', 'Requête invalide ou session expirée. Veuillez réessayer.');
+        redirect($redirect_path);
+    }
 }
 
 /**

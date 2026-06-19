@@ -27,7 +27,7 @@ function home_index()
         'movies' => $movies ?? [],
         'books' => $books ?? [],
         'games' => $games ?? [],
-        'results' => $results ?? [],
+        'results' => $result ?? [],
         'genres' => get_all_genres(),
     ];
 
@@ -38,7 +38,18 @@ function home_info()
 {
     $data_type = [];
     $media_id = get('id');
-    $media = get_media_by_id($media_id)[0];
+
+    if (!$media_id || !ctype_digit((string) $media_id)) {
+        load_404();
+        return;
+    }
+
+    $media = get_media_by_id($media_id);
+
+    if (!$media) {
+        load_404();
+        return;
+    }
 
     if ($media['type'] === 'movie') {
         $data_type = get_movie_by_id($media_id)[0];
@@ -96,6 +107,8 @@ function home_contact()
     ];
 
     if (is_post()) {
+        require_valid_csrf('home/contact');
+
         $name = clean_input(post('name'));
         $email = clean_input(post('email'));
         $message = clean_input(post('message'));
@@ -127,7 +140,11 @@ function home_contact()
  */
 function home_profile()
 {
-    $user_id = $_SESSION['user_id'];
+    if (!is_logged_in()) {
+        redirect('auth/login');
+    }
+
+    $user_id = current_user_id();
     $loans = get_all_loans_by_user_id($user_id);
 
     $data = [

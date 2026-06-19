@@ -21,7 +21,10 @@
 
             <div class="form-group">
                 <label for="role">Role</label>
-                <input type="text" id="role" name="role" value="<?php echo e($user['role']); ?>">
+                <select id="role" name="role">
+                    <option value="user" <?= $user['role'] === 'user' ? 'selected' : '' ?>>Utilisateur</option>
+                    <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Administrateur</option>
+                </select>
             </div>
 
             <button type="submit" name="action" value="edit" class="btn btn-primary btn-full">

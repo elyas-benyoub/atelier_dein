@@ -68,7 +68,7 @@ function setup_test_database() {
         $pdo->exec("USE " . DB_NAME);
         
         // Créer les tables
-        $schema = file_get_contents(ROOT_PATH . '/database/schema.sql');
+        $schema = file_get_contents(ROOT_PATH . '/database/init.sql');
         $statements = explode(';', $schema);
         
         foreach ($statements as $statement) {
@@ -128,4 +128,4 @@ function login_test_user($user_id, $name = 'Test User', $email = 'test@example.c
     $_SESSION['user_id'] = $user_id;
     $_SESSION['user_name'] = $name;
     $_SESSION['user_email'] = $email;
-} 
+}

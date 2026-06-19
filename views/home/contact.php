@@ -11,7 +11,7 @@
                 <h2>Nous contacter</h2>
                 <p>N'hésitez pas à nous envoyer un message. Nous vous répondrons dans les plus brefs délais.</p>
                 
-                <form method="POST" class="contact-form" action="<?php url('home/contact') ?>">
+                <form method="POST" class="contact-form" action="<?= url('home/contact') ?>">
                     <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
                     
                     <div class="form-group">
@@ -55,4 +55,4 @@
             </div>
         </div>
     </div>
-</section> 
+</section>

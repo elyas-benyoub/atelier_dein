@@ -61,7 +61,7 @@ function delete_media($media_id)
         $query = "DELETE FROM movies WHERE media_id = ?";
         db_execute($query, [$media_id]);
     }
-    elseif ($type === 'games') {
+    elseif ($type === 'game') {
         $query = "DELETE FROM games WHERE media_id = ?";
         db_execute($query, [$media_id]);
     }
@@ -96,10 +96,10 @@ function delete_media($media_id)
 // }
 
 
-function edit_media($id, $title, $type, $genres = [], $image_path = null) {
+function edit_media($id, $title, $genres = [], $image_path = null) {
 
-    $query = "UPDATE media SET title = ?, type = ?" . ($image_path ? ", image_path = ?" : "") . " WHERE id = ?";
-    $params = [$title, $type];
+    $query = "UPDATE media SET title = ?" . ($image_path ? ", image_path = ?" : "") . " WHERE id = ?";
+    $params = [$title];
     if ($image_path) {
         $params[] = $image_path;
     }
@@ -206,17 +206,8 @@ function get_all_medias()
 
 function get_media_by_id($media_id) {
     $query = "SELECT * FROM media WHERE id = ?";
-    return db_select($query, [$media_id]);
-}
-
-function get_book_by_id($media_id) {
-    $query = "SELECT author, isbn, page_count, summary, publication_year FROM books WHERE media_id = ?";
-    return db_select($query, [$media_id]);
-}
-
-function get_game_by_id($media_id) {
-    $query = "SELECT publisher, min_age, description FROM games WHERE media_id = ?";
-    return db_select($query, [$media_id]);
+    $result = db_select($query, [$media_id]);
+    return $result ? $result[0] : null;
 }
 
 function search_media_by_title($q) {
@@ -343,6 +334,16 @@ function get_genres_by_media_id($media_id) {
 
     return $genres;
  }
+
+function get_genre_ids_by_media_id($media_id)
+{
+    $rows = db_select(
+        "SELECT genre_id FROM media_genres WHERE media_id = ?",
+        [$media_id]
+    );
+
+    return array_map('intval', array_column($rows, 'genre_id'));
+}
 
 /**
  * Récupère tous les médias disponibles (non empruntés)

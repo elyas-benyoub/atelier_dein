@@ -1,14 +1,14 @@
 <?php
 // Configuration de la base de données
-define('DB_HOST', 'localhost:3307');
-define('DB_NAME', 'php_mvc_app');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_CHARSET', 'utf8');
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost:3307');
+define('DB_NAME', getenv('DB_NAME') ?: 'php_mvc_app');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
 
 // Configuration générale de l'application
-define('BASE_URL', '/atelier/atelier_dein/public');
-define('APP_NAME', 'PHP MVC Starter');
+define('BASE_URL', getenv('BASE_URL') ?: '/atelier/atelier_dein/public');
+define('APP_NAME', 'Atelier Dein');
 define('APP_VERSION', '1.0.0');
 
 // Configuration des chemins

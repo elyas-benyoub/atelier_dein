@@ -12,51 +12,57 @@
 </head>
 
 <body>
+    <?php $current_route = trim($_GET['url'] ?? '', '/'); ?>
+    <a class="skip-link" href="#main-content">Aller au contenu principal</a>
     <header class="header">
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Navigation principale">
             <div class="nav-brand">
                 <a href="<?php echo url(); ?>"><?php echo APP_NAME; ?></a>
             </div>
-            <ul class="nav-menu">
-                <li><a href="<?php echo url(); ?>">Accueil</a></li>
-                <li><a href="<?php echo url('home/about'); ?>">À propos</a></li>
-                <li><a href="<?php echo url('home/contact'); ?>">Contact</a></li>
+
+            <button type="button" class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="primary-navigation">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+
+            <ul id="primary-navigation" class="nav-menu">
+                <li><a href="<?php echo url(); ?>" <?= in_array($current_route, ['', 'home/index'], true) ? 'aria-current="page"' : '' ?>>Accueil</a></li>
+                <li><a href="<?php echo url('home/about'); ?>" <?= $current_route === 'home/about' ? 'aria-current="page"' : '' ?>>À propos</a></li>
+                <li><a href="<?php echo url('home/contact'); ?>" <?= $current_route === 'home/contact' ? 'aria-current="page"' : '' ?>>Contact</a></li>
 
                 <!-- acces media et users / admin only  -->
                 <?php if (is_logged_in()): ?>
                     <li class="deroulant">
-                        <div class="bouton-deroulant btn">
+                        <button type="button" class="bouton-deroulant account-menu-toggle" aria-expanded="false" aria-controls="account-navigation">
                             <span class="profil-nom"><?php echo e($_SESSION['user_name']); ?></span>
                             <?php if (!empty($_SESSION['user_profile'])): ?>
                                 <img src="<?php echo url('uploads/profiles/' . $_SESSION['user_profile']); ?>" alt="Profil"
                                     class="photo-profil">
                             <?php else: ?>
-                                <i class="fas fa-user-circle fa-2x"></i>
+                                <i class="fas fa-user-circle fa-2x" aria-hidden="true"></i>
                             <?php endif; ?>
-                        </div>
+                        </button>
 
                         <!-- Liste déroulante -->
-                        <ul class="menu-deroulant">
+                        <ul id="account-navigation" class="menu-deroulant">
                             <?php if (is_admin()): ?>
                                 <li><a href="<?php echo url('admin/show_users'); ?>">Gérer les utilisateurs</a></li>
                                 <li><a href="<?php echo url('admin/show_medias'); ?>">Gérer les media</a></li>
                                 <li><a href="<?php echo url('loan/show_loans'); ?>">Gérer les emprunts</a></li>
                             <?php endif; ?>
-                            <li><a href="<?php echo url('home/profile'); ?>">Profile</a></li>
+                            <li><a href="<?php echo url('home/profile'); ?>">Profil</a></li>
                             <li><a href="<?php echo url('auth/logout'); ?>">Déconnexion</a></li>
                         </ul>
                     </li>
                 <?php else: ?>
-                    <li><a href="<?php echo url('auth/login'); ?>">Connexion</a></li>
-                    <li><a href="<?php echo url('auth/register'); ?>">Inscription</a></li>
+                    <li><a href="<?php echo url('auth/login'); ?>" <?= $current_route === 'auth/login' ? 'aria-current="page"' : '' ?>>Connexion</a></li>
+                    <li><a href="<?php echo url('auth/register'); ?>" <?= $current_route === 'auth/register' ? 'aria-current="page"' : '' ?>>Inscription</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
     </header>
 
-    <main class="main-content">
+    <main id="main-content" class="main-content" tabindex="-1">
         <?php flash_messages(); ?>
-        <?php echo "<!-- LEN=" . strlen((string) ($content ?? '')) . " -->\n"; ?>
         <?php echo $content ?? ''; ?>
     </main>
 

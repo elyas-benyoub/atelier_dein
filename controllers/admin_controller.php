@@ -19,6 +19,12 @@ function admin_show_users()
 
 function admin_form_edit_user()
 {
+    only_admin();
+
+    if (is_post()) {
+        require_valid_csrf('admin/show_users');
+    }
+
     $user_id = get('id') ?? null;
     $user = get_user_by_id($user_id);
     $data = [
@@ -59,6 +65,13 @@ function admin_handle_edit_user()
 {
 
     only_admin();
+
+    if (!is_post()) {
+        redirect('admin/show_users');
+    }
+
+    require_valid_csrf('admin/show_users');
+
     $id = get('id') ?? null;
     
 
@@ -153,9 +166,6 @@ function admin_handle_edit_user()
 
 
 function admin_handle_edit_media(){
-
-    $id = get('id');
-
     only_admin();
 
     $id = get('id');
@@ -166,25 +176,27 @@ function admin_handle_edit_media(){
 
     $media = get_media_by_id($id);
 
-    if ($media && isset($media[0])) {
-    $media = $media[0]; // On prend 1er élément du tableau
-}
-
     $genres = get_all_genres();
+    $selected_genre_ids = get_genre_ids_by_media_id($id);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        require_valid_csrf('admin/show_medias');
+
         $title = post('title');
-        $type = post('type');
         $selected_genres = post('genres') ?? [];
 
         $image_path = null;
         if (!empty($_FILES['img_cover']['name'])) {
-            $target = "uploads/" . basename($_FILES['img_cover']['name']);
-            move_uploaded_file($_FILES['img_cover']['tmp_name'], $target);
-            $image_path = $target;
+            $image = upload_img();
+            if ($image === null) {
+                set_flash('error', "L'image n'a pas pu être téléversée.");
+                redirect('admin/handle_edit_media?id=' . $id);
+            }
+
+            $image_path = $image['url'];
         }
 
-        $ok = edit_media($id, $title, $type, $selected_genres, $image_path);
+        $ok = edit_media($id, $title, $selected_genres, $image_path);
 
         if ($ok) {
             set_flash('success', 'Média modifié avec succès.');
@@ -197,7 +209,8 @@ function admin_handle_edit_media(){
     $data = [
         'title'  => 'Modifier un média',
         'media'  => $media,
-        'genres' => $genres
+        'genres' => $genres,
+        'selected_genre_ids' => $selected_genre_ids
     ];
 
     load_view_with_layout('admin/edit_media', $data);
@@ -215,10 +228,14 @@ function admin_handle_edit_media(){
 
 function admin_handle_delete_user()
 {
-    if (!is_admin()) {
-        set_flash('error', "Accès refusé !");
+    only_admin();
+
+    if (!is_post()) {
         redirect('admin/show_users');
     }
+
+    require_valid_csrf('admin/show_users');
+
     $id = post('id') ?? null;
 
     if (!$id) {
@@ -229,6 +246,11 @@ function admin_handle_delete_user()
     $user = get_user_by_id($id);
     if (!$user) {
         set_flash('error', 'Utilisateur introuvable.');
+        redirect('admin/show_users');
+    }
+
+    if ((int) $id === (int) current_user_id()) {
+        set_flash('error', 'Vous ne pouvez pas supprimer votre propre compte.');
         redirect('admin/show_users');
     }
 
@@ -250,7 +272,15 @@ function admin_handle_delete_user()
 
 function admin_handle_delete_media()
 {
-    $id = get('id') ?? null;
+    only_admin();
+
+    if (!is_post()) {
+        redirect('admin/show_medias');
+    }
+
+    require_valid_csrf('admin/show_medias');
+
+    $id = post('id') ?? null;
 
     $media = get_media_by_id($id);
 
@@ -273,4 +303,3 @@ function admin_handle_delete_media()
 
     redirect('admin/show_medias');
 }
-

@@ -4,6 +4,8 @@ function loan_admin_form()
     only_admin();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        require_valid_csrf('loan/show_loans');
+
         $user_id = post('user_id');
         $media_id = post('media_id');
 
@@ -12,8 +14,8 @@ function loan_admin_form()
         } elseif (is_media_borrowed($media_id)) {
             set_flash('error', "Ce média est déjà emprunté.");
         } else {
-            $loan_date = format_date(date('Y-m-d H:i:s'));
-            $due_date = format_date(date('Y-m-d H:i:s', strtotime('+14 jours')));
+            $loan_date = date('Y-m-d H:i:s');
+            $due_date = date('Y-m-d H:i:s', strtotime('+14 days'));
 
             $ok = create_loan($user_id, $media_id, $loan_date, $due_date);
             if ($ok) {
@@ -50,13 +52,19 @@ function loan_show_loans()
 
 function loan_create()
 {
+    if (!is_post()) {
+        redirect('home');
+    }
+
+    require_valid_csrf('home');
+
     if (!is_logged_in()) {
         set_flash("error", "Vous devez être connecté pour emprunter un média.");
         redirect('auth/login');
     }
 
     $user_id  = $_SESSION['user_id'] ?? null;
-    $media_id = get('id') ?? null;
+    $media_id = post('media_id');
     $user_loans = count(get_all_loans_by_user_id($user_id));
     
     if ($user_loans >= 3) {
@@ -90,14 +98,41 @@ function loan_create()
 
 function loan_return_loan()
 {
-    $loan_id = get('loan_id') ?? null;
-    $media_id = get('media_id') ?? null;
-    $page = get('page') ?? null;
-
-    if ($loan_id === null) {
-        set_flash('error', "Identifiant d'emprunt manquant.");
-        redirect('loan/show_loans');
+    if (!is_post()) {
+        redirect('home');
     }
+
+    require_valid_csrf('home');
+
+    $loan_id = post('loan_id');
+    $page = post('page');
+
+    if (!is_logged_in()) {
+        set_flash('error', "Vous devez être connecté pour rendre un média.");
+        redirect('auth/login');
+    }
+
+    if (!$loan_id || !ctype_digit((string) $loan_id)) {
+        set_flash('error', "Identifiant d'emprunt manquant.");
+        redirect('home');
+    }
+
+    $loan = get_loan_by_id($loan_id);
+    if (!$loan || $loan['status'] !== 'borrowed') {
+        set_flash('error', "Emprunt introuvable ou déjà retourné.");
+        redirect('home');
+    }
+
+    $media_id = (int) $loan['id_m'];
+    $is_admin = is_admin();
+    if (!$is_admin && (int) $loan['id_u'] !== (int) current_user_id()) {
+        set_flash('error', "Vous ne pouvez pas rendre cet emprunt.");
+        redirect('home/info?id=' . $media_id);
+    }
+
+    $redirect_path = ($is_admin && $page === 'loans')
+        ? 'loan/show_loans'
+        : 'home/info?id=' . $media_id;
 
     $ok = return_loan($loan_id);
 
@@ -107,6 +142,5 @@ function loan_return_loan()
         set_flash('success', "Media retourne avec succès !");
     }
 
-    if ($page === 'info') redirect('home/info?id=' . $media_id);
-    else redirect('loan/show_loans?id=' . $loan_id);
+    redirect($redirect_path);
 }

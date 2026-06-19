@@ -14,8 +14,8 @@ SET @uid := 3;
 -- =============================
 DROP TEMPORARY TABLE IF EXISTS tmp_items;
 CREATE TEMPORARY TABLE tmp_items (
-  kind ENUM('book','movie','game') NOT NULL,
-  title VARCHAR(255) NOT NULL,
+  kind ENUM('book','movie','game') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  title VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   year SMALLINT UNSIGNED NULL,
   g1 TINYINT NULL,
   g2 TINYINT NULL,

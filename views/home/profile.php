@@ -11,7 +11,10 @@
                 <h1><?php e($message); ?></h1>
                 <ul>
                     <?php foreach($loans as $loan): ?>
-                        <li><?= e($loan['title']) ?> : retour le => <?= e(format_date($loan['due_date'])) ?></li>
+                        <li>
+                            <?= e($loan['title']) ?> : retour le <?= e(format_date($loan['due_date'])) ?>
+                            — <?= e(translate_status($loan['display_status'] ?? $loan['status'])) ?>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </div>

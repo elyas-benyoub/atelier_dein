@@ -66,3 +66,9 @@ function get_all_books()
 
     return $data;
 }
+
+function get_book_by_id($media_id)
+{
+    $query = "SELECT author, isbn, page_count, summary, publication_year FROM books WHERE media_id = ?";
+    return db_select($query, [$media_id]);
+}

@@ -37,7 +37,11 @@ function is_media_borrowed($media_id)
 
 function get_all_media_loans()
 {
-    $sql = "SELECT l.*, u.name, m.title
+    $sql = "SELECT l.*, u.name, m.title,
+                   CASE
+                       WHEN l.status = 'borrowed' AND l.due_date < NOW() THEN 'overdue'
+                       ELSE l.status
+                   END AS display_status
             FROM loans l
             INNER JOIN media m ON l.id_m = m.id
             INNER JOIN users u ON l.id_u = u.id
@@ -47,7 +51,11 @@ function get_all_media_loans()
 
 function get_all_loans_by_user_id($user_id)
 {
-    $sql = "SELECT l.*, u.name, m.title
+    $sql = "SELECT l.*, u.name, m.title,
+                   CASE
+                       WHEN l.status = 'borrowed' AND l.due_date < NOW() THEN 'overdue'
+                       ELSE l.status
+                   END AS display_status
             FROM loans l
             INNER JOIN media m ON l.id_m = m.id
             INNER JOIN users u ON l.id_u = u.id
@@ -77,6 +85,6 @@ function sort_loan_list()
 
 function get_loan_by_media_id($media_id)
 {
-    $query = "SELECT * FROM loans WHERE id_m = ?";
+    $query = "SELECT * FROM loans WHERE id_m = ? AND status = 'borrowed' LIMIT 1";
     return db_select_one($query, [$media_id]);
 }

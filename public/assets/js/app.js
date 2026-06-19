@@ -78,28 +78,64 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Animation d'entrée pour les cartes
-    const cards = document.querySelectorAll('.feature-card, .step, .info-box');
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    // Menu mobile toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
     
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+    if (menuToggle && navMenu) {
+        const setMenuState = function(expanded) {
+            menuToggle.setAttribute('aria-expanded', String(expanded));
+            menuToggle.setAttribute('aria-label', expanded ? 'Fermer le menu' : 'Ouvrir le menu');
+            navMenu.classList.toggle('active', expanded);
+
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !expanded);
+                icon.classList.toggle('fa-times', expanded);
+            }
+        };
+
+        menuToggle.addEventListener('click', function() {
+            setMenuState(this.getAttribute('aria-expanded') !== 'true');
+        });
+
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (window.matchMedia('(max-width: 768px)').matches) {
+                    setMenuState(false);
+                }
+            });
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+                setMenuState(false);
+                menuToggle.focus();
             }
         });
-    }, observerOptions);
-    
-    cards.forEach(function(card) {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
-    });
+    }
+
+    const accountToggle = document.querySelector('.account-menu-toggle');
+    const accountMenu = document.querySelector('.deroulant');
+
+    if (accountToggle && accountMenu) {
+        const setAccountMenuState = function(expanded) {
+            accountToggle.setAttribute('aria-expanded', String(expanded));
+            accountMenu.classList.toggle('open', expanded);
+        };
+
+        accountToggle.addEventListener('click', function() {
+            setAccountMenuState(this.getAttribute('aria-expanded') !== 'true');
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && accountToggle.getAttribute('aria-expanded') === 'true') {
+                setAccountMenuState(false);
+                accountToggle.focus();
+            }
+        });
+    }
+
 });
 
 /**
@@ -154,12 +190,16 @@ function showFieldError(field, message) {
     
     const error = document.createElement('div');
     error.className = 'field-error';
+    error.id = `${field.id || field.name || 'field'}-error`;
+    error.setAttribute('role', 'alert');
     error.textContent = message;
-    error.style.color = '#ef4444';
+    error.style.color = '#b91c1c';
     error.style.fontSize = '0.875rem';
     error.style.marginTop = '0.25rem';
     
     field.style.borderColor = '#ef4444';
+    field.setAttribute('aria-invalid', 'true');
+    field.setAttribute('aria-describedby', error.id);
     field.parentNode.appendChild(error);
 }
 
@@ -172,6 +212,8 @@ function hideFieldError(field) {
         existingError.remove();
     }
     field.style.borderColor = '';
+    field.removeAttribute('aria-invalid');
+    field.removeAttribute('aria-describedby');
 }
 
 /**
@@ -237,4 +279,4 @@ function ajax(url, options = {}) {
             showNotification('Une erreur est survenue', 'error');
             throw error;
         });
-} 
+}

@@ -12,17 +12,17 @@
                 <label for="email">Adresse email</label>
                 <input type="email" id="email" name="email" required 
                        value="<?php echo escape(post('email', '')); ?>"
-                       placeholder="votre@email.com">
+                       placeholder="votre@email.com" autocomplete="email">
             </div>
             
             <div class="form-group">
                 <label for="password">Mot de passe</label>
                 <input type="password" id="password" name="password" required
-                       placeholder="Votre mot de passe">
+                       placeholder="Votre mot de passe" autocomplete="current-password">
             </div>
             
             <button type="submit" class="btn btn-primary btn-full">
-                <i class="fas fa-sign-in-alt"></i>
+                <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
                 Se connecter
             </button>
         </form>
@@ -33,4 +33,4 @@
             </p>
         </div>
     </div>
-</div> 
+</div>

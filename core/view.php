@@ -64,14 +64,15 @@ function include_partial($partial, $data = []) {
 function flash_messages() {
     if (isset($_SESSION['flash_messages'])) {
         foreach ($_SESSION['flash_messages'] as $type => $messages) {
+            $role = $type === 'error' ? 'alert' : 'status';
             if (is_array($messages)) {
                 foreach ($messages as $message) {
-                    echo "<div class='alert alert-$type'>$message</div>";
+                    echo "<div class='alert alert-" . escape($type) . "' role='" . $role . "'>" . escape($message) . "</div>";
                 }
             } else {
-                echo "<div class='alert alert-$type'>$messages</div>";
+                echo "<div class='alert alert-" . escape($type) . "' role='" . $role . "'>" . escape($messages) . "</div>";
             }
         }
         unset($_SESSION['flash_messages']);
     }
-} 
+}

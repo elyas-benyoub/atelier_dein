@@ -6,7 +6,7 @@
 
 <section class="current-loans">
     <div class="container">
-        <table class="table-loans">
+        <table class="table-loans responsive-table">
             <thead>
                 <tr>
                     <!-- En-têtes du tableau -->
@@ -24,20 +24,25 @@
                 <?php if (!empty($loans)): ?>
                     <!-- Parcourt chaque emprunt contenu dans $loans -->
                     <?php foreach ($loans as $loan): ?>
+                        <?php $display_status = $loan['display_status'] ?? $loan['status']; ?>
                         <tr>
-                            <td><?php e($loan['name']); ?></td>
-                            <td><?php e($loan['title']); ?></td>
-                            <td><?php e(format_date($loan['loan_date'])); ?></td>
-                            <td><?php e(format_date($loan['due_date'])); ?></td>
-                            <td
-                                class="<?php echo $loan['status'] === 'borrowed' ? 'status-borrowed' :
-                                    ($loan['status'] === 'returned' ? 'status-returned' : 'status-overdue'); ?>">
-                                <?php e(ucfirst(translate_status($loan['status']))); ?>
+                            <td data-label="Utilisateur"><?php e($loan['name']); ?></td>
+                            <td data-label="Média"><?php e($loan['title']); ?></td>
+                            <td data-label="Date d'emprunt"><?php e(format_date($loan['loan_date'])); ?></td>
+                            <td data-label="Date limite"><?php e(format_date($loan['due_date'])); ?></td>
+                            <td data-label="Statut"
+                                class="<?php echo $display_status === 'borrowed' ? 'status-borrowed' :
+                                    ($display_status === 'returned' ? 'status-returned' : 'status-overdue'); ?>">
+                                <?php e(ucfirst(translate_status($display_status))); ?>
                             </td>
-                            <td><?php if ($loan['status'] === 'borrowed'): ?>
-                                    <a
-                                        href="<?= url('loan/return_loan?loan_id=' . $loan['id'] . "&media_id=" . $loan['id_m'] . "&page=loans") ?>">
-                                        <i class="fa-solid fa-right-from-bracket"></i>Retourner</a>
+                            <td data-label="Action"><?php if ($loan['status'] === 'borrowed'): ?>
+                                    <form method="post" action="<?= url('loan/return_loan'); ?>" class="inline-form">
+                                        <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
+                                        <input type="hidden" name="loan_id" value="<?= e($loan['id']); ?>">
+                                        <input type="hidden" name="media_id" value="<?= e($loan['id_m']); ?>">
+                                        <input type="hidden" name="page" value="loans">
+                                        <button type="submit" class="btn btn-return"><i class="fa-solid fa-right-from-bracket"></i>Retourner</button>
+                                    </form>
                                 <?php endif; ?>
                             </td>
                         </tr>

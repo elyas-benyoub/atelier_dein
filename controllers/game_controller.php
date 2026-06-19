@@ -2,6 +2,8 @@
 
 function game_add()
 {
+    only_admin();
+
     $data = [
         'title' => "Jeux vidéos",
         'genres' => get_all_genres(),
@@ -17,10 +19,14 @@ function game_add()
 
 function game_store()
 {
+    only_admin();
+
     if (!is_post()) {
         redirect('game/add');
         return;
     }
+
+    require_valid_csrf('game/add');
 
     // Récupération et nettoyage
     $title = clean_input(post('title'));

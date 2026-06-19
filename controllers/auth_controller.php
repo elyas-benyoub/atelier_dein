@@ -16,6 +16,8 @@ function auth_login() {
     ];
     
     if (is_post()) {
+        require_valid_csrf('auth/login');
+
         $email = clean_input(post('email'));
         $password = post('password');
         
@@ -28,6 +30,7 @@ function auth_login() {
             
             if ($user && verify_password($password, $user['password'])) {
                 // Connexion réussie
+                session_regenerate_id(true);
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_email'] = $user['email'];
@@ -60,6 +63,8 @@ function auth_register() {
     ];
     
     if (is_post()) {
+        require_valid_csrf('auth/register');
+
         $name = clean_input(post('name'));
         $email = clean_input(post('email'));
         $password = post('password');
@@ -98,4 +103,4 @@ function auth_register() {
  */
 function auth_logout() {
     logout();
-} 
+}

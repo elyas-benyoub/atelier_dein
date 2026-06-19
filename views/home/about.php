@@ -9,31 +9,48 @@
         <div class="content-grid">
             <div class="content-main">
                 <h2>À propos de cette application</h2>
-                <p><?php e($content); ?></p>
+                <p class="lead-text"><?php e($content); ?></p>
 
-                <h3>Détails</h3>
-                <p>Ici, un utilisateur peut rechercher un média spécifique tel que :</p>
-                <ul>
-                    <li><strong>Livres</strong></li>
-                    <li><strong>Films</strong></li>
-                    <li><strong>Jeux</strong></li>
-                </ul>
+                <h3 class="subsection-title">🎯 Fonctionnalités Clés</h3>
+                <p>Médiathèque DEIN vous permet de gérer et de rechercher facilement vos collections :</p>
+                <div class="about-features-grid">
+                    <div class="about-feature-card">
+                        <div class="icon-wrapper book"><i class="fas fa-book" aria-hidden="true"></i></div>
+                        <h4>Livres</h4>
+                        <p>Suivi des auteurs, nombre de pages, résumés et numéros ISBN.</p>
+                    </div>
+                    <div class="about-feature-card">
+                        <div class="icon-wrapper movie"><i class="fas fa-film" aria-hidden="true"></i></div>
+                        <h4>Films</h4>
+                        <p>Gestion des réalisateurs, durées, classifications et synopsis.</p>
+                    </div>
+                    <div class="about-feature-card">
+                        <div class="icon-wrapper game"><i class="fas fa-gamepad" aria-hidden="true"></i></div>
+                        <h4>Jeux</h4>
+                        <p>Suivi des éditeurs, plateformes et restrictions d'âge PEGI.</p>
+                    </div>
+                </div>
 
-                <h3>Médiathèque DEIN est alimenté par :</h3>
-                <ul>
-                    <li>PHP (architecture MVC)</li>
-                    <li>MySQL (gestion de base de données)</li>
-                    <li>WAMP (environnement de développement local)</li>
-                    <li>HTML/CSS/JS (développement front-end)</li>
-                    <li>Bootstrap (UI Framework)</li>
-                </ul>
+                <h3 class="subsection-title">🛠️ Technologies Utilisées</h3>
+                <p>L'application repose sur un écosystème robuste et performant :</p>
+                <div class="tech-badges">
+                    <span class="tech-badge"><i class="fab fa-php" aria-hidden="true"></i> PHP (Architecture MVC)</span>
+                    <span class="tech-badge"><i class="fas fa-database" aria-hidden="true"></i> MySQL</span>
+                    <span class="tech-badge"><i class="fas fa-server" aria-hidden="true"></i> Environnement Docker / WAMP</span>
+                    <span class="tech-badge"><i class="fab fa-html5" aria-hidden="true"></i> HTML5 &amp; CSS3</span>
+                    <span class="tech-badge"><i class="fab fa-js" aria-hidden="true"></i> JavaScript</span>
+                    <span class="tech-badge"><i class="fab fa-css3-alt" aria-hidden="true"></i> Design Système Vanilla CSS</span>
+                </div>
+            </div>
 
             <div class="sidebar">
                 <div class="info-box">
                     <h4>Informations système</h4>
-                    <p><strong>Version PHP :</strong> <?php echo phpversion(); ?></p>
-                    <p><strong>Version app :</strong> <?php echo APP_VERSION; ?></p>
-                    <p><strong>Base URL :</strong> <code><?php echo BASE_URL; ?></code></p>
+                    <ul class="system-info-list">
+                        <li><strong>Version PHP :</strong> <span><?php echo phpversion(); ?></span></li>
+                        <li><strong>Version app :</strong> <span><?php echo APP_VERSION; ?></span></li>
+                        <li><strong>Base URL :</strong> <code><?php echo BASE_URL ?: '/'; ?></code></li>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -68,3 +68,9 @@ function get_all_games()
     
     return $data;
 }
+
+function get_game_by_id($media_id)
+{
+    $query = "SELECT publisher, min_age, description FROM games WHERE media_id = ?";
+    return db_select($query, [$media_id]);
+}
