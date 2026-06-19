@@ -129,7 +129,7 @@ for (const viewport of viewports) {
 
       await page.goto('/admin/show_medias', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { level: 1, name: 'Médias' })).toBeVisible();
-      await expect(page.locator('tbody tr')).toHaveCount(51);
+      await expect(page.locator('tbody tr')).toHaveCount(45);
       await expect(page.locator('h1')).toHaveCount(1);
       await assertNoHorizontalOverflow(page);
       await page.screenshot({
