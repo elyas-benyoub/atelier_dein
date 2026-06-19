@@ -33,7 +33,7 @@
               <form action="<?= url('admin/handle_delete_user') ?>" method="post">
                 <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                 <input type="hidden" name="id" value="<?= e($user['id']) ?>">
-                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                <button type="submit" class="btn btn-danger" aria-label="Supprimer l'utilisateur <?= e($user['name']); ?>"><i class="fa-solid fa-trash"></i></button>
               </form>
             </td>
           </tr>

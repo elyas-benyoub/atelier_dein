@@ -3,7 +3,7 @@
         <h1><?php e($title); ?></h1>
         <p class="hero-subtitle">Un lieu magique pour les médias!</p>
 
-        <form class="search-bar" method="get" action="<?php echo url('home/index'); ?>">
+        <form class="hero-search-form" method="get" action="<?php echo url('home/index'); ?>">
             <label class="sr-only" for="hero-search">Rechercher un média</label>
             <input type="text" id="hero-search" name="search" placeholder="Rechercher un média">
             <button type="submit" class="search-button" aria-label="Lancer la recherche">
@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="search-bar">
+<div class="catalog-filters">
     <form method="get" action="<?= url('home/index'); ?>">
         <!-- Type media -->
         <select name="type" aria-label="Filtrer par type de média">
@@ -72,7 +72,7 @@
                                 </span>
                             </div>
                             <div class="card-content">
-                                <h3 class="card-title"><?php e($result['title']); ?></h3>
+                                <h4 class="card-title"><?php e($result['title']); ?></h4>
                                 <div class="card-meta">
                                     <span class="card-year"><?= e($result['year']); ?></span>
                                     <?php $is_borrowed = is_media_borrowed($result['id']); ?>
@@ -112,7 +112,7 @@
                                     </span>
                                 </div>
                                 <div class="card-content">
-                                    <h3 class="card-title"><?php e($movie['title']); ?></h3>
+                                    <h4 class="card-title"><?php e($movie['title']); ?></h4>
                                     <div class="card-meta">
                                         <span class="card-year"><?= e($movie['year']); ?></span>
                                         <?php $is_borrowed = is_media_borrowed($movie['id']); ?>
@@ -146,7 +146,7 @@
                                     </span>
                                 </div>
                                 <div class="card-content">
-                                    <h3 class="card-title"><?php e($book['title']); ?></h3>
+                                    <h4 class="card-title"><?php e($book['title']); ?></h4>
                                     <div class="card-meta">
                                         <span class="card-year"><?= e($book['year']); ?></span>
                                         <?php $is_borrowed = is_media_borrowed($book['id']); ?>
@@ -180,7 +180,7 @@
                                     </span>
                                 </div>
                                 <div class="card-content">
-                                    <h3 class="card-title"><?php e($game['title']); ?></h3>
+                                    <h4 class="card-title"><?php e($game['title']); ?></h4>
                                     <div class="card-meta">
                                         <span class="card-year"><?= e($game['year']); ?></span>
                                         <?php $is_borrowed = is_media_borrowed($game['id']); ?>

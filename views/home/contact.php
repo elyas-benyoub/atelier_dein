@@ -17,13 +17,13 @@
                     <div class="form-group">
                         <label for="name">Nom complet</label>
                         <input type="text" id="name" name="name" required 
-                               value="<?php echo escape($name); ?>">
+                               value="<?php echo escape($name); ?>" autocomplete="name">
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Adresse email</label>
                         <input type="email" id="email" name="email" required 
-                               value="<?php echo escape($email); ?>">
+                               value="<?php echo escape($email); ?>" autocomplete="email">
                     </div>
                     
                     <div class="form-group">

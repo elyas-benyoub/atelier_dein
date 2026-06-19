@@ -11,7 +11,7 @@
 
             <div class="form-group">
                 <label for="title">Titre</label>
-                <input type="text" name="title" value="<?= !empty($form['title']) ? e($form['title']) : "" ?>" required>
+                <input type="text" id="title" name="title" value="<?= !empty($form['title']) ? e($form['title']) : "" ?>" required>
                 <?php if (!empty($errors['title'])): ?>
                     <p class="error"><?= e($errors['title']) ?></p>
                 <?php endif; ?>
@@ -19,7 +19,7 @@
 
             <div class="form-group">
                 <label for="director">Auteur:</label>
-                <input type="text" name="director" value="<?= !empty($form['director']) ? e($form['director']) : "" ?>"
+                <input type="text" id="director" name="director" value="<?= !empty($form['director']) ? e($form['director']) : "" ?>"
                     required>
                 <?php if (!empty($errors['director'])): ?>
                     <p class="error"><?= e($errors['director']) ?></p>
@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 <label for="duration">Nombre de duration:</label>
-                <input type="number" name="duration"
+                <input type="number" id="duration" name="duration"
                     value="<?= !empty($form['duration']) ? e($form['duration']) : "" ?>" required>
                 <?php if (!empty($errors['duration'])): ?>
                     <p class="error"><?= e($errors['duration']) ?></p>
@@ -45,7 +45,7 @@
 
             <div class="form-group">
                 <label for="year">Année de publication:</label>
-                <input type="number" name="year" min="1900" max="9999"
+                <input type="number" id="year" name="year" min="1900" max="9999"
                     value="<?= !empty($form['year']) ? e($form['year']) : "" ?>" required>
                 <?php if (!empty($errors['year'])): ?>
                     <p class="error"><?= e($errors['year']) ?></p>
@@ -72,7 +72,7 @@
 
             <div class="form-group">
                 <label for="img_cover">Ajouter l'image de couverture:</label>
-                <input type="file" name="img_cover">
+                <input type="file" id="img_cover" name="img_cover">
                 <?php if (!empty($errors['img_cover'])): ?>
                     <p class="error"><?= e($errors['img_cover']) ?></p>
                 <?php endif; ?>

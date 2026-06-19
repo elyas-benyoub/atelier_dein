@@ -11,7 +11,7 @@
    
             <div class="form-group">
                 <label for="title">Titre</label>
-                <input type="text" name="title" value="<?= e($media['title'] ?? '') ?>" required>
+                <input type="text" id="title" name="title" value="<?= e($media['title'] ?? '') ?>" required>
             </div>
 
             <div class="form-group">
@@ -34,7 +34,7 @@
 
             <div class="form-group">
                 <label for="img_cover">Changer l'image de couverture:</label>
-                <input type="file" name="img_cover">
+                <input type="file" id="img_cover" name="img_cover">
                 <br>
                 <div style="display: flex; justify-content: center; margin-top: 20px;">
                     <img src="<?= e(media_image_url($media['image_path'] ?? null)); ?>" width="100" alt="Image du média">

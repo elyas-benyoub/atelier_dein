@@ -10,7 +10,7 @@
 
             <div class="form-group">
                 <label for="title">Titre</label>
-                <input type="text" name="title" value="<?= !empty($form['title']) ? e($form['title']) : "" ?>" required>
+                <input type="text" id="title" name="title" value="<?= !empty($form['title']) ? e($form['title']) : "" ?>" required>
                 <?php if (!empty($errors['title'])): ?>
                     <p class="error"><?= e($errors['title']) ?></p>
                 <?php endif; ?>
@@ -18,7 +18,7 @@
 
             <div class="form-group">
                 <label for="publisher">Editeur:</label>
-                <input type="text" name="publisher"
+                <input type="text" id="publisher" name="publisher"
                     value="<?= !empty($form['publisher']) ? e($form['publisher']) : "" ?>" required>
                 <?php if (!empty($errors['publisher'])): ?>
                     <p class="error"><?= e($errors['publisher']) ?></p>
@@ -82,7 +82,7 @@
 
             <div class="form-group">
                 <label for="img_cover">Ajouter l'image de couverture:</label>
-                <input type="file" name="img_cover">
+                <input type="file" id="img_cover" name="img_cover">
                 <?php if (!empty($errors['img_cover'])): ?>
                     <p class="error"><?= e($errors['img_cover']) ?></p>
                 <?php endif; ?>

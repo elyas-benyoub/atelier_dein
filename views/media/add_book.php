@@ -11,7 +11,7 @@
 
             <div class="form-group">
                 <label for="title">Titre</label>
-                <input type="text" name="title" value="<?= !empty($form['title']) ? e($form['title']) : "" ?>" required>
+                <input type="text" id="title" name="title" value="<?= !empty($form['title']) ? e($form['title']) : "" ?>" required>
                 <?php if (!empty($errors['title'])): ?>
                     <p class="error"><?= e($errors['title']) ?></p>
                 <?php endif; ?>
@@ -19,7 +19,7 @@
 
             <div class="form-group">
                 <label for="author">Auteur:</label>
-                <input type="text" name="author" value="<?= !empty($form['author']) ? e($form['author']) : "" ?>"
+                <input type="text" id="author" name="author" value="<?= !empty($form['author']) ? e($form['author']) : "" ?>"
                     required>
                 <?php if (!empty($errors['author'])): ?>
                     <p class="error"><?= e($errors['author']) ?></p>
@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 <label for="isbn">ISBN:</label>
-                <input type="number" name="isbn" value="<?= !empty($form['isbn']) ? e($form['isbn']) : "" ?>" required>
+                <input type="number" id="isbn" name="isbn" value="<?= !empty($form['isbn']) ? e($form['isbn']) : "" ?>" required>
                 <?php if (!empty($errors['isbn'])): ?>
                     <p class="error"><?= e($errors['isbn']) ?></p>
                 <?php endif; ?>
@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <label for="pages">Nombre de pages:</label>
-                <input type="number" name="pages" value="<?= !empty($form['pages']) ? e($form['pages']) : "" ?>"
+                <input type="number" id="pages" name="pages" value="<?= !empty($form['pages']) ? e($form['pages']) : "" ?>"
                     required>
                 <?php if (!empty($errors['pages'])): ?>
                     <p class="error"><?= e($errors['pages']) ?></p>
@@ -54,7 +54,7 @@
             <div class="form-group">
                 <label for="pb_year">Année de publication:</label>
                 <input
-                    type="number" name="pb_year" min="1900" max="9999"
+                    type="number" id="pb_year" name="pb_year" min="1900" max="9999"
                     value="<?= !empty($form['pb_year']) ? e($form['pb_year']) : "" ?>"
                     required
                 >
@@ -65,7 +65,7 @@
 
             <div class="form-group">
                 <label for="img_cover">Ajouter l'image de couverture:</label>
-                <input type="file" name="img_cover">
+                <input type="file" id="img_cover" name="img_cover">
                 <?php if (!empty($errors['img_cover'])): ?>
                     <p class="error"><?= e($errors['img_cover']) ?></p>
                 <?php endif; ?>
